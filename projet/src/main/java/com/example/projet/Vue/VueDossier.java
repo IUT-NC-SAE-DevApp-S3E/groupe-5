@@ -1,7 +1,9 @@
 package com.example.projet.Vue;
 
+import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Dossier;
 import javafx.beans.Observable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.io.File;
 
 public class VueDossier extends VBox implements Observateur {
 
@@ -35,7 +39,45 @@ public class VueDossier extends VBox implements Observateur {
         Text chemin = new Text("chemin");
 
         ScrollPane listeDossierFichier = new ScrollPane();
+        VBox vBox = new VBox();
+        listeDossierFichier.setContent(vBox);
+        // le vbox prend la taille du scrollpane
+        vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
+        // on met dans le listeDossierFichier l'arborecence des dossiers et fichiers
+
+        File file = new File("C:\\Users\\");
+
+        for (File f : file.listFiles()) {
+            if (f.isDirectory()) {
+                ImageView view = new ImageView(new Image("folder.png"));
+                Button bouton = new Button(" > "+f.getName());
+
+                // on ajoute l'image a gauche du bouton
+                bouton.setGraphic(view);
+                // la taille de l'image est de 20x20
+                view.setFitHeight(20);
+                view.setPreserveRatio(true);
+
+                vBox.getChildren().add(bouton);
+                // la width du bouton est la width du scrollpane
+                bouton.setPrefWidth(listeDossierFichier.getPrefWidth());
+                // on cole le text a gauche
+                bouton.setAlignment(Pos.BASELINE_LEFT);
+                // on rend le bouton transparent
+                bouton.setStyle("-fx-background-color: transparent;");
+
+                // on met le controlleur sur le bouton
+                VBox bottomFile = new VBox();
+                vBox.getChildren().add(bottomFile);
+                // la width du vbox est la width du scrollpane
+                bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
+                bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile,  1));
+
+            }
+        }
+
+
 
         HBox boutonafficherCacher = new HBox();
         boutonafficherCacher.setAlignment(Pos.CENTER);
@@ -66,6 +108,22 @@ public class VueDossier extends VBox implements Observateur {
     @Override
     public void actualiser(Sujet s) {
 
+    }
+
+    public static void afficherContenuDossier(File f) {
+        try {
+            if (f.isDirectory()) {
+                File[] files = f.listFiles();
+                for (File file : files) {
+                    System.out.print(" | ");
+                    afficherContenuDossier(file);
+                }
+            } else {
+                System.out.println(" > " + f.getName());
+            }
+        } catch (Exception e) {
+
+        }
     }
 
 }

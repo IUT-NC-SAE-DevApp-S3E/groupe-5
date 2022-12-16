@@ -37,4 +37,13 @@ public class Methodes extends CompositionClasse {
     public void setRetour(String retour) {
         this.retour = retour;
     }
+
+    /**
+     * toString
+     */
+    @Override
+    public String toString() {
+        String res = this.getAcces()+ " "+ this.getType()+ " " +this.getNom()+ "()";
+        return res;
+    }
 }

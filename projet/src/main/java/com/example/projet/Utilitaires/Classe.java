@@ -2,6 +2,7 @@ package com.example.projet.Utilitaires;
 
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
+import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -33,6 +34,17 @@ public class Classe extends Fichier {
             // on créer un Attribut
             this.compositionClasses.add(new Attributs(null, f.getName(), type , null ,null));
         }
+
+        // on récupère les méthodes de la classe
+        for (java.lang.reflect.Method m : c.getDeclaredMethods()) {
+            // on récupère le type de retour de la méthode
+            String type = m.getReturnType().toString();
+            String[] tabType = type.split("\\.");
+            type = tabType[tabType.length-1];
+            // on créer une méthode
+            this.compositionClasses.add(new Methodes(null, m.getName(), type));
+        }
+
         afficher();
 
     }
@@ -49,5 +61,6 @@ public class Classe extends Fichier {
         {
             System.out.println(c);
         }
+        System.out.println("------------------------------------------------");
     }
 }
