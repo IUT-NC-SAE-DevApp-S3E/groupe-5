@@ -1,5 +1,6 @@
 package com.example.projet;
 
+import com.example.projet.Utilitaires.Dossier;
 import com.example.projet.Vue.VueClasse;
 import com.example.projet.Vue.VueDossier;
 import javafx.application.Application;
@@ -12,7 +13,13 @@ import static javafx.application.Application.launch;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        launch(args);
+        Dossier dossier = new Dossier("/Users/arthur/Desktop/TD1/", "projet");
+        try {
+            dossier.lectureDossier();
+            System.out.println(dossier.toString(""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void start(Stage stage) {

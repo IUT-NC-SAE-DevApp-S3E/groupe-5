@@ -18,7 +18,7 @@ public class Dossier extends Fichier{
         assert files != null;
         for (File f : files) {
             if (f.isFile()) {
-                if(f.getCanonicalPath().endsWith(".class")) {
+                if(f.getAbsolutePath().endsWith(".class")) {
                     Classe c = new Classe(f.getAbsolutePath(), f.getName());
                     c.lectureFichier();
                     this.listeFichiers.add(c);

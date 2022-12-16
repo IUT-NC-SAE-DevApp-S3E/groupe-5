@@ -23,16 +23,17 @@ public class Classe extends Fichier
         super(chemin, nom);
     }
 
-    public void lectureFichier() throws MalformedURLException, ClassNotFoundException {
-        // Charger une classe pour utiliser l'introspection à l'aide d'un chemin absolue
-        File file = new File(this.getChemin());
-        URL url = file.toURI().toURL();
-        URL[] urls = new URL[]{url};
-        ClassLoader cl = new URLClassLoader(urls);
-        System.out.println(this.getChemin());
-        System.out.println(this.getNom());
-        Class<?> cls = cl.loadClass(this.getNom().substring(0, this.getNom().length() - 6));
+    public void lectureFichier() throws ClassNotFoundException {
 
+        Class.forName(this.getNom());
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        URL[] urls = ((URLClassLoader)classLoader).getURLs();
+        for(URL url: urls){
+            System.out.println(url.getFile());
+        }
+        File file = new File(this.getChemin());
+        File[] files = file.listFiles();
+        assert files != null;
     }
 
     public String toString(String debut)
