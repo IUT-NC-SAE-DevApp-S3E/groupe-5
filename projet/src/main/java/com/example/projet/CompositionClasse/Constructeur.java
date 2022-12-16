@@ -11,5 +11,5 @@ public class Constructeur extends CompositionClasse
         super(acces, nom, type);
     }
 
-    
+
 }
