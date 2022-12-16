@@ -1,12 +1,12 @@
 package com.example.projet.Utilitaires;
 
-public class Fichier
+public abstract class Fichier
 {
     private String nom, chemin;
 
-    public Fichier(String chemin)
-    {
+    public Fichier(String chemin, String nom) {
         this.chemin = chemin;
+        this.nom = nom;
     }
 
     public String getNom()
@@ -18,4 +18,6 @@ public class Fichier
     {
         return chemin;
     }
+
+    public abstract String toString(String debut);
 }

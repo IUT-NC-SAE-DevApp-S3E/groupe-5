@@ -23,6 +23,8 @@ public class Modele implements Sujet
 
     @Override
     public void notifierObservateur() {
-
+        for (Observateur o : listeObservateurs) {
+            o.actualiser(this);
+        }
     }
 }
