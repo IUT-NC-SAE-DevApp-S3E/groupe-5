@@ -31,6 +31,7 @@ public class VueDossier extends VBox implements Observateur{
         }
 
         Text chemin = new Text("chemin");
+
         ScrollPane listeDossierFichier = new ScrollPane();
         listeDossierFichier.setPrefSize(250,510);
 
