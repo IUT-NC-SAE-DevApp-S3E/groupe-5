@@ -1,0 +1,3 @@
+Réalisation base graphique : Enzo 
+Créations des classes : Arthur
+Création de la lecture fichier avec l'introspection : Simon
