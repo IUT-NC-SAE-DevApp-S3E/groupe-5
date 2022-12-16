@@ -10,7 +10,6 @@ public class ControleurBoutonAffichage implements Observateur, EventHandler<Acti
 
     }
 
-    @Override
     public void handle(ActionEvent actionEvent) {
 
     }

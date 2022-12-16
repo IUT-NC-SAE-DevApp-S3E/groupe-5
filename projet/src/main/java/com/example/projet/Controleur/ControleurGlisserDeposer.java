@@ -11,7 +11,6 @@ public class ControleurGlisserDeposer implements Observateur, EventHandler<Actio
 
     }
 
-    @Override
     public void handle(ActionEvent actionEvent) {
 
     }

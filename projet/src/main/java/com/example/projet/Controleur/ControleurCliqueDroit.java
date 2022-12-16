@@ -10,7 +10,6 @@ public class ControleurCliqueDroit implements Observateur, EventHandler<ActionEv
 
     }
 
-    @Override
     public void handle(ActionEvent actionEvent) {
 
     }
