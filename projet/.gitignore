@@ -291,3 +291,7 @@ fabric.properties
 .xml
 *.xml
 .DS_Store
+.mvn
+module-info.java
+mvnw
+mvnw.cmd
