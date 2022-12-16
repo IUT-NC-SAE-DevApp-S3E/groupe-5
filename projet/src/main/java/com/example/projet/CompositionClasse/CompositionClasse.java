@@ -9,4 +9,17 @@ public abstract class CompositionClasse {
         this.nom = nom;
         this.type = type;
     }
+
+    //getter des attributs
+    public String getAcces() {
+        return acces;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

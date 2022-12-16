@@ -14,7 +14,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         // Dossier dossier = new Dossier("C:/Users/s5688/Desktop/PROJET/TEST", "nom");
-        Dossier dossier = new Dossier("C:\\Users\\s5688\\Desktop\\GIT\\groupe-5\\projet", "nom");
+        Dossier dossier = new Dossier("/Users/arthur/Documents/GitHub/groupe-5/projet/target/classes/com/example/projet", "nom");
         try {
             dossier.lectureDossier();
             System.out.println(dossier.toString(""));

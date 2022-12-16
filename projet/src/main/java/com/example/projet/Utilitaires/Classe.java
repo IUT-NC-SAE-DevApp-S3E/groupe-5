@@ -20,76 +20,34 @@ public class Classe extends Fichier {
 
     public Classe(String chemin, String nom) {
         super(chemin, nom);
+        this.compositionClasses = new ArrayList<>();
     }
 
-    public void lectureFichier() throws ClassNotFoundException {
-        // on affiche le chemin du fichier
-        //System.out.println("Chemin du fichier : " + getChemin());
+    public void lectureFichier() throws MalformedURLException {
+        Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
 
-        // on récupère le chemin et on remplace les \ par des /
-        String chemin = getChemin().replace("\\", "/");
-        //System.out.println("Chemin du fichier : " + chemin);
-
-        // on récupère le nombre de nom de dossier
-        String[] tab = chemin.split("/");
-
-
-        // on affiche le tableau
-        /*
-        for (String s : tab) {
-            System.out.print(s+" - ");
+        for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+            String type = f.getType().toString();
+            String[] tabType = type.split("\\.");
+            type = tabType[tabType.length-1];
+            // on créer un Attribut
+            this.compositionClasses.add(new Attributs(null, f.getName(), type , null ,null));
         }
-        System.out.println();
-        */
+        afficher();
 
-
-        int nbDossier = tab.length-2;
-
-        // on crée un objet File
-        File file = new File(chemin);
-
-
-        // on crée un objet URLClassLoader
-        URLClassLoader classLoader = null;
-        try {
-            classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
-        } catch (MalformedURLException e) {
-        }
-
-        String nomFichier = getNom().replace(".class", "");
-
-        boolean trouver = false;
-        while (nbDossier > 0 && !trouver) {
-            try {
-                //System.out.println("Nom du fichier : " + nomFichier);
-                Class<?> c = classLoader.loadClass(nomFichier);
-                //System.out.println("trouver");
-                trouver = true;
-
-                // on affiche le nom de la classe
-                System.out.println("Nom de la classe : " + nomFichier);
-
-                // on affiche les attributs de la classe
-                System.out.println("Attributs de la classe " + nomFichier + " :");
-                for (java.lang.reflect.Field f : c.getDeclaredFields()) {
-                    String type = f.getType().toString();
-                    String[] tabType = type.split("\\.");
-                    type = tabType[tabType.length-1];
-                    System.out.println(" - "+ type+" " + f.getName());
-                    // on créer un Attribut
-                    Attributs attribut = new Attributs(type, f.getName(), f.getType().getName(), f.toString(), null);
-                }
-            } catch (Exception e) {
-                nomFichier = tab[nbDossier] + "." + nomFichier;
-                nbDossier--;
-            }
-        }
-        System.out.println();
     }
 
 
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         return res;
+    }
+
+    public void afficher()
+    {
+        for (CompositionClasse c : this.compositionClasses)
+        {
+            System.out.println(c);
+        }
     }
 }

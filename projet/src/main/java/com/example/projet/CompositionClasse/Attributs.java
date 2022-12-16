@@ -34,6 +34,11 @@ public class Attributs extends CompositionClasse {
         this.typeAttribut = typeAttribut;
     }
 
+    @Override
+    public String toString() {
+        String res = "Attribut : " + this.getNom() + "\ntype :  " + this.getType() + "\n def : " + this.getDefinition() + "\n type attribut : " + this.getTypeAttribut() + "\n";
+        return res;
+    }
 
 
 }
