@@ -2,8 +2,7 @@ package com.example.projet.CompositionClasse;
 
 import java.util.ArrayList;
 
-public class Constructeur extends CompositionClasse
-{
+public class Constructeur extends CompositionClasse {
 
     private ArrayList<String> parametres;
 

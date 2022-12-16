@@ -23,6 +23,17 @@ public class Attributs extends CompositionClasse {
         return typeAttribut;
     }
 
+    /**
+     * SETTER DES ATTRIBUTS
+     */
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
+
+    public void setTypeAttribut(Classe typeAttribut) {
+        this.typeAttribut = typeAttribut;
+    }
+
 
 
 }

@@ -1,7 +1,6 @@
 package com.example.projet.Utilitaires;
 
-public abstract class Fichier
-{
+public abstract class Fichier {
     private String nom, chemin;
 
     public Fichier(String chemin, String nom) {
@@ -9,13 +8,11 @@ public abstract class Fichier
         this.nom = nom;
     }
 
-    public String getNom()
-    {
+    public String getNom() {
         return nom;
     }
 
-    public String getChemin()
-    {
+    public String getChemin() {
         return chemin;
     }
 

@@ -11,11 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class VueClasse extends Pane implements Observateur{
+public class VueClasse extends Pane implements Observateur {
 
     public VueClasse() {
         super();
-        this.setPrefSize(1000,700);
+        this.setPrefSize(1000, 700);
     }
 
     @Override
