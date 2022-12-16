@@ -60,6 +60,18 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         bouton.setStyle("-fx-background-color: transparent;");
                         // on met un margin a gauche
                         bouton.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
+                        // le bouton est draggable
+                        bouton.setMnemonicParsing(false);
+                        bouton.setOnMouseDragged((event) -> {
+                            bouton.setTranslateX(event.getX());
+                            bouton.setTranslateY(event.getY());
+                        });
+                        // quand on lache le bouton, on le remet a sa place
+                        bouton.setOnMouseReleased((event) -> {
+                            bouton.setTranslateX(0);
+                            bouton.setTranslateY(0);
+                        });
+
 
                         // on met le controlleur sur le bouton
                         VBox bottomFile = new VBox();
@@ -72,6 +84,17 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         Label label = new Label(" | " + f.getName());
                         // on met un margin a gauche
                         label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
+                        // le label est draggable
+                        label.setMnemonicParsing(false);
+                        label.setOnMouseDragged((event) -> {
+                            label.setTranslateX(event.getX());
+                            label.setTranslateY(event.getY());
+                        });
+                        // quand on lache le label, on le remet a sa place
+                        label.setOnMouseReleased((event) -> {
+                            label.setTranslateX(0);
+                            label.setTranslateY(0);
+                        });
 
                         // on ajoute l'image a gauche du label
                         label.setGraphic(view);

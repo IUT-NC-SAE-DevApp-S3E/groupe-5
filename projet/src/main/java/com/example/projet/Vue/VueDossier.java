@@ -73,7 +73,6 @@ public class VueDossier extends VBox implements Observateur {
                 // la width du vbox est la width du scrollpane
                 bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
                 bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile,  1));
-
             }
         }
 
