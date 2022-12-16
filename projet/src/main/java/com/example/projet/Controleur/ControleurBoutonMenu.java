@@ -12,6 +12,7 @@ public class ControleurBoutonMenu implements Observateur, EventHandler<ActionEve
 
     }
 
+    @Override
     public void handle(ActionEvent actionEvent) {
 
     }
