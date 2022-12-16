@@ -1,5 +1,6 @@
 package com.example.projet.Utilitaires;
 
+import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 
 import java.io.File;
@@ -22,28 +23,66 @@ public class Classe extends Fichier {
     }
 
     public void lectureFichier() throws ClassNotFoundException {
-        // on fait de l'introspection sur le fichier
-        // on récupère le nom de la classe
-        String nomClasse = this.getNom().substring(0, this.getNom().length() - 6);
-        // on récupère le chemin du fichier
-        String chemin = this.getChemin();
-        // on récupère le chemin du dossier
-        String dossier = chemin.substring(0, chemin.length() - this.getNom().length());
-        // on crée un nouveau classloader
+        // on affiche le chemin du fichier
+        //System.out.println("Chemin du fichier : " + getChemin());
+
+        // on récupère le chemin et on remplace les \ par des /
+        String chemin = getChemin().replace("\\", "/");
+        //System.out.println("Chemin du fichier : " + chemin);
+
+        // on récupère le nombre de nom de dossier
+        String[] tab = chemin.split("/");
+
+
+        // on affiche le tableau
+        /*
+        for (String s : tab) {
+            System.out.print(s+" - ");
+        }
+        System.out.println();
+        */
+
+
+        int nbDossier = tab.length-2;
+
+        // on crée un objet File
+        File file = new File(chemin);
+
+
+        // on crée un objet URLClassLoader
         URLClassLoader classLoader = null;
         try {
-            classLoader = URLClassLoader.newInstance(new URL[]{new File(dossier).toURI().toURL()});
+            classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
         } catch (MalformedURLException e) {
-            e.printStackTrace();
         }
-        // on charge la classe
-        Class<?> c = classLoader.loadClass(nomClasse);
-        // on affiche les attributs
-        System.out.println("Attributs de la classe " + nomClasse + " :");
-        for (java.lang.reflect.Field f : c.getDeclaredFields()) {
-            System.out.println(" - " + f.getName());
+
+        String nomFichier = getNom().replace(".class", "");
+
+        boolean trouver = false;
+        while (nbDossier > 0 && !trouver) {
+            try {
+                //System.out.println("Nom du fichier : " + nomFichier);
+                Class<?> c = classLoader.loadClass(nomFichier);
+                //System.out.println("trouver");
+                trouver = true;
+
+                // on affiche le nom de la classe
+                System.out.println("Nom de la classe : " + nomFichier);
+
+                // on affiche les attributs de la classe
+                System.out.println("Attributs de la classe " + nomFichier + " :");
+                for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+                    System.out.println(" - " + f.getName());
+                    // on créer un Attribut
+                    Attributs attribut = new Attributs("test", f.getName(), f.getType().getName(), f.toString(), null);
+                }
+            } catch (Exception e) {
+                nomFichier = tab[nbDossier] + "." + nomFichier;
+                nbDossier--;
+            }
         }
     }
+
 
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
