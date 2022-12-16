@@ -14,5 +14,16 @@ public class Attributs extends CompositionClasse {
         this.typeAttribut = typeAttribut;
     }
 
+    //getter des attributs
+    public String getDefinition() {
+        return definition;
+    }
+
+    public Classe getTypeAttribut() {
+        return typeAttribut;
+    }
+
+
+
 }
 
