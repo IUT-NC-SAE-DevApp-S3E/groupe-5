@@ -8,8 +8,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
-public class Classe extends Fichier
-{
+public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
 
     private String type;
@@ -18,8 +17,7 @@ public class Classe extends Fichier
 
     private ArrayList<Classe> interfaces;
 
-    public Classe(String chemin, String nom)
-    {
+    public Classe(String chemin, String nom) {
         super(chemin, nom);
     }
 
@@ -36,8 +34,7 @@ public class Classe extends Fichier
         assert files != null;
     }
 
-    public String toString(String debut)
-    {
+    public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         return res;
     }

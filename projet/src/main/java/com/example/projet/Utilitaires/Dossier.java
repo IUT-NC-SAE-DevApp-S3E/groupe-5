@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Dossier extends Fichier{
+public class Dossier extends Fichier {
 
     private ArrayList<Fichier> listeFichiers;
+
     public Dossier(String chemin, String nom) {
         super(chemin, nom);
         this.listeFichiers = new ArrayList<Fichier>();
@@ -23,8 +24,7 @@ public class Dossier extends Fichier{
                     c.lectureFichier();
                     this.listeFichiers.add(c);
                 }
-            }
-            else if (f.isDirectory()) {
+            } else if (f.isDirectory()) {
                 Dossier dossier = new Dossier(f.getAbsolutePath(), f.getName());
                 dossier.lectureDossier();
                 this.listeFichiers.add(dossier);
@@ -44,7 +44,7 @@ public class Dossier extends Fichier{
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         for (Fichier f : this.listeFichiers) {
-            res += f.toString(debut +" | ");
+            res += f.toString(debut + " | ");
         }
         return res;
     }
