@@ -15,6 +15,7 @@ public class VueClasse extends Pane implements Observateur{
 
     public VueClasse() {
         super();
+        this.setPrefSize(1000,700);
     }
 
     @Override
