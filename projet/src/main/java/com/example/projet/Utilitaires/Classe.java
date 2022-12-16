@@ -22,16 +22,27 @@ public class Classe extends Fichier {
     }
 
     public void lectureFichier() throws ClassNotFoundException {
-
-        Class.forName(this.getNom());
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        URL[] urls = ((URLClassLoader)classLoader).getURLs();
-        for(URL url: urls){
-            System.out.println(url.getFile());
+        // on fait de l'introspection sur le fichier
+        // on récupère le nom de la classe
+        String nomClasse = this.getNom().substring(0, this.getNom().length() - 6);
+        // on récupère le chemin du fichier
+        String chemin = this.getChemin();
+        // on récupère le chemin du dossier
+        String dossier = chemin.substring(0, chemin.length() - this.getNom().length());
+        // on crée un nouveau classloader
+        URLClassLoader classLoader = null;
+        try {
+            classLoader = URLClassLoader.newInstance(new URL[]{new File(dossier).toURI().toURL()});
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
-        File file = new File(this.getChemin());
-        File[] files = file.listFiles();
-        assert files != null;
+        // on charge la classe
+        Class<?> c = classLoader.loadClass(nomClasse);
+        // on affiche les attributs
+        System.out.println("Attributs de la classe " + nomClasse + " :");
+        for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+            System.out.println(" - " + f.getName());
+        }
     }
 
     public String toString(String debut) {

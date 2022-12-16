@@ -13,7 +13,7 @@ import static javafx.application.Application.launch;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        Dossier dossier = new Dossier("/Users/arthur/Desktop/TD1/", "projet");
+        Dossier dossier = new Dossier("C:/Users/s5688/Desktop/PROJET/TEST", "nom");
         try {
             dossier.lectureDossier();
             System.out.println(dossier.toString(""));
@@ -28,6 +28,7 @@ public class Main extends Application {
         VueClasse vueClasse = new VueClasse();
 
         hbox.getChildren().addAll(vueDossier, vueClasse);
+
 
         Scene scene = new Scene(hbox);
         stage.setTitle("Diagramme de classe");
