@@ -72,15 +72,19 @@ public class Classe extends Fichier {
                 // on affiche les attributs de la classe
                 System.out.println("Attributs de la classe " + nomFichier + " :");
                 for (java.lang.reflect.Field f : c.getDeclaredFields()) {
-                    System.out.println(" - " + f.getName());
+                    String type = f.getType().toString();
+                    String[] tabType = type.split("\\.");
+                    type = tabType[tabType.length-1];
+                    System.out.println(" - "+ type+" " + f.getName());
                     // on créer un Attribut
-                    Attributs attribut = new Attributs("test", f.getName(), f.getType().getName(), f.toString(), null);
+                    Attributs attribut = new Attributs(type, f.getName(), f.getType().getName(), f.toString(), null);
                 }
             } catch (Exception e) {
                 nomFichier = tab[nbDossier] + "." + nomFichier;
                 nbDossier--;
             }
         }
+        System.out.println();
     }
 
 
