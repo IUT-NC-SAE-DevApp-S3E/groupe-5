@@ -1,6 +1,13 @@
 package com.example.projet.Controleur;
 
+import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Classe;
+import com.example.projet.Utilitaires.Dossier;
+import com.example.projet.Utilitaires.Fichier;
+import com.example.projet.Utilitaires.LectureFichier;
+import com.example.projet.Vue.VueClasse;
+import com.example.projet.Vue.VueDiagrammeClasse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -19,6 +26,8 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
     private VBox vBox;
     private boolean isClicked = false;
 
+    private int startX = 0;
+    private int startY = 0;
     private int margin = 1;
 
     public ControleurBoutonArborescence(String path, VBox vBox, int margin) {
@@ -29,7 +38,6 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
 
     @Override
     public void actualiser(Sujet s) {
-
     }
 
     @Override
@@ -44,13 +52,11 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                     if (f.isDirectory()) {
                         ImageView view = new ImageView(new Image("folder.png"));
                         Button bouton = new Button(f.getName());
-
                         // on ajoute l'image a gauche du bouton
                         bouton.setGraphic(view);
                         // la taille de l'image est de 20x20
                         view.setFitHeight(20);
                         view.setPreserveRatio(true);
-
                         this.vBox.getChildren().add(bouton);
                         // la width du bouton est la width du scrollpane
                         bouton.setPrefWidth(this.vBox.getPrefWidth());
@@ -60,17 +66,41 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         bouton.setStyle("-fx-background-color: transparent;");
                         // on met un margin a gauche
                         bouton.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
-                        // le bouton est draggable
-                        bouton.setMnemonicParsing(false);
-                        bouton.setOnMouseDragged((event) -> {
-                            bouton.setTranslateX(event.getX());
-                            bouton.setTranslateY(event.getY());
+
+                        bouton.setOnMousePressed(mouseEvent -> {
+                            this.startX = (int) mouseEvent.getSceneX();
+                            this.startY = (int) mouseEvent.getSceneY();
                         });
+
+                        bouton.setOnMouseDragged(event -> {
+                            bouton.setTranslateX(event.getSceneX() - this.startX);
+                            bouton.setTranslateY(event.getSceneY() - this.startY);
+                        });
+
+
                         // quand on lache le bouton, on le remet a sa place
                         bouton.setOnMouseReleased((event) -> {
-                            bouton.setTranslateX(0);
-                            bouton.setTranslateY(0);
+                            if (event.getSceneX() < 250) {
+                                bouton.setTranslateX(0);
+                                bouton.setTranslateY(0);
+                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110" );
+                            } else {
+                                // on créer un nouveau Dossier avec le path du bouton
+                                System.out.println("le path du bouton est : " + f.getPath());
+                                Dossier dossier = new Dossier(f.getPath(), "dossier");
+                                // on affiche le dossier
+                                try {
+                                    dossier.lectureDossier();
+                                } catch (Exception e) {
+                                    // TODO on ne fait rien car le fichier est mauvais, domage
+                                }
+                                // on remet le bouton a sa place et on le rend non draggable
+                                bouton.setTranslateX(0);
+                                bouton.setTranslateY(0);
+                                bouton.setMnemonicParsing(true);
+                            }
                         });
+
 
 
                         // on met le controlleur sur le bouton
@@ -85,16 +115,38 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         // on met un margin a gauche
                         label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
                         // le label est draggable
-                        label.setMnemonicParsing(false);
-                        label.setOnMouseDragged((event) -> {
-                            label.setTranslateX(event.getX());
-                            label.setTranslateY(event.getY());
+                        label.setOnMousePressed(mouseEvent -> {
+                            this.startX = (int) mouseEvent.getSceneX();
+                            this.startY = (int) mouseEvent.getSceneY();
                         });
-                        // quand on lache le label, on le remet a sa place
+
+                        label.setOnMouseDragged(event -> {
+                            label.setTranslateX(event.getSceneX() - this.startX);
+                            label.setTranslateY(event.getSceneY() - this.startY);
+                        });
+
                         label.setOnMouseReleased((event) -> {
-                            label.setTranslateX(0);
-                            label.setTranslateY(0);
+                            if (event.getSceneX() < 250) {
+                                label.setTranslateX(0);
+                                label.setTranslateY(0);
+                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110" );
+                            } else {
+                                // on créer un nouveau Dossier avec le path du bouton
+                                System.out.println("le path du bouton est : " + f.getPath());
+                                Dossier dossier = new Dossier(f.getPath(), "dossier");
+                                // on affiche le dossier
+                                try {
+                                    dossier.lectureDossier();
+                                } catch (Exception e) {
+                                    // TODO on ne fait rien car le fichier est mauvais, domage
+                                }
+                                // on remet le bouton a sa place et on le rend non draggable
+                                label.setTranslateX(0);
+                                label.setTranslateY(0);
+                                label.setMnemonicParsing(true);
+                            }
                         });
+
 
                         // on ajoute l'image a gauche du label
                         label.setGraphic(view);
@@ -116,4 +168,6 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
             this.vBox.getChildren().clear();
         }
     }
+
+
 }

@@ -1,7 +1,9 @@
 package com.example.projet;
 
+import com.example.projet.Modele.Modele;
 import com.example.projet.Utilitaires.Dossier;
 import com.example.projet.Vue.VueClasse;
+import com.example.projet.Vue.VueDiagrammeClasse;
 import com.example.projet.Vue.VueDossier;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -28,10 +30,17 @@ public class Main extends Application {
 
     public void start(Stage stage) {
         HBox hbox = new HBox();
+        Modele modele = new Modele();
         VueDossier vueDossier = new VueDossier();
-        VueClasse vueClasse = new VueClasse();
+        VueDiagrammeClasse vueDiagrammeClasse = new VueDiagrammeClasse();
 
-        hbox.getChildren().addAll(vueDossier, vueClasse);
+        modele.enregistrerObservateur(vueDossier);
+        modele.enregistrerObservateur(vueDiagrammeClasse);
+        modele.notifierObservateur();
+
+
+
+        hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);
 
 
         Scene scene = new Scene(hbox);

@@ -12,11 +12,8 @@ import java.util.ArrayList;
 
 public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
-
     private String type;
-
     private Classe superClasse;
-
     private ArrayList<Classe> interfaces;
 
     public Classe(String chemin, String nom) {
@@ -32,7 +29,15 @@ public class Classe extends Fichier {
             String[] tabType = type.split("\\.");
             type = tabType[tabType.length-1];
             // on créer un Attribut
-            this.compositionClasses.add(new Attributs(null, f.getName(), type , null ,null));
+            String access = "";
+            if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
+                access = "public";
+            } else if (java.lang.reflect.Modifier.isPrivate(f.getModifiers())) {
+                access = "private";
+            } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
+                access = "protected";
+            }
+            this.compositionClasses.add(new Attributs(access, f.getName(), type , null ,null));
         }
 
         // on récupère les méthodes de la classe
@@ -42,7 +47,15 @@ public class Classe extends Fichier {
             String[] tabType = type.split("\\.");
             type = tabType[tabType.length-1];
             // on créer une méthode
-            this.compositionClasses.add(new Methodes(null, m.getName(), type));
+            String access = "";
+            if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
+                access = "public";
+            } else if (java.lang.reflect.Modifier.isPrivate(m.getModifiers())) {
+                access = "private";
+            } else if (java.lang.reflect.Modifier.isProtected(m.getModifiers())) {
+                access = "protected";
+            }
+            this.compositionClasses.add(new Methodes(access, m.getName(), type));
         }
 
         afficher();
@@ -62,5 +75,12 @@ public class Classe extends Fichier {
             System.out.println(c);
         }
         System.out.println("------------------------------------------------");
+    }
+
+    /**
+     * getter
+     */
+    public ArrayList<CompositionClasse> getCompositionClasses() {
+        return compositionClasses;
     }
 }

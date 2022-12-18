@@ -48,4 +48,10 @@ public class Dossier extends Fichier {
         }
         return res;
     }
+
+    // Getters and Setters
+    public ArrayList<Fichier> getListeFichiers() {
+        return listeFichiers;
+    }
+
 }

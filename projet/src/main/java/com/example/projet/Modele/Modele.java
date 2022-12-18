@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Modele implements Sujet {
 
-    private ArrayList<Observateur> listeObservateurs;
+    private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
     private ArrayList<Fichier> listeFichiers;
 
@@ -26,5 +26,18 @@ public class Modele implements Sujet {
         for (Observateur o : listeObservateurs) {
             o.actualiser(this);
         }
+    }
+
+    // Getters and Setters
+    public ArrayList<Fichier> getListeFichiers() {
+        return listeFichiers;
+    }
+
+    public void setListeFichiers(ArrayList<Fichier> listeFichiers) {
+        this.listeFichiers = listeFichiers;
+    }
+
+    public ArrayList<Observateur> getListeObservateurs() {
+        return listeObservateurs;
     }
 }

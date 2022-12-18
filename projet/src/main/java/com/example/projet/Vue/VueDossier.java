@@ -2,7 +2,9 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.Observateur;
+import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.Dossier;
 import javafx.beans.Observable;
 import javafx.geometry.Pos;
@@ -18,6 +20,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 public class VueDossier extends VBox implements Observateur {
+
 
     public VueDossier() {
         super();
@@ -69,10 +72,14 @@ public class VueDossier extends VBox implements Observateur {
 
                 // on met le controlleur sur le bouton
                 VBox bottomFile = new VBox();
+                // on met un spacing de 5
+                bottomFile.setSpacing(5);
+
                 vBox.getChildren().add(bottomFile);
                 // la width du vbox est la width du scrollpane
                 bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
-                bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile,  1));
+                ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1);
+                bouton.setOnAction(controleurBoutonArborescence);
             }
         }
 
