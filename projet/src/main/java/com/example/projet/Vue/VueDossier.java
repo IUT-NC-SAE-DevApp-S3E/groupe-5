@@ -27,6 +27,8 @@ public class VueDossier extends VBox implements Observateur {
 
         HBox boutonHaut = new HBox();
         boutonHaut.setSpacing(10);
+        // on met un marginTop de 10px
+        boutonHaut.setStyle("-fx-padding: 10 0 0 0");
         for (int i = 1; i <= 4; i++) {
             /**
             Button bouton = new Button();
@@ -79,7 +81,6 @@ public class VueDossier extends VBox implements Observateur {
         // on met un margin a gauche de 10 px
         boutonHaut.setMargin(boutonHaut.getChildren().get(0), new javafx.geometry.Insets(0, 0, 0, 10));
 
-        Text chemin = new Text("chemin");
 
         ScrollPane listeDossierFichier = new ScrollPane();
         VBox vBox = new VBox();
@@ -87,7 +88,11 @@ public class VueDossier extends VBox implements Observateur {
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
-        // on met dans le listeDossierFichier l'arborecence des dossiers et fichiers
+        // on enleve les bordure du scrollpane
+        listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
+        // on cache la scrollbar
+        listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        listeDossierFichier.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         File file = new File("C:\\Users\\");
 
@@ -158,7 +163,7 @@ public class VueDossier extends VBox implements Observateur {
             boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
         }
 
-        this.getChildren().addAll(boutonHaut, chemin, listeDossierFichier, boutonafficherCacher);
+        this.getChildren().addAll(boutonHaut, listeDossierFichier, boutonafficherCacher);
     }
 
     @Override

@@ -113,6 +113,8 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         ImageView view = new ImageView(new Image("file.png"));
                         // on ajoute un label au lieu d'un bouton
                         Label label = new Label(" | " + f.getName());
+                        // on met la couleur du label en blanc
+                        label.setStyle("-fx-text-fill: black;");
                         // on met un margin a gauche
                         label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
                         // le label est draggable
