@@ -106,6 +106,7 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
                         // on met le controlleur sur le bouton
                         VBox bottomFile = new VBox();
                         bottomFile.setPrefWidth(this.vBox.getPrefWidth());
+                        bottomFile.setSpacing(3);
                         this.vBox.getChildren().add(bottomFile);
                         bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1));
                     } else {

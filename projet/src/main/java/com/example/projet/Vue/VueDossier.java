@@ -2,19 +2,15 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.Observateur;
-import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
-import com.example.projet.Utilitaires.Classe;
-import com.example.projet.Utilitaires.Dossier;
-import javafx.beans.Observable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.File;
@@ -25,10 +21,14 @@ public class VueDossier extends VBox implements Observateur {
     public VueDossier() {
         super();
         this.setPrefSize(250, 700);
-        this.setSpacing(13);
+        this.setSpacing(10);
+        this.setStyle("-fx-background-color: #f3f3f3");
+
 
         HBox boutonHaut = new HBox();
+        boutonHaut.setSpacing(10);
         for (int i = 1; i <= 4; i++) {
+            /**
             Button bouton = new Button();
             ImageView view = new ImageView(new Image("imageBoutonHaut" + i + ".png"));
             view.setFitHeight(35);
@@ -37,7 +37,47 @@ public class VueDossier extends VBox implements Observateur {
             boutonHaut.getChildren().add(bouton);
             // on met le background du bouton en transparent
             bouton.setStyle("-fx-background-color: transparent;");
+             **/
+            /**
+             * CETTE PARTIE EST FAIT AVEC LES VRAIES FONT DE FONT AWESEOME
+             * A LA PLACE DE SCREEN SHOT DE LA PAGE WEB
+             */
+            // on créer un bouton avec l'icon folder dedans de font awesome
+            Button button = new Button();
+            // on met dans le bouton l'icon folder
+            switch (i) {
+                case 1:
+                    // ajout de fichier
+                    button.setText("\uf0fe");
+                    break;
+                case 2:
+                    // enregistrement
+                    button.setText("\uf0c7");
+                    break;
+                case 3:
+                    // folder open
+                    button.setText("\uf07c");
+                    break;
+                case 4:
+                    // export icon
+                    button.setText("\uF093");
+                    break;
+            }
+            // on met la taille du bouton à 35
+            // on met la police du bouton à font awesome
+            // on met que la souris est sur le bouton la font devient gris sinon elle reste en #3333
+            button.setOnMouseEntered(e -> button.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
+            button.setOnMouseExited(e -> button.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
+            // on met la police du bouton en font awesome
+            button.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
+            // on met le background du bouton en transparent
+            button.setStyle("-fx-background-color: transparent;-fx-text-fill: black;");
+            button.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
+            boutonHaut.getChildren().add(button);
+
         }
+        // on met un margin a gauche de 10 px
+        boutonHaut.setMargin(boutonHaut.getChildren().get(0), new javafx.geometry.Insets(0, 0, 0, 10));
 
         Text chemin = new Text("chemin");
 
@@ -73,7 +113,7 @@ public class VueDossier extends VBox implements Observateur {
                 // on met le controlleur sur le bouton
                 VBox bottomFile = new VBox();
                 // on met un spacing de 5
-                bottomFile.setSpacing(5);
+                bottomFile.setSpacing(3);
 
                 vBox.getChildren().add(bottomFile);
                 // la width du vbox est la width du scrollpane
@@ -87,13 +127,20 @@ public class VueDossier extends VBox implements Observateur {
 
         HBox boutonafficherCacher = new HBox();
         boutonafficherCacher.setAlignment(Pos.CENTER);
-        boutonafficherCacher.setSpacing(3);
+        boutonafficherCacher.setSpacing(2);
         Button bouton = new Button();
-        ImageView imageCacherAfficher = new ImageView(new Image("imageAfficherCacher.png"));
-        imageCacherAfficher.setFitHeight(20);
-        imageCacherAfficher.setPreserveRatio(true);
-        bouton.setGraphic(imageCacherAfficher);
-        imageCacherAfficher.setFitHeight(40);
+        // ImageView imageCacherAfficher = new ImageView(new Image("imageAfficherCacher.png"));
+        // imageCacherAfficher.setFitHeight(20);
+        // imageCacherAfficher.setPreserveRatio(true);
+        // bouton.setGraphic(imageCacherAfficher);
+        // imageCacherAfficher.setFitHeight(40);
+        // on met dans le bouton un icon de font awesome oeil
+        bouton.setText("\uf06e");
+        bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
+        bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
+        bouton.setOnMouseExited(e -> bouton.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
+        // on met la police du bouton en font awesome
+
         // on met le background du bouton en transparent
         bouton.setStyle("-fx-background-color: transparent;");
         boutonafficherCacher.getChildren().add(bouton);
@@ -102,10 +149,13 @@ public class VueDossier extends VBox implements Observateur {
             Button boutonTxt = new Button(texteAfficherCacher.charAt(i) + "");
             boutonTxt.setPrefSize(45, 45);
             // on met le background du bouton en transparent
-            boutonTxt.setStyle("-fx-background-color: transparent;");
+            boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
+            boutonTxt.setOnMouseEntered(e -> boutonTxt.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;"));
+            boutonTxt.setOnMouseExited(e -> boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;"));
             // on met la taille du texte du bouton à 20
-            boutonTxt.setStyle("-fx-font-size: 20;");
             boutonafficherCacher.getChildren().add(boutonTxt);
+            // on enlève les padding du bouton
+            boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
         }
 
         this.getChildren().addAll(boutonHaut, chemin, listeDossierFichier, boutonafficherCacher);
