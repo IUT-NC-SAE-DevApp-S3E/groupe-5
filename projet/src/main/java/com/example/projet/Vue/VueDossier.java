@@ -1,6 +1,7 @@
 package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
+import com.example.projet.Controleur.ControleurBoutonOpenFile;
 import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
 import javafx.geometry.Pos;
@@ -59,6 +60,7 @@ public class VueDossier extends VBox implements Observateur {
                 case 3:
                     // folder open
                     button.setText("\uf07c");
+                    button.setOnAction(new ControleurBoutonOpenFile());
                     break;
                 case 4:
                     // export icon
