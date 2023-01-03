@@ -21,7 +21,7 @@ public class VueDossier extends VBox implements Observateur {
 
     private Sujet sujet;
 
-    public VueDossier(Sujet s) {
+    public VueDossier(Sujet s, String chemin) {
         super();
         this.sujet = s;
         this.setPrefSize(250, 700);
@@ -91,7 +91,7 @@ public class VueDossier extends VBox implements Observateur {
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         listeDossierFichier.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        File file = new File(TrouverCheminOS.getChemin());
+        File file = new File(chemin);
 
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {

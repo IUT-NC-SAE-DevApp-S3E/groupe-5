@@ -2,6 +2,7 @@ package com.example.projet;
 
 import com.example.projet.Modele.Modele;
 import com.example.projet.Utilitaires.Dossier;
+import com.example.projet.Utilitaires.TrouverCheminOS;
 import com.example.projet.Vue.VueClasse;
 import com.example.projet.Vue.VueDiagrammeClasse;
 import com.example.projet.Vue.VueDossier;
@@ -24,7 +25,7 @@ public class Main extends Application {
         HBox hbox = new HBox();
         Modele modele = new Modele();
         VueDiagrammeClasse vueDiagrammeClasse = new VueDiagrammeClasse();
-        VueDossier vueDossier = new VueDossier(modele);
+        VueDossier vueDossier = new VueDossier(modele, TrouverCheminOS.getChemin());
 
         modele.enregistrerObservateur(vueDossier);
         modele.enregistrerObservateur(vueDiagrammeClasse);

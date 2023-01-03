@@ -1,5 +1,6 @@
 package com.example.projet.Modele;
 
+import com.example.projet.Utilitaires.TrouverCheminOS;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
@@ -11,6 +12,8 @@ public class Modele implements Sujet {
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
     private ArrayList<Fichier> listeFichiers = new ArrayList<>();
+
+    private String cheminArborescence = TrouverCheminOS.getChemin();
 
     @Override
     public void enregistrerObservateur(Observateur o) {
@@ -44,5 +47,9 @@ public class Modele implements Sujet {
 
     public ArrayList<Observateur> getListeObservateurs() {
         return listeObservateurs;
+    }
+
+    public String getCheminArborescence() {
+        return this.cheminArborescence;
     }
 }

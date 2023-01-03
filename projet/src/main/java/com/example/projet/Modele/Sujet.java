@@ -18,4 +18,6 @@ public interface Sujet {
     public void ajouterFichier(Fichier f);
 
     public ArrayList<Fichier> getListeFichiers();
+
+    public String getCheminArborescence();
 }
