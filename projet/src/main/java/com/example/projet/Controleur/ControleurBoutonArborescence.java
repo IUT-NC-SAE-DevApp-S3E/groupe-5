@@ -131,15 +131,14 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             if (event.getSceneX() < 250) {
                                 label.setTranslateX(0);
                                 label.setTranslateY(0);
-                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
+//                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
                             } else {
 
-                                Classe c = new Classe(file.getPath(), file.getName());
+                                Classe c = new Classe(f.getAbsolutePath(), f.getName());
                                 // on affiche le fichier
                                 try {
                                     c.lectureFichier();
-                                } catch (Exception e) {
-                                }
+                                } catch (Exception e) {}
 
                                 // on remet le bouton a sa place et on le rend non draggable
                                 label.setTranslateX(0);
