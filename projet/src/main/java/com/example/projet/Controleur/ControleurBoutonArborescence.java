@@ -90,7 +90,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 try {
                                     dossier.lectureDossier();
                                 } catch (Exception e) {
-                                    // TODO on ne fait rien car le fichier est mauvais, domage
+                                    // TODO on ne fait rien car le fichier est mauvais, dommage
                                 }
                                 // on remet le bouton a sa place et on le rend non draggable
                                 bouton.setTranslateX(0);
@@ -139,7 +139,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 try {
                                     dossier.lectureDossier();
                                 } catch (Exception e) {
-                                    // TODO on ne fait rien car le fichier est mauvais, domage
+                                    // TODO on ne fait rien car le fichier est mauvais, dommage
                                 }
                                 // on remet le bouton a sa place et on le rend non draggable
                                 label.setTranslateX(0);

@@ -3,6 +3,7 @@ package com.example.projet.Modele;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Modele implements Sujet {

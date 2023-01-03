@@ -28,7 +28,9 @@ public class LectureFichier
         Class<?> c = null;
         while (nbDossier > 0 && !trouver) {
             try {
+                //System.out.println("Nom du fichier : " + nomFichier);
                 c = classLoader.loadClass(nomF);
+                //System.out.println("trouver");
                 trouver = true;
             } catch (Exception e) {
                 nomF = tab[nbDossier] + "." + nomF;

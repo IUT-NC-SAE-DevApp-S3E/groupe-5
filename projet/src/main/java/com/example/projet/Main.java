@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
+
 import static javafx.application.Application.launch;
 
 public class Main extends Application {

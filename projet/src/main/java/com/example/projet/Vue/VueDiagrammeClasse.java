@@ -12,7 +12,13 @@ public class VueDiagrammeClasse extends Pane implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
-
+//        Classe c = new Classe("C:\\Users\\nzosi\\fghdf\\test\\Money.class","Money");
+//        try {
+//            c.lectureFichier();
+//        } catch (MalformedURLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        this.ajouterVueClasse(new VueClasse(c));
     }
 
     public void ajouterVueClasse(VueClasse vc) {
