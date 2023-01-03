@@ -138,34 +138,36 @@ public class VueDossier extends VBox implements Observateur {
         File file = new File(chemin);
 
         for (File f : file.listFiles()) {
-            if (f.isDirectory()) {
-                ImageView view = new ImageView(new Image("folder.png"));
-                Button bouton = new Button(" > " + f.getName());
+            if (!f.getName().contains("$") && f.getName().charAt(0) != '.') {
+                if (f.isDirectory()) {
+                    ImageView view = new ImageView(new Image("folder.png"));
+                    Button bouton = new Button(" > " + f.getName());
 
-                // on ajoute l'image a gauche du bouton
-                bouton.setGraphic(view);
-                // la taille de l'image est de 20x20
-                view.setFitHeight(20);
-                view.setPreserveRatio(true);
+                    // on ajoute l'image a gauche du bouton
+                    bouton.setGraphic(view);
+                    // la taille de l'image est de 20x20
+                    view.setFitHeight(20);
+                    view.setPreserveRatio(true);
 
-                vBox.getChildren().add(bouton);
-                // la width du bouton est la width du scrollpane
-                bouton.setPrefWidth(listeDossierFichier.getPrefWidth());
-                // on cole le text a gauche
-                bouton.setAlignment(Pos.BASELINE_LEFT);
-                // on rend le bouton transparent
-                bouton.setStyle("-fx-background-color: transparent;");
+                    vBox.getChildren().add(bouton);
+                    // la width du bouton est la width du scrollpane
+                    bouton.setPrefWidth(listeDossierFichier.getPrefWidth());
+                    // on cole le text a gauche
+                    bouton.setAlignment(Pos.BASELINE_LEFT);
+                    // on rend le bouton transparent
+                    bouton.setStyle("-fx-background-color: transparent;");
 
-                // on met le controlleur sur le bouton
-                VBox bottomFile = new VBox();
-                // on met un spacing de 5
-                bottomFile.setSpacing(3);
+                    // on met le controlleur sur le bouton
+                    VBox bottomFile = new VBox();
+                    // on met un spacing de 5
+                    bottomFile.setSpacing(3);
 
-                vBox.getChildren().add(bottomFile);
-                // la width du vbox est la width du scrollpane
-                bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
-                ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1);
-                bouton.setOnAction(controleurBoutonArborescence);
+                    vBox.getChildren().add(bottomFile);
+                    // la width du vbox est la width du scrollpane
+                    bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
+                    ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1);
+                    bouton.setOnAction(controleurBoutonArborescence);
+                }
             }
         }
     }
