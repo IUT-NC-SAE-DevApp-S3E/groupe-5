@@ -4,6 +4,7 @@ import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
 import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.TrouverCheminOS;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -96,7 +97,7 @@ public class VueDossier extends VBox implements Observateur {
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         listeDossierFichier.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        File file = new File("C:\\Users\\");
+        File file = new File(TrouverCheminOS.getChemin());
 
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {

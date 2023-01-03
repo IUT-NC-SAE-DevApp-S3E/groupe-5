@@ -12,7 +12,7 @@ public class ControleurNewClasse implements Observateur, EventHandler<ActionEven
 
     @Override
     public void handle(ActionEvent event) {
-        this.observateur.actualiser(this);
+        //this.observateur.actualiser(this);
     }
 
 }

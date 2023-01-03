@@ -1,6 +1,7 @@
 package com.example.projet.Controleur;
 
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.TrouverCheminOS;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,7 +32,7 @@ public class ControleurBoutonOpenFile implements Observateur, EventHandler<Actio
 
             VBox vBox = new VBox();
             // le vbox prend la taille du scrollpane
-            File file = new File("C:\\Users\\");
+            File file = new File(TrouverCheminOS.getChemin());
             for (File f : file.listFiles()) {
                 if (f.isDirectory()) {
                     ImageView view = new ImageView(new Image("folder.png"));
