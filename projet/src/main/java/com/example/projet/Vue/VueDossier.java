@@ -2,6 +2,7 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
+import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.TrouverCheminOS;
 import javafx.geometry.Pos;
@@ -17,9 +18,11 @@ import java.io.File;
 
 public class VueDossier extends VBox implements Observateur {
 
+    private VueDiagrammeClasse vueDiagrammeClasse;
 
-    public VueDossier() {
+    public VueDossier(VueDiagrammeClasse vueDiagrammeClasse) {
         super();
+        this.vueDiagrammeClasse = vueDiagrammeClasse;
         this.setPrefSize(250, 700);
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #f3f3f3");
@@ -111,7 +114,7 @@ public class VueDossier extends VBox implements Observateur {
                 vBox.getChildren().add(bottomFile);
                 // la width du vbox est la width du scrollpane
                 bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
-                ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1);
+                ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1, vueDiagrammeClasse);
                 bouton.setOnAction(controleurBoutonArborescence);
             }
         }

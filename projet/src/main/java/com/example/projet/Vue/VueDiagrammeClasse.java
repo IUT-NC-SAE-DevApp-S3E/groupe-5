@@ -1,7 +1,12 @@
 package com.example.projet.Vue;
 
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Classe;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class VueDiagrammeClasse extends Pane implements Observateur {
 
@@ -12,13 +17,7 @@ public class VueDiagrammeClasse extends Pane implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
-//        Classe c = new Classe("C:\\Users\\nzosi\\fghdf\\test\\Money.class","Money");
-//        try {
-//            c.lectureFichier();
-//        } catch (MalformedURLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        this.ajouterVueClasse(new VueClasse(c));
+        this.getChildren().add(new Rectangle(10,10));
     }
 
     public void ajouterVueClasse(VueClasse vc) {

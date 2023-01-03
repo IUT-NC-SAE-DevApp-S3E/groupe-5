@@ -30,10 +30,13 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     private int startY = 0;
     private int margin = 1;
 
-    public ControleurBoutonArborescence(String path, VBox vBox, int margin) {
+    private VueDiagrammeClasse vueDiagrammeClasse;
+
+    public ControleurBoutonArborescence(String path, VBox vBox, int margin, VueDiagrammeClasse vueDiagrammeClasse) {
         this.path = path;
         this.vBox = vBox;
         this.margin = margin;
+        this.vueDiagrammeClasse = vueDiagrammeClasse;
     }
 
 
@@ -43,11 +46,13 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
         // on ajoute les boutons dans le scrollPane correspondant aux nombres de fichiers et dossiers
         // dans le dossier
         File file = new File(this.path);
+
         if (file.isDirectory() && !isClicked) {
             isClicked = true;
             for (File f : file.listFiles()) {
                 try {
                     if (f.isDirectory()) {
+
                         ImageView view = new ImageView(new Image("folder.png"));
                         Button bouton = new Button(f.getName());
                         // on ajoute l'image a gauche du bouton
@@ -106,7 +111,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                         bottomFile.setPrefWidth(this.vBox.getPrefWidth());
                         bottomFile.setSpacing(3);
                         this.vBox.getChildren().add(bottomFile);
-                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1));
+                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, vueDiagrammeClasse));
                     } else {
                         ImageView view = new ImageView(new Image("file.png"));
                         // on ajoute un label au lieu d'un bouton
@@ -132,22 +137,19 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 label.setTranslateY(0);
                                 System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110" );
                             } else {
-                                // on créer un nouveau Dossier avec le path du bouton
-                                System.out.println("le path du bouton est : " + f.getPath());
-                                Dossier dossier = new Dossier(f.getPath(), "dossier");
-                                // on affiche le dossier
-                                try {
-                                    dossier.lectureDossier();
-                                } catch (Exception e) {
-                                    // TODO on ne fait rien car le fichier est mauvais, dommage
-                                }
+
+                                Classe c = new Classe(file.getPath(), file.getName());
+                                // on affiche le fichier
+                                try { c.lectureFichier(); } catch (Exception e) {}
+                                VueClasse vueClasse = new VueClasse(c);
+                                vueDiagrammeClasse.ajouterVueClasse(vueClasse);
+
                                 // on remet le bouton a sa place et on le rend non draggable
                                 label.setTranslateX(0);
                                 label.setTranslateY(0);
                                 label.setMnemonicParsing(true);
                             }
                         });
-
 
                         // on ajoute l'image a gauche du label
                         label.setGraphic(view);
