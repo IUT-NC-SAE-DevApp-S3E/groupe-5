@@ -1,6 +1,5 @@
 package com.example.projet.Vue;
 
-import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
 import javafx.scene.layout.Pane;
 

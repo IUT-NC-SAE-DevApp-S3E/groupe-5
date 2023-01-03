@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 
-public class ControleurBoutonArborescence implements Observateur, EventHandler<ActionEvent> {
+public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
     private String path;
     private VBox vBox;
@@ -36,9 +36,7 @@ public class ControleurBoutonArborescence implements Observateur, EventHandler<A
         this.margin = margin;
     }
 
-    @Override
-    public void actualiser(Sujet s) {
-    }
+
 
     @Override
     public void handle(ActionEvent actionEvent) {

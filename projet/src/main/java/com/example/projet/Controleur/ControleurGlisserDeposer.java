@@ -4,14 +4,12 @@ import com.example.projet.Modele.Sujet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-public class ControleurGlisserDeposer implements Observateur, EventHandler<ActionEvent> {
-    @Override
-    public void actualiser(Sujet s) {
+public class ControleurGlisserDeposer implements EventHandler<ActionEvent> {
 
-    }
 
     @Override
-    public void handle(ActionEvent actionEvent) {
+    public void handle(ActionEvent actionEvent)
+    {
 
     }
 }

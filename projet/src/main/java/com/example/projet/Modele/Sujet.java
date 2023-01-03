@@ -1,6 +1,6 @@
 package com.example.projet.Modele;
 
-import com.example.projet.Controleur.Observateur;
+import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
-import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.TrouverCheminOS;
 import javafx.geometry.Pos;
@@ -13,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.io.File;
 
@@ -32,21 +30,8 @@ public class VueDossier extends VBox implements Observateur {
         // on met un marginTop de 10px
         boutonHaut.setStyle("-fx-padding: 10 0 0 0");
         for (int i = 1; i <= 4; i++) {
-            /**
-            Button bouton = new Button();
-            ImageView view = new ImageView(new Image("imageBoutonHaut" + i + ".png"));
-            view.setFitHeight(35);
-            view.setPreserveRatio(true);
-            bouton.setGraphic(view);
-            boutonHaut.getChildren().add(bouton);
-            // on met le background du bouton en transparent
-            bouton.setStyle("-fx-background-color: transparent;");
-             **/
-            /**
-             * CETTE PARTIE EST FAIT AVEC LES VRAIES FONT DE FONT AWESEOME
-             * A LA PLACE DE SCREEN SHOT DE LA PAGE WEB
-             */
-            // on créer un bouton avec l'icon folder dedans de font awesome
+
+            // on créer un bouton avec l'icon folder de font awesome
             Button button = new Button();
             // on met dans le bouton l'icon folder
             switch (i) {

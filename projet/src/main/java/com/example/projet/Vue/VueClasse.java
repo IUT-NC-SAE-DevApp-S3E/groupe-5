@@ -1,19 +1,9 @@
 package com.example.projet.Vue;
 
-import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
-import com.example.projet.Controleur.Observateur;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
-import com.example.projet.Utilitaires.Fichier;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class VueClasse extends VBox implements Observateur {

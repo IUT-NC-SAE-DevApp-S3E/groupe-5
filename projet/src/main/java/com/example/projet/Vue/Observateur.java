@@ -1,4 +1,4 @@
-package com.example.projet.Controleur;
+package com.example.projet.Vue;
 
 import com.example.projet.Modele.Sujet;
 

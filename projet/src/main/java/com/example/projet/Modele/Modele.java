@@ -1,6 +1,6 @@
 package com.example.projet.Modele;
 
-import com.example.projet.Controleur.Observateur;
+import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
 import java.util.ArrayList;
@@ -35,6 +35,10 @@ public class Modele implements Sujet {
 
     public void setListeFichiers(ArrayList<Fichier> listeFichiers) {
         this.listeFichiers = listeFichiers;
+    }
+
+    public void ajouterFichier(Fichier fichier) {
+        this.listeFichiers.add(fichier);
     }
 
     public ArrayList<Observateur> getListeObservateurs() {
