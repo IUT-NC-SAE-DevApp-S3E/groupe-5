@@ -36,8 +36,8 @@ public class Attributs extends CompositionClasse {
 
     @Override
     public String toString() {
-        String res = this.getAcces()+ " "+ this.getType()+ " " +this.getNom()+ " = " + this.getDefinition();
-        return "A : "+res;
+        String res = this.getAcces() + " " + this.getType() + " " + this.getNom() + " = " + this.getDefinition();
+        return "A : " + res;
     }
 
 

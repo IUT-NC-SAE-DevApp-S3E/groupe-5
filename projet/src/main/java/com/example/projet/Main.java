@@ -24,12 +24,11 @@ public class Main extends Application {
         HBox hbox = new HBox();
         Modele modele = new Modele();
         VueDiagrammeClasse vueDiagrammeClasse = new VueDiagrammeClasse();
-        VueDossier vueDossier = new VueDossier(vueDiagrammeClasse);
+        VueDossier vueDossier = new VueDossier(modele);
 
         modele.enregistrerObservateur(vueDossier);
         modele.enregistrerObservateur(vueDiagrammeClasse);
         modele.notifierObservateur();
-
 
 
         hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);

@@ -2,6 +2,7 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
+import com.example.projet.Controleur.ControleurNewClasse;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.TrouverCheminOS;
@@ -18,11 +19,11 @@ import java.io.File;
 
 public class VueDossier extends VBox implements Observateur {
 
-    private VueDiagrammeClasse vueDiagrammeClasse;
+    private Sujet sujet;
 
-    public VueDossier(VueDiagrammeClasse vueDiagrammeClasse) {
+    public VueDossier(Sujet s) {
         super();
-        this.vueDiagrammeClasse = vueDiagrammeClasse;
+        this.sujet = s;
         this.setPrefSize(250, 700);
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #f3f3f3");
@@ -32,19 +33,18 @@ public class VueDossier extends VBox implements Observateur {
         boutonHaut.setSpacing(10);
         // on met un marginTop de 10px
         boutonHaut.setStyle("-fx-padding: 10 0 0 0");
-        for (int i = 1; i <= 4; i++) {
-
+        for (int i = 1; i <= 5; i++) {
             // on créer un bouton avec l'icon folder de font awesome
             Button button = new Button();
             // on met dans le bouton l'icon folder
             switch (i) {
                 case 1:
                     // ajout de fichier
-                    button.setText("\uf0fe");
+                    button.setText("\uf0c7");
                     break;
                 case 2:
                     // enregistrement
-                    button.setText("\uf0c7");
+                    button.setText("\uF093");
                     break;
                 case 3:
                     // folder open
@@ -53,8 +53,14 @@ public class VueDossier extends VBox implements Observateur {
                     break;
                 case 4:
                     // export icon
-                    button.setText("\uF093");
+                    button.setText("\uf15b");
                     break;
+                case 5:
+                    // icon fichier
+                    button.setText("\uf0fe");
+                    button.setOnAction(new ControleurNewClasse(this.sujet));
+                    break;
+
             }
             // on met la taille du bouton à 35
             // on met la police du bouton à font awesome
@@ -90,7 +96,7 @@ public class VueDossier extends VBox implements Observateur {
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {
                 ImageView view = new ImageView(new Image("folder.png"));
-                Button bouton = new Button(" > "+f.getName());
+                Button bouton = new Button(" > " + f.getName());
 
                 // on ajoute l'image a gauche du bouton
                 bouton.setGraphic(view);
@@ -120,17 +126,10 @@ public class VueDossier extends VBox implements Observateur {
         }
 
 
-
         HBox boutonafficherCacher = new HBox();
         boutonafficherCacher.setAlignment(Pos.CENTER);
         boutonafficherCacher.setSpacing(2);
         Button bouton = new Button();
-        // ImageView imageCacherAfficher = new ImageView(new Image("imageAfficherCacher.png"));
-        // imageCacherAfficher.setFitHeight(20);
-        // imageCacherAfficher.setPreserveRatio(true);
-        // bouton.setGraphic(imageCacherAfficher);
-        // imageCacherAfficher.setFitHeight(40);
-        // on met dans le bouton un icon de font awesome oeil
         bouton.setText("\uf06e");
         bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
         bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));

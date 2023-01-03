@@ -10,7 +10,7 @@ public class Modele implements Sujet {
 
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
-    private ArrayList<Fichier> listeFichiers;
+    private ArrayList<Fichier> listeFichiers = new ArrayList<>();
 
     @Override
     public void enregistrerObservateur(Observateur o) {

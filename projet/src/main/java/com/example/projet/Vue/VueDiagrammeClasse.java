@@ -21,6 +21,12 @@ public class VueDiagrammeClasse extends Pane implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
-      
+        this.getChildren().clear();
+        ArrayList<Fichier> fichiers = s.getListeFichiers();
+        for (Fichier f : fichiers) {
+            if (f instanceof Classe) {
+                this.getChildren().add(new VueClasse((Classe) f));
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ public class Dossier extends Fichier {
         assert files != null;
         for (File f : files) {
             if (f.isFile()) {
-                if(f.getAbsolutePath().endsWith(".class")) {
+                if (f.getAbsolutePath().endsWith(".class")) {
                     Classe c = new Classe(f.getAbsolutePath(), f.getName());
                     System.out.println("----" + f.getAbsolutePath());
                     c.lectureFichier();

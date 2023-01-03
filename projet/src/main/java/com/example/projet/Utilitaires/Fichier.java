@@ -8,6 +8,10 @@ public abstract class Fichier {
         this.nom = nom;
     }
 
+    public Fichier (String nom) {
+        this.nom = nom;
+    }
+
     public String getNom() {
         return nom;
     }

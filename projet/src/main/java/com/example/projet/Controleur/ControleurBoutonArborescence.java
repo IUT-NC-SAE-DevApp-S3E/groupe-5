@@ -38,7 +38,6 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     }
 
 
-
     @Override
     public void handle(ActionEvent actionEvent) {
         // on ajoute les boutons dans le scrollPane correspondant aux nombres de fichiers et dossiers
@@ -84,7 +83,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             if (event.getSceneX() < 250) {
                                 bouton.setTranslateX(0);
                                 bouton.setTranslateY(0);
-                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110" );
+                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
                             } else {
                                 // on créer un nouveau Dossier avec le path du bouton
                                 System.out.println("le path du bouton est : " + f.getPath());
@@ -101,7 +100,6 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 bouton.setMnemonicParsing(true);
                             }
                         });
-
 
 
                         // on met le controlleur sur le bouton
@@ -133,12 +131,15 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             if (event.getSceneX() < 250) {
                                 label.setTranslateX(0);
                                 label.setTranslateY(0);
-                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110" );
+                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
                             } else {
 
                                 Classe c = new Classe(file.getPath(), file.getName());
                                 // on affiche le fichier
-                                try { c.lectureFichier(); } catch (Exception e) {}
+                                try {
+                                    c.lectureFichier();
+                                } catch (Exception e) {
+                                }
 
                                 // on remet le bouton a sa place et on le rend non draggable
                                 label.setTranslateX(0);

@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class VueClasse extends VBox implements Observateur {
-
     private int startX = 0;
     private int startY = 0;
     private Classe classe;
@@ -75,5 +74,4 @@ public class VueClasse extends VBox implements Observateur {
             }
         }
     }
-
 }

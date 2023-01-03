@@ -6,10 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-public class LectureFichier
-{
-    public LectureFichier()
-    {
+public class LectureFichier {
+    public LectureFichier() {
     }
 
     public static Class<?> lectureFichier(String chemin, String nomFichier) throws MalformedURLException {

@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 public class ControleurBoutonMenu implements EventHandler<ActionEvent> {
 
 
-
     @Override
     public void handle(ActionEvent actionEvent) {
 

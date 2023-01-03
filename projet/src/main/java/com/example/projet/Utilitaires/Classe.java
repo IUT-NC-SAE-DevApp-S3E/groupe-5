@@ -21,13 +21,18 @@ public class Classe extends Fichier {
         this.compositionClasses = new ArrayList<>();
     }
 
+    public Classe(String nom) {
+        super(nom);
+        this.compositionClasses = new ArrayList<>();
+    }
+
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         System.out.println(c.getName());
         for (java.lang.reflect.Field f : c.getDeclaredFields()) {
             String type = f.getType().toString();
             String[] tabType = type.split("\\.");
-            type = tabType[tabType.length-1];
+            type = tabType[tabType.length - 1];
             // on créer un Attribut
             String access = "";
             if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
@@ -37,7 +42,7 @@ public class Classe extends Fichier {
             } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
                 access = "protected";
             }
-            this.compositionClasses.add(new Attributs(access, f.getName(), type , null ,null));
+            this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
         }
 
         // on récupère les méthodes de la classe
@@ -45,7 +50,7 @@ public class Classe extends Fichier {
             // on récupère le type de retour de la méthode
             String type = m.getReturnType().toString();
             String[] tabType = type.split("\\.");
-            type = tabType[tabType.length-1];
+            type = tabType[tabType.length - 1];
             // on créer une méthode
             String access = "";
             if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
@@ -68,11 +73,9 @@ public class Classe extends Fichier {
         return res;
     }
 
-    public void afficher()
-    {
+    public void afficher() {
         System.out.println(this.getNom());
-        for (CompositionClasse c : this.compositionClasses)
-        {
+        for (CompositionClasse c : this.compositionClasses) {
             System.out.println(c);
         }
         System.out.println("------------------------------------------------");
