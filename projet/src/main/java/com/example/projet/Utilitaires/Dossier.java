@@ -21,6 +21,7 @@ public class Dossier extends Fichier {
             if (f.isFile()) {
                 if(f.getAbsolutePath().endsWith(".class")) {
                     Classe c = new Classe(f.getAbsolutePath(), f.getName());
+                    System.out.println("----" + f.getAbsolutePath());
                     c.lectureFichier();
                     this.listeFichiers.add(c);
                 }
