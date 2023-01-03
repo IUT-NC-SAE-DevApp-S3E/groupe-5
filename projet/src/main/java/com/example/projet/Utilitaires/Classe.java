@@ -70,6 +70,7 @@ public class Classe extends Fichier {
 
     public void afficher()
     {
+        System.out.println(this.getNom());
         for (CompositionClasse c : this.compositionClasses)
         {
             System.out.println(c);
