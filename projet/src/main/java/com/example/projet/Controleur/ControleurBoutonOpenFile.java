@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -29,7 +30,11 @@ public class ControleurBoutonOpenFile implements Observateur, EventHandler<Actio
             choixDeFichier.setHeight(600);
             choixDeFichier.setWidth(250);
 
-
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choisir un fichier");
+            fileChooser.setInitialDirectory(new File(TrouverCheminOS.getChemin()));
+            File file = fileChooser.showOpenDialog(choixDeFichier);
+            /**
             VBox vBox = new VBox();
             // le vbox prend la taille du scrollpane
             File file = new File(TrouverCheminOS.getChemin());
@@ -67,6 +72,6 @@ public class ControleurBoutonOpenFile implements Observateur, EventHandler<Actio
             Scene scene = new Scene(scrollPane);
             choixDeFichier.setScene(scene);
             choixDeFichier.show();
-
+            */
         }
 }
