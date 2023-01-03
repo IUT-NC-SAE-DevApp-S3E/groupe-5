@@ -2,6 +2,7 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
+import com.example.projet.Controleur.ControleurBoutonOuvrirDossier;
 import com.example.projet.Controleur.ControleurNewClasse;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
@@ -20,6 +21,8 @@ import java.io.File;
 public class VueDossier extends VBox implements Observateur {
 
     private Sujet sujet;
+
+    private ScrollPane listeDossierFichier = new ScrollPane();
 
     public VueDossier(Sujet s, String chemin) {
         super();
@@ -49,11 +52,12 @@ public class VueDossier extends VBox implements Observateur {
                 case 3:
                     // folder open
                     button.setText("\uf07c");
-                    button.setOnAction(new ControleurBoutonOpenFile());
+                    button.setOnAction(new ControleurBoutonOuvrirDossier(this.sujet));
                     break;
                 case 4:
                     // export icon
                     button.setText("\uf15b");
+                    button.setOnAction(new ControleurBoutonOpenFile(this.sujet));
                     break;
                 case 5:
                     // icon fichier
@@ -79,7 +83,47 @@ public class VueDossier extends VBox implements Observateur {
         boutonHaut.setMargin(boutonHaut.getChildren().get(0), new javafx.geometry.Insets(0, 0, 0, 10));
 
 
-        ScrollPane listeDossierFichier = new ScrollPane();
+        afficherDossier(chemin);
+
+
+        HBox boutonafficherCacher = new HBox();
+        boutonafficherCacher.setAlignment(Pos.CENTER);
+        boutonafficherCacher.setSpacing(2);
+        Button bouton = new Button();
+        bouton.setText("\uf06e");
+        bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
+        bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
+        bouton.setOnMouseExited(e -> bouton.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
+        // on met la police du bouton en font awesome
+
+        // on met le background du bouton en transparent
+        bouton.setStyle("-fx-background-color: transparent;");
+        boutonafficherCacher.getChildren().add(bouton);
+        String texteAfficherCacher = "MPDA";
+        for (int i = 0; i < 4; i++) {
+            Button boutonTxt = new Button(texteAfficherCacher.charAt(i) + "");
+            boutonTxt.setPrefSize(45, 45);
+            // on met le background du bouton en transparent
+            boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
+            boutonTxt.setOnMouseEntered(e -> boutonTxt.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;"));
+            boutonTxt.setOnMouseExited(e -> boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;"));
+            // on met la taille du texte du bouton à 20
+            boutonafficherCacher.getChildren().add(boutonTxt);
+            // on enlève les padding du bouton
+            boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
+        }
+
+        this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);
+    }
+
+    @Override
+    public void actualiser(Sujet s) {
+        afficherDossier(s.getCheminArborescence());
+
+    }
+
+    public void afficherDossier(String chemin)
+    {
         VBox vBox = new VBox();
         listeDossierFichier.setContent(vBox);
         // le vbox prend la taille du scrollpane
@@ -124,57 +168,7 @@ public class VueDossier extends VBox implements Observateur {
                 bouton.setOnAction(controleurBoutonArborescence);
             }
         }
-
-
-        HBox boutonafficherCacher = new HBox();
-        boutonafficherCacher.setAlignment(Pos.CENTER);
-        boutonafficherCacher.setSpacing(2);
-        Button bouton = new Button();
-        bouton.setText("\uf06e");
-        bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
-        bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
-        bouton.setOnMouseExited(e -> bouton.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
-        // on met la police du bouton en font awesome
-
-        // on met le background du bouton en transparent
-        bouton.setStyle("-fx-background-color: transparent;");
-        boutonafficherCacher.getChildren().add(bouton);
-        String texteAfficherCacher = "MPDA";
-        for (int i = 0; i < 4; i++) {
-            Button boutonTxt = new Button(texteAfficherCacher.charAt(i) + "");
-            boutonTxt.setPrefSize(45, 45);
-            // on met le background du bouton en transparent
-            boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
-            boutonTxt.setOnMouseEntered(e -> boutonTxt.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;"));
-            boutonTxt.setOnMouseExited(e -> boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;"));
-            // on met la taille du texte du bouton à 20
-            boutonafficherCacher.getChildren().add(boutonTxt);
-            // on enlève les padding du bouton
-            boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
-        }
-
-        this.getChildren().addAll(boutonHaut, listeDossierFichier, boutonafficherCacher);
     }
 
-    @Override
-    public void actualiser(Sujet s) {
-
-    }
-
-    public static void afficherContenuDossier(File f) {
-        try {
-            if (f.isDirectory()) {
-                File[] files = f.listFiles();
-                for (File file : files) {
-                    System.out.print(" | ");
-                    afficherContenuDossier(file);
-                }
-            } else {
-                System.out.println(" > " + f.getName());
-            }
-        } catch (Exception e) {
-
-        }
-    }
 
 }

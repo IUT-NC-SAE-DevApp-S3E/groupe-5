@@ -47,6 +47,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
         if (file.isDirectory() && !isClicked) {
             isClicked = true;
             for (File f : file.listFiles()) {
+
                 try {
                     if (f.isDirectory()) {
 
@@ -161,12 +162,14 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                 } catch (Exception e) {
                     System.out.println("erreur");
                 }
+
             }
         } else if (file.isDirectory() && isClicked) {
             isClicked = false;
             // on supprime tout dans le vBox
             this.vBox.getChildren().clear();
         }
+
     }
 
 

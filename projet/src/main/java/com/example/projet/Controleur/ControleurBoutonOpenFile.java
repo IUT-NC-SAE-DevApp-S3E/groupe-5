@@ -18,7 +18,11 @@ import java.io.File;
 
 public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
+    private Sujet sujet;
 
+    public ControleurBoutonOpenFile(Sujet s) {
+        this.sujet = s;
+    }
     public void handle(ActionEvent actionEvent) {
         Stage choixDeFichier = new Stage();
         choixDeFichier.setTitle("Choix de fichier");
@@ -29,5 +33,6 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
         fileChooser.setTitle("Choisir un fichier");
         fileChooser.setInitialDirectory(new File(TrouverCheminOS.getChemin()));
         File file = fileChooser.showOpenDialog(choixDeFichier);
+        // TODO
     }
 }
