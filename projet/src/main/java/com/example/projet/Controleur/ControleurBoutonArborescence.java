@@ -30,13 +30,11 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     private int startY = 0;
     private int margin = 1;
 
-    private VueDiagrammeClasse vueDiagrammeClasse;
 
-    public ControleurBoutonArborescence(String path, VBox vBox, int margin, VueDiagrammeClasse vueDiagrammeClasse) {
+    public ControleurBoutonArborescence(String path, VBox vBox, int margin) {
         this.path = path;
         this.vBox = vBox;
         this.margin = margin;
-        this.vueDiagrammeClasse = vueDiagrammeClasse;
     }
 
 
@@ -111,7 +109,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                         bottomFile.setPrefWidth(this.vBox.getPrefWidth());
                         bottomFile.setSpacing(3);
                         this.vBox.getChildren().add(bottomFile);
-                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, vueDiagrammeClasse));
+                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1));
                     } else {
                         ImageView view = new ImageView(new Image("file.png"));
                         // on ajoute un label au lieu d'un bouton
@@ -141,8 +139,6 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 Classe c = new Classe(file.getPath(), file.getName());
                                 // on affiche le fichier
                                 try { c.lectureFichier(); } catch (Exception e) {}
-                                VueClasse vueClasse = new VueClasse(c);
-                                vueDiagrammeClasse.ajouterVueClasse(vueClasse);
 
                                 // on remet le bouton a sa place et on le rend non draggable
                                 label.setTranslateX(0);

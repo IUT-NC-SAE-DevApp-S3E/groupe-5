@@ -13,5 +13,9 @@ public interface Sujet {
 
     public void notifierObservateur() throws MalformedURLException;
 
-    void setListeFichiers(ArrayList<Fichier> listeFichiers);
+    public void setListeFichiers(ArrayList<Fichier> listeFichiers);
+
+    public void ajouterFichier(Fichier f);
+
+    public ArrayList<Fichier> getListeFichiers();
 }
