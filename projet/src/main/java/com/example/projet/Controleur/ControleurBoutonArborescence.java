@@ -33,7 +33,13 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     private int startY = 0;
     private int margin = 1;
 
-
+    /**
+     * Constructeur du controleur du bouton arborescence
+     * @param path path du dossier duquel on veut afficher l'arborescence
+     * @param vBox vBox dans laquelle on ajoute l'arborescence
+     * @param margin on incremente la marge a gauche pour avoir un espace a gauche des boutons
+     * @param s sujet pour pouvoir le donner aux éléments necessitant un sujet
+     */
     public ControleurBoutonArborescence(String path, VBox vBox, int margin , Sujet s) {
         this.path = path;
         this.vBox = vBox;
@@ -41,28 +47,40 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
         this.sujet = s;
     }
 
-
+    /**
+     * Lorque l'on clique sur le bouton arborescence, on affiche l'arborescence du dossier dans le VBox du dessous
+     * avec un margin a gauche que l'on incremente
+     * @param event
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
-        // on ajoute les boutons dans le scrollPane correspondant aux nombres de fichiers et dossiers
-        // dans le dossier
+        // on créer un Objet File avec le path recupere lors de la création du controleur
         File file = new File(this.path);
-
+        /**
+         * Si le file est un dossier et que on n'a pas déjà cliquer sur le bouton qui contient le dossier
+         * alors on affiche dans le dossier le contenu du dossier
+         */
         if (file.isDirectory() && !isClicked) {
+            // on passe la variable isClicked a true pour signifier que l'on a cliquer sur le bouton
             isClicked = true;
+            // pour chaque fichier dans le dossier
             for (File f : file.listFiles()) {
+                // si le fichier ne contient pas de $ et ne commence pas par un point
                 if(!f.getName().contains("$") && f.getName().charAt(0) != '.') {
-
                     try {
+                        // si le fichier est un dossier
                         if (f.isDirectory()) {
-
+                            // on charge l'image du dossier pour l'ajouter au visuel du bouton
                             ImageView view = new ImageView(new Image("folder.png"));
+                            // on créer un bouton avec le nom du dossier
                             Button bouton = new Button(f.getName());
                             // on ajoute l'image a gauche du bouton
                             bouton.setGraphic(view);
                             // la taille de l'image est de 20x20
                             view.setFitHeight(20);
+                            // on preserve le ratio de l'image
                             view.setPreserveRatio(true);
+                            // on ajoute le bouton a la vBox
                             this.vBox.getChildren().add(bouton);
                             // la width du bouton est la width du scrollpane
                             bouton.setPrefWidth(this.vBox.getPrefWidth());
@@ -73,37 +91,67 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             // on met un margin a gauche
                             bouton.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
 
+                            // on gère le système de Drag (glisser déposer)
                             bouton.setOnMousePressed(mouseEvent -> {
+                                /**
+                                 * les startX et startY sont les coordonnées du bouton lorsqu'on clique dessus
+                                 * AU DEBUT
+                                 * pour par la suite pouvoir calculer la bonne translation
+                                 */
                                 this.startX = (int) mouseEvent.getSceneX();
                                 this.startY = (int) mouseEvent.getSceneY();
                             });
 
+                            /**
+                             * on translate le bouton lorsqu'on le glisse
+                             */
                             bouton.setOnMouseDragged(event -> {
                                 bouton.setTranslateX(event.getSceneX() - this.startX);
                                 bouton.setTranslateY(event.getSceneY() - this.startY);
                             });
 
 
-                            // quand on lache le bouton, on le remet a sa place
+                            // Lorsque l'on relache le drag
                             bouton.setOnMouseReleased((event) -> {
+                                /**
+                                 * si le bouton n'est pas dans la zone de drop
+                                 * on le remet a sa position initiale
+                                 */
                                 if (event.getSceneX() < 250) {
                                     bouton.setTranslateX(0);
                                     bouton.setTranslateY(0);
                                     System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
+                                    /**
+                                     * sinon on charge le dossier correspondant au bouton
+                                     * pour pouvoir l'afficher dans la vueDiagrammeClasse
+                                     */
                                 } else {
-                                    // on créer un nouveau Dossier avec le path du bouton
-                                    System.out.println("le path du bouton est : " + f.getPath());
+                                    // on créer un objet Dossier avec le path du bouton glisser dans la zone de drop
                                     Dossier dossier = new Dossier(f.getPath(), "dossier");
-                                    // on affiche le dossier
                                     try {
+                                        /**
+                                         * on lit le dossier glisser
+                                         * ce qui a l'aide du patron de conception composite
+                                         * ajouter les classes correspondantes dans le dossier
+                                         * au Modele
+                                         */
                                         dossier.lectureDossier();
+                                        /**
+                                         * pour chaque Fichier dans l'objet dossier creer
+                                         */
                                         for (int i = 0; i < dossier.getListeFichiers().size(); i++) {
-                                            if(dossier.getListeFichiers().get(i) instanceof Classe)
-                                            {
+                                            /**
+                                             * si le fichier est une classe
+                                             * on ajoute la classe au modele
+                                             */
+                                            if(dossier.getListeFichiers().get(i) instanceof Classe) {
                                                 this.sujet.ajouterFichier((Classe) dossier.getListeFichiers().get(i));
                                             }
-                                            else if (dossier.getListeFichiers().get(i) instanceof Dossier)
-                                            {
+                                            /**
+                                             * si le fichier est un dossier
+                                             * on ajoute le dossier au modele
+                                             */
+                                            else if (dossier.getListeFichiers().get(i) instanceof Dossier) {
                                                 ArrayList<Classe> listeClasse = ((Dossier) dossier.getListeFichiers().get(i)).getClasse();
                                                 for (int j = 0; j < listeClasse.size(); j++) {
                                                     this.sujet.ajouterFichier(listeClasse.get(j));
@@ -186,6 +234,10 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                 }
 
             }
+            /**
+             * Sinon si le fichier est un dossier et qu'on à déjà cliquer sur le bouton
+             * on supprime le contenu du VBox du dessous pour fermer le dossier
+             */
         } else if (file.isDirectory() && isClicked) {
             isClicked = false;
             // on supprime tout dans le vBox
