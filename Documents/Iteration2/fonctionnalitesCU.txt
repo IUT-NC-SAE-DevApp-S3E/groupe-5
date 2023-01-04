@@ -1,0 +1,4 @@
+Les cas d'utilisations sont les mêmes que les fonctionnalités, soit les actions possible par l'utilisateur.
+Glisser-déposer : Simon 
+Ouvrir un fichier/Dossier : Arthur
+Afficher Dossiers : Enzo 
