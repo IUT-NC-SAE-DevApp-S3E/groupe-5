@@ -24,10 +24,10 @@ public class VueClasse extends VBox implements Observateur {
         StackPane Drag = new StackPane();
         this.title.setEditable(false);
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
-        this.prefWidth(300);
-        this.prefHeight(500);
+        this.prefWidth(200);
+        this.prefHeight(400);
 
-        Drag.setPrefSize(300, 10);
+        Drag.setPrefSize(200, 10);
         Drag.setStyle("-fx-background-color: grey;-fx-background-radius: 10 10 0 0;");
 
 
@@ -44,17 +44,17 @@ public class VueClasse extends VBox implements Observateur {
 
 
         // on met une bordur de 1 px au top et au bottom du VBox Attribut
-        this.Attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 10px;");
+        this.Attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
 
 
-        this.Methodes.setStyle("-fx-min-height: 10px;");
+        this.Methodes.setStyle("-fx-min-height: 8px;");
 
 
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
 
         // on met la taille du titre a 20
-        this.title.setPrefHeight(15);
+        this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);
         this.title.setStyle("-fx-background-color: none;");
 
@@ -68,13 +68,15 @@ public class VueClasse extends VBox implements Observateur {
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
             if (c instanceof Attributs) {
                 TextField newAttribut = new TextField(c.toString());
-                newAttribut.setPrefHeight(15);
+                newAttribut.setPrefHeight(5);
                 newAttribut.setStyle("-fx-background-color: none;");
+                newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
                 this.Attributs.getChildren().add(newAttribut);
             } else if (c instanceof Methodes) {
                 TextField newMethode = new TextField(c.toString());
-                newMethode.setPrefHeight(15);
+                newMethode.setPrefHeight(5);
                 newMethode.setStyle("-fx-background-color: none;");
+                newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
                 this.Methodes.getChildren().add(newMethode);
             }
         }

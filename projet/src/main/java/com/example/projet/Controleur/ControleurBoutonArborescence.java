@@ -96,6 +96,8 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                     // on affiche le dossier
                                     try {
                                         dossier.lectureDossier();
+                                        this.sujet.setListeFichiers(dossier.getListeFichiers());
+                                        this.sujet.notifierObservateur();
                                     } catch (Exception e) {
                                         // TODO on ne fait rien car le fichier est mauvais, dommage
                                     }
