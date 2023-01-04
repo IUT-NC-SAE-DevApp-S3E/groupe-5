@@ -81,10 +81,13 @@ public class VueClasse extends VBox implements Observateur {
             }
         }
 
+
     }
 
     @Override
     public void actualiser(Sujet s) {
 
     }
+
+
 }
