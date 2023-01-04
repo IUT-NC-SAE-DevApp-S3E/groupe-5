@@ -1,0 +1,33 @@
+@startuml Diagramme sequence
+
+participant "Utilisateur" as U
+
+participant "ControleurBoutonOpenFile" as CBOF
+
+participant "FileChooser" as FC
+
+participant "Classe" as C
+
+participant "LectureFichier" as LF
+
+activate U 
+U -> CBOF : Appuie sur le bouton 
+activate CBOF
+CBOF -> FC : new()
+activate FC
+FC --> CBOF : File
+deactivate FC
+CBOF -> C : new()
+activate C
+C -> LF : LectureFichier
+activate LF
+LF --> C : Class
+deactivate LF
+C --> CBOF
+
+
+
+
+
+
+@enduml

@@ -1,6 +1,7 @@
 package com.example.projet.Utilitaires;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,21 +20,29 @@ public class LectureFichier {
         // on crée un objet File
         File file = new File(chem);
         // on crée un objet URLClassLoader
-        URLClassLoader classLoader = null;
-        classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
         String nomF = nomFichier.replace(".class", "");
         boolean trouver = false;
         Class<?> c = null;
+        file = file.getParentFile();
         while (nbDossier > 0 && !trouver) {
-            try {
-                //System.out.println("Nom du fichier : " + nomFichier);
+            try (URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()})) {
                 c = classLoader.loadClass(nomF);
-                //System.out.println("trouver");
                 trouver = true;
-            } catch (Exception e) {
-                nomF = tab[nbDossier] + "." + nomF;
-                nbDossier--;
             }
+            catch (NoClassDefFoundError e)
+            {
+                System.out.println("Message erreur : "+e.getMessage());
+                nomF = e.getMessage().split(" ")[0].replace("/", ".");
+                System.out.println("NomF : " + nomF);
+                nbDossier--;
+                file = file.getParentFile();
+                System.out.println("Chemin : " + file.getAbsolutePath());
+            }
+            catch(ClassNotFoundException | IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+
         }
         return c;
     }

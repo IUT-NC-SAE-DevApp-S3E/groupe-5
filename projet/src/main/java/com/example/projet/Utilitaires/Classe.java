@@ -29,39 +29,45 @@ public class Classe extends Fichier {
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         System.out.println(c.getName());
-        for (java.lang.reflect.Field f : c.getDeclaredFields()) {
-            String type = f.getType().toString();
-            String[] tabType = type.split("\\.");
-            type = tabType[tabType.length - 1];
-            // on créer un Attribut
-            String access = "";
-            if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
-                access = "+";
-            } else if (java.lang.reflect.Modifier.isPrivate(f.getModifiers())) {
-                access = "-";
-            } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
-                access = "=";
+        try {
+            for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+                String type = f.getType().toString();
+                String[] tabType = type.split("\\.");
+                type = tabType[tabType.length - 1];
+                // on créer un Attribut
+                String access = "";
+                if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
+                    access = "+";
+                } else if (java.lang.reflect.Modifier.isPrivate(f.getModifiers())) {
+                    access = "-";
+                } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
+                    access = "=";
+                }
+                this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
             }
-            this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
+
+            // on récupère les méthodes de la classe
+
+            for (java.lang.reflect.Method m : c.getDeclaredMethods()) {
+                // on récupère le type de retour de la méthode
+                String type = m.getReturnType().toString();
+                String[] tabType = type.split("\\.");
+                type = tabType[tabType.length - 1];
+                // on créer une méthode
+                String access = "";
+                if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
+                    access = "+";
+                } else if (java.lang.reflect.Modifier.isPrivate(m.getModifiers())) {
+                    access = "-";
+                } else if (java.lang.reflect.Modifier.isProtected(m.getModifiers())) {
+                    access = "=";
+                }
+                this.compositionClasses.add(new Methodes(access, m.getName(), type));
+            }
+        } catch (NoClassDefFoundError e) {
+            System.out.println("Message erreur : " + e.getMessage());
         }
 
-        // on récupère les méthodes de la classe
-        for (java.lang.reflect.Method m : c.getDeclaredMethods()) {
-            // on récupère le type de retour de la méthode
-            String type = m.getReturnType().toString();
-            String[] tabType = type.split("\\.");
-            type = tabType[tabType.length - 1];
-            // on créer une méthode
-            String access = "";
-            if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
-                access = "+";
-            } else if (java.lang.reflect.Modifier.isPrivate(m.getModifiers())) {
-                access = "-";
-            } else if (java.lang.reflect.Modifier.isProtected(m.getModifiers())) {
-                access = "=";
-            }
-            this.compositionClasses.add(new Methodes(access, m.getName(), type));
-        }
 
         afficher();
 
