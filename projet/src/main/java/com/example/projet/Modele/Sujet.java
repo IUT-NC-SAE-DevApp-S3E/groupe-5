@@ -27,4 +27,6 @@ public interface Sujet {
     public void setClear(boolean clear);
 
     public boolean getClear();
+
+    public void clearFichier();
 }

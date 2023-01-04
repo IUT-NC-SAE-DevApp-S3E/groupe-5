@@ -38,6 +38,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 System.out.println("je suis dans la boucle");
                 for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
                     if (fichiers.get(i) instanceof Classe) {
+                        System.out.println("je suis dans la boucle de classe=====================");
                         this.creerVisuelClasse((Classe) fichiers.get(i));
                     }
                 }
@@ -45,27 +46,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         } else {
             System.out.println("je suis a clear");
             this.pane.getChildren().clear();
-            s.setListeFichiers(new ArrayList<>());
+            s.clearFichier();
             s.setClear(false);
+            this.startX = 0;
+            this.startY = 0;
         }
 
-    }
-
-    /**
-     * méthode creerContenueDossier
-     * cette méthode créer un le visuel du contenue dans un dossier
-     * si il y a d'autre dossier dans le dossier il rappelle la méthode
-     * @param dossier
-     */
-    public void creerContenueDossier(Dossier dossier) {
-        ArrayList<Fichier> listeFichiers = dossier.getListeFichiers();
-        for (Fichier fichier : listeFichiers) {
-            if (fichier instanceof Classe) {
-                this.creerVisuelClasse((Classe) fichier);
-            } else if (fichier instanceof Dossier) {
-                creerContenueDossier((Dossier) fichier);
-            }
-        }
     }
 
     /**

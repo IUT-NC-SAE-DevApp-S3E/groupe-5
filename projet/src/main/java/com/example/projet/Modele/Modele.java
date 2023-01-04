@@ -72,4 +72,11 @@ public class Modele implements Sujet {
     public void setClear(boolean clear) {
         this.clear = clear;
     }
+
+    /**
+     * méthode clear qui permet de vider la liste des fichiers
+     */
+    public void clearFichier() {
+        this.listeFichiers = new ArrayList<>();
+    }
 }

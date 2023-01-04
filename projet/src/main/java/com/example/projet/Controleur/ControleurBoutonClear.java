@@ -23,7 +23,6 @@ public class ControleurBoutonClear implements EventHandler<ActionEvent> {
             this.sujet.notifierObservateur();
         } catch (Exception e) {
         }
-        this.sujet.setClear(false);
     }
 
 }
