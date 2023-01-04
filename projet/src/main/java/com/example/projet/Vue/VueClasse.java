@@ -22,6 +22,7 @@ public class VueClasse extends VBox implements Observateur {
     public VueClasse(Classe classe) {
         super();
         StackPane Drag = new StackPane();
+        this.title.setEditable(false);
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
         this.prefWidth(300);
         this.prefHeight(500);
