@@ -1,9 +1,6 @@
 package com.example.projet.Vue;
 
-import com.example.projet.Controleur.ControleurBoutonArborescence;
-import com.example.projet.Controleur.ControleurBoutonOpenFile;
-import com.example.projet.Controleur.ControleurBoutonOuvrirDossier;
-import com.example.projet.Controleur.ControleurNewClasse;
+import com.example.projet.Controleur.*;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.TrouverCheminOS;
@@ -67,6 +64,7 @@ public class VueDossier extends VBox implements Observateur {
                 case 6:
                     // icon poubelle
                     button.setText("\uf1f8");
+                    button.setOnAction(new ControleurBoutonClear(this.sujet));
                     break;
             }
             // on met la taille du bouton à 35

@@ -28,17 +28,25 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
-        ArrayList<Fichier> fichiers = s.getListeFichiers();
-        System.out.println("il y a : "+fichiers.size()+" fichiers");
-        if(this.pane.getChildren().size() < fichiers.size()) {
-            System.out.println("je suis dans la boucle");
-            for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
-                if (fichiers.get(i) instanceof Classe) {
-                    this.creerVisuelClasse((Classe) fichiers.get(i));
-                } else if (fichiers.get(i) instanceof Dossier) {
-                    this.creerContenueDossier((Dossier) fichiers.get(i));
+        if (!s.getClear()) {
+            System.out.println("je ne suis pas a clear");
+            ArrayList<Fichier> fichiers = s.getListeFichiers();
+            System.out.println("il y a : " + fichiers.size() + " fichiers");
+            if (this.pane.getChildren().size() < fichiers.size()) {
+                System.out.println("je suis dans la boucle");
+                for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
+                    if (fichiers.get(i) instanceof Classe) {
+                        this.creerVisuelClasse((Classe) fichiers.get(i));
+                    } else if (fichiers.get(i) instanceof Dossier) {
+                        this.creerContenueDossier((Dossier) fichiers.get(i));
+                    }
                 }
             }
+        } else {
+            System.out.println("je suis a clear");
+            this.pane.getChildren().clear();
+            s.setListeFichiers(new ArrayList<>());
+            s.setClear(false);
         }
 
     }

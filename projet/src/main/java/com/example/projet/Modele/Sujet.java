@@ -22,4 +22,8 @@ public interface Sujet {
     public String getCheminArborescence();
 
     public void setChemin(String res);
+
+    public void setClear(boolean clear);
+
+    public boolean getClear();
 }

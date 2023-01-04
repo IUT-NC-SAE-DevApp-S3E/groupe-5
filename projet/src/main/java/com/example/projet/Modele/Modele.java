@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Modele implements Sujet {
 
+    private boolean clear = false;
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
     private ArrayList<Fichier> listeFichiers = new ArrayList<>();
@@ -55,5 +56,19 @@ public class Modele implements Sujet {
 
     public void setChemin(String res) {
         this.cheminArborescence = res;
+    }
+
+    /**
+     * @return the clear
+     */
+    public boolean getClear() {
+        return clear;
+    }
+
+    /**
+     * @param clear the clear to set
+     */
+    public void setClear(boolean clear) {
+        this.clear = clear;
     }
 }
