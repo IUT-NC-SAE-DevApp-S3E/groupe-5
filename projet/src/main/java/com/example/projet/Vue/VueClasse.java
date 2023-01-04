@@ -19,18 +19,34 @@ public class VueClasse extends VBox implements Observateur {
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
 
+    /**
+     * Constructeur de la classe VueClasse
+     * une vueClasse représente une classe dans le diagramme de classe
+     * une VueClasse est un VBox qui contiert:
+     * - un StackPane qui permet de déplacer (drag) la classe
+     * - un TextField qui représente le nom de la classe
+     * - un VBox qui représente les attributs de la classe
+     * - un VBox qui représente les méthodes de la classe
+     * @param classe
+     */
     public VueClasse(Classe classe) {
         super();
+        // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
-        this.title.setEditable(false);
+        // on dit qu'on peut éditer le titre de la classe
+        this.title.setEditable(true);
+        // on ajoute les éléments a la vue
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
         this.prefWidth(200);
         this.prefHeight(400);
 
+        // stylisation
         Drag.setPrefSize(200, 10);
         Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
 
-
+        /**
+         * 
+         */
         Drag.setOnMousePressed(mouseEvent -> {
             this.startX = (int) mouseEvent.getSceneX();
             this.startY = (int) mouseEvent.getSceneY();

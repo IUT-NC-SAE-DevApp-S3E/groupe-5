@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 public class Modele implements Sujet {
 
+    /**
+     * Le boolean clear permet de savoir si il faut effacer le contenu du diagramme
+     * si il est a true lorsque l'on va notifier les observateurs
+     * ils vont effacer le contenu du diagramme
+     */
     private boolean clear = false;
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
@@ -67,7 +72,7 @@ public class Modele implements Sujet {
     }
 
     /**
-     * @param clear the clear to set
+     * @param clear
      */
     public void setClear(boolean clear) {
         this.clear = clear;

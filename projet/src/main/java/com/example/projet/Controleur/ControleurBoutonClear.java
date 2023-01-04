@@ -34,6 +34,7 @@ public class ControleurBoutonClear implements EventHandler<ActionEvent> {
         try {
             this.sujet.notifierObservateur();
         } catch (Exception e) {
+            // TODO Auto-generated catch block
         }
     }
 

@@ -21,9 +21,18 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
 
+    /**
+     * Constructeur de la classe ControleurBoutonOpenFile
+     * @param s
+     */
     public ControleurBoutonOpenFile(Sujet s) {
         this.sujet = s;
     }
+
+    /**
+     * Méthode qui permet de gérer l'évènement du bouton OpenFile
+     * @param event
+     */
     public void handle(ActionEvent actionEvent) {
         Stage choixDeFichier = new Stage();
         choixDeFichier.setTitle("Choix de fichier");
@@ -41,7 +50,7 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
         try {
             this.sujet.notifierObservateur();
         } catch (Exception e) {
-
+            // TODO Auto-generated catch block
         }
     }
 }

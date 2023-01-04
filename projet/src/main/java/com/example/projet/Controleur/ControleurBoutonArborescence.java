@@ -50,7 +50,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     /**
      * Lorque l'on clique sur le bouton arborescence, on affiche l'arborescence du dossier dans le VBox du dessous
      * avec un margin a gauche que l'on incremente
-     * @param event
+     * @param actionEvent
      */
     @Override
     public void handle(ActionEvent actionEvent) {
@@ -168,62 +168,85 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                     bouton.setMnemonicParsing(true);
                                 }
                             });
-                        // on met le controlleur sur le bouton
-                        VBox bottomFile = new VBox();
-                        bottomFile.setPrefWidth(this.vBox.getPrefWidth());
-                        bottomFile.setSpacing(3);
-                        this.vBox.getChildren().add(bottomFile);
-                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, this.sujet) );
-                    } else {
-                        ImageView view = new ImageView(new Image("file.png"));
-                        // on ajoute un label au lieu d'un bouton
-                        Label label = new Label(" | " + f.getName());
-                        // on met la couleur du label en blanc
-                        label.setStyle("-fx-text-fill: black;");
-                        // on met un margin a gauche
-                        label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
-                        // le label est draggable
-                        label.setOnMousePressed(mouseEvent -> {
-                            this.startX = (int) mouseEvent.getSceneX();
-                            this.startY = (int) mouseEvent.getSceneY();
-                        });
+                            // on met le controlleur sur le bouton
+                            VBox bottomFile = new VBox();
+                            bottomFile.setPrefWidth(this.vBox.getPrefWidth());
+                            bottomFile.setSpacing(3);
+                            this.vBox.getChildren().add(bottomFile);
+                            bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, this.sujet) );
+                            /**
+                             * Si l'element créer est un fichier
+                             */
+                        } else {
+                            // on charge l'image de l'icon des fichiers
+                            ImageView view = new ImageView(new Image("file.png"));
+                            // on ajoute un label au lieu d'un bouton
+                            Label label = new Label(" | " + f.getName());
+                            // on met la couleur du label en blanc
+                            label.setStyle("-fx-text-fill: black;");
+                            // on met un margin a gauche
+                            label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
 
+                            /**
+                             * on rends ici le fichier draggable
+                             * on commence par set l'endroit ou on clique au depart
+                             * pour par la suite pouvoir calculer la bonne translation
+                             */
+                            label.setOnMousePressed(mouseEvent -> {
+                                this.startX = (int) mouseEvent.getSceneX();
+                                this.startY = (int) mouseEvent.getSceneY();
+                            });
+                            /**
+                             * on translate le bouton lorsqu'on le drag
+                             */
                             label.setOnMouseDragged(event -> {
                                 label.setTranslateX(event.getSceneX() - this.startX);
                                 label.setTranslateY(event.getSceneY() - this.startY);
                             });
-                        label.setOnMouseReleased((event) -> {
-                            if (event.getSceneX() < 250) {
-                                label.setTranslateX(0);
-                                label.setTranslateY(0);
-                            } else {
-                                Classe c = new Classe(f.getPath(), f.getName());
-                                try {
-                                    c.lectureFichier();
-                                } catch (Exception e) {
-                                    // TODO on ne fait rien car le fichier est mauvais, dommage
+                            /**
+                             * Lorsque l'on relache le drag
+                             */
+                            label.setOnMouseReleased((event) -> {
+                                /**
+                                 * si le bouton n'est pas dans la zone de drop
+                                 * on le remet a sa position initiale
+                                 */
+                                if (event.getSceneX() < 250) {
+                                    label.setTranslateX(0);
+                                    label.setTranslateY(0);
+                                    /**
+                                     * Si lefichier est laché dans la zone de drop
+                                     */
+                                } else {
+                                    // on créer un objet class avec le path du fichier glisser dans la zone de drop
+                                    Classe c = new Classe(f.getPath(), f.getName());
+                                    try {
+                                        /**
+                                         * on lit le fichier glisser
+                                         * ce qui ajoute a l'objet class les attributs et methodes
+                                         */
+                                        c.lectureFichier();
+                                    } catch (Exception e) {
+                                        // TODO on ne fait rien car le fichier est mauvais, dommage
+                                    }
+                                    try {
+                                        // on ajoute la class au modele
+                                        this.sujet.ajouterFichier(c);
+                                        /**
+                                         * on notifie les observateurs
+                                         * ce qui va recharger la VueDiagramme de classe
+                                         */
+                                        this.sujet.notifierObservateur();
+                                    } catch (Exception e) {
+                                        System.out.println("le fichier est mauvais");
+                                    }
                                 }
-                                System.out.println("---------------------------");
-                                for (CompositionClasse coo : c.getCompositionClasses()) {
-                                    System.out.println(coo.toString());
-                                }
-                                System.out.println("---------------------------");
-                                // on affiche le fichier
-                                try {
-                                    this.sujet.ajouterFichier(c);
-                                    this.sujet.notifierObservateur();
-                                } catch (Exception e) {
-                                    System.out.println("le fichier est mauvais");
-                                }
-                            }
                             });
-
                             // on ajoute l'image a gauche du label
                             label.setGraphic(view);
                             // la taille de l'image est de 20x20
                             view.setFitHeight(20);
                             view.setPreserveRatio(true);
-
                             this.vBox.getChildren().add(label);
                             // la width du label est la width du scrollpane
                             label.setPrefWidth(this.vBox.getPrefWidth());
@@ -239,8 +262,9 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
              * on supprime le contenu du VBox du dessous pour fermer le dossier
              */
         } else if (file.isDirectory() && isClicked) {
+            // on met le boolean a false pour dire que le dossier est fermé
             isClicked = false;
-            // on supprime tout dans le vBox
+            // on supprime tout le contenu du VBox
             this.vBox.getChildren().clear();
         }
 

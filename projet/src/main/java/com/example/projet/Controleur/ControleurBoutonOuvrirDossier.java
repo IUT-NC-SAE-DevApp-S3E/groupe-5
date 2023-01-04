@@ -15,10 +15,18 @@ public class ControleurBoutonOuvrirDossier implements EventHandler<ActionEvent> 
 
     private Sujet sujet;
 
+    /***
+     * Constructeur du controleur du bouton ouvrir dossier
+     * @param s
+     */
     public ControleurBoutonOuvrirDossier(Sujet s) {
         this.sujet = s;
     }
 
+    /**
+     * Méthode qui permet d'ouvrir un dossier
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();

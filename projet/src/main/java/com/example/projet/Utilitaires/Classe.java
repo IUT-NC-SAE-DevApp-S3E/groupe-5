@@ -16,16 +16,32 @@ public class Classe extends Fichier {
     private Classe superClasse;
     private ArrayList<Classe> interfaces;
 
+    /**
+     * Constructeur de la classe Classe
+     * ce constructeur prend deux paramètres
+     * @param chemin du fichier de la classe
+     * @param nom du fichier de la classe
+     */
     public Classe(String chemin, String nom) {
         super(chemin, nom);
         this.compositionClasses = new ArrayList<>();
     }
 
+    /**
+     * Constructeur de la classe Classe
+     * ce constructeur prend un seul paramètre
+     * ce constructeur permet de créer un classe à partir du bouton et nom d'un fichier réel
+     * @param nom
+     */
     public Classe(String nom) {
         super(nom);
         this.compositionClasses = new ArrayList<>();
     }
 
+    /**
+     * méthode lectureFichier
+     * @throws MalformedURLException
+     */
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         System.out.println(c.getName());
