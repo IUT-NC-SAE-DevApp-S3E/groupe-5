@@ -36,11 +36,11 @@ public class Classe extends Fichier {
             // on créer un Attribut
             String access = "";
             if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
-                access = "public";
+                access = "+";
             } else if (java.lang.reflect.Modifier.isPrivate(f.getModifiers())) {
-                access = "private";
+                access = "-";
             } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
-                access = "protected";
+                access = "=";
             }
             this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
         }
@@ -54,11 +54,11 @@ public class Classe extends Fichier {
             // on créer une méthode
             String access = "";
             if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
-                access = "public";
+                access = "+";
             } else if (java.lang.reflect.Modifier.isPrivate(m.getModifiers())) {
-                access = "private";
+                access = "-";
             } else if (java.lang.reflect.Modifier.isProtected(m.getModifiers())) {
-                access = "protected";
+                access = "=";
             }
             this.compositionClasses.add(new Methodes(access, m.getName(), type));
         }
