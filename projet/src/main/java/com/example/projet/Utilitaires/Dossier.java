@@ -2,6 +2,7 @@ package com.example.projet.Utilitaires;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Dossier extends Fichier {
@@ -53,6 +54,38 @@ public class Dossier extends Fichier {
     // Getters and Setters
     public ArrayList<Fichier> getListeFichiers() {
         return listeFichiers;
+    }
+
+    public float getNbFichier()
+    {
+        float res = 0;
+        for (Fichier f : this.listeFichiers) {
+            if(f instanceof Classe)
+            {
+                res++;
+            }
+            else
+            {
+                res += ((Dossier)f).getNbFichier();
+            }
+        }
+        return res;
+    }
+
+    public ArrayList<Classe> getClasse()
+    {
+        ArrayList<Classe> res = new ArrayList<>();
+        for (Fichier f : this.listeFichiers) {
+            if(f instanceof Classe)
+            {
+                res.add((Classe)f);
+            }
+            else
+            {
+                res.addAll(((Dossier)f).getClasse());
+            }
+        }
+        return res;
     }
 
 }

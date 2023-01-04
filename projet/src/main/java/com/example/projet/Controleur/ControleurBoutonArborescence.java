@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
@@ -96,7 +97,19 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                     // on affiche le dossier
                                     try {
                                         dossier.lectureDossier();
-                                        this.sujet.setListeFichiers(dossier.getListeFichiers());
+                                        for (int i = 0; i < dossier.getListeFichiers().size(); i++) {
+                                            if(dossier.getListeFichiers().get(i) instanceof Classe)
+                                            {
+                                                this.sujet.ajouterFichier((Classe) dossier.getListeFichiers().get(i));
+                                            }
+                                            else if (dossier.getListeFichiers().get(i) instanceof Dossier)
+                                            {
+                                                ArrayList<Classe> listeClasse = ((Dossier) dossier.getListeFichiers().get(i)).getClasse();
+                                                for (int j = 0; j < listeClasse.size(); j++) {
+                                                    this.sujet.ajouterFichier(listeClasse.get(j));
+                                                }
+                                            }
+                                        }
                                         this.sujet.notifierObservateur();
                                     } catch (Exception e) {
                                         // TODO on ne fait rien car le fichier est mauvais, dommage

@@ -1,5 +1,6 @@
 package com.example.projet.Modele;
 
+import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.TrouverCheminOS;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
@@ -11,7 +12,7 @@ public class Modele implements Sujet {
 
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
-    private ArrayList<Fichier> listeFichiers = new ArrayList<>();
+    private ArrayList<Classe> listeFichiers = new ArrayList<>();
 
     private String cheminArborescence = TrouverCheminOS.getChemin();
 
@@ -33,15 +34,15 @@ public class Modele implements Sujet {
     }
 
     // Getters and Setters
-    public ArrayList<Fichier> getListeFichiers() {
-        return listeFichiers;
+    public ArrayList<Classe> getListeFichiers() {
+        return this.listeFichiers;
     }
 
-    public void setListeFichiers(ArrayList<Fichier> listeFichiers) {
+    public void setListeFichiers(ArrayList<Classe> listeFichiers) {
         this.listeFichiers = listeFichiers;
     }
 
-    public void ajouterFichier(Fichier fichier) {
+    public void ajouterFichier(Classe fichier) {
         this.listeFichiers.add(fichier);
     }
 

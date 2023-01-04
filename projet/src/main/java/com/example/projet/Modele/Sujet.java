@@ -1,5 +1,6 @@
 package com.example.projet.Modele;
 
+import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
@@ -13,11 +14,11 @@ public interface Sujet {
 
     public void notifierObservateur() throws MalformedURLException;
 
-    public void setListeFichiers(ArrayList<Fichier> listeFichiers);
+    public void setListeFichiers(ArrayList<Classe> listeFichiers);
 
-    public void ajouterFichier(Fichier f);
+    public void ajouterFichier(Classe f);
 
-    public ArrayList<Fichier> getListeFichiers();
+    public ArrayList<Classe> getListeFichiers();
 
     public String getCheminArborescence();
 
