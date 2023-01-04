@@ -28,7 +28,7 @@ public class VueClasse extends VBox implements Observateur {
         this.prefHeight(400);
 
         Drag.setPrefSize(200, 10);
-        Drag.setStyle("-fx-background-color: grey;-fx-background-radius: 10 10 0 0;");
+        Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
 
 
         Drag.setOnMousePressed(mouseEvent -> {
