@@ -29,9 +29,6 @@ public class VueDiagrammeClasse extends Pane implements Observateur {
                 }
             }
         }
-        for (Fichier f : fichiers) {
-
-        }
 
     }
 }

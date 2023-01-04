@@ -29,17 +29,16 @@ public class VueClasse extends VBox implements Observateur {
         Drag.setPrefSize(300, 10);
         Drag.setStyle("-fx-background-color: grey;-fx-background-radius: 10 10 0 0;");
 
-        VBox main = this;
 
         Drag.setOnMousePressed(mouseEvent -> {
             this.startX = (int) mouseEvent.getSceneX();
             this.startY = (int) mouseEvent.getSceneY();
-            System.out.println("startX = " + this.startX + " startY = " + this.startY);
         });
 
-        Drag.setOnMouseDragged(event -> {
-            main.setTranslateX(event.getSceneX() - this.startX);
-            main.setTranslateY(event.getSceneY() - this.startY);
+
+        Drag.setOnMouseDragged(Mouseevent -> {
+            this.setLayoutX(Mouseevent.getSceneX() - 250);
+            this.setLayoutY(Mouseevent.getSceneY());
         });
 
 
@@ -59,19 +58,28 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setStyle("-fx-background-color: none;");
 
         this.classe = classe;
+
+        System.out.println(this.classe);
+
+        this.title.setText(this.classe.getNom());
+        for (CompositionClasse c : this.classe.getCompositionClasses()) {
+            if (c instanceof Attributs) {
+                TextField newAttribut = new TextField(c.toString());
+                newAttribut.setPrefHeight(15);
+                newAttribut.setStyle("-fx-background-color: none;");
+                this.Attributs.getChildren().add(newAttribut);
+            } else if (c instanceof Methodes) {
+                TextField newMethode = new TextField(c.toString());
+                newMethode.setPrefHeight(15);
+                newMethode.setStyle("-fx-background-color: none;");
+                this.Methodes.getChildren().add(newMethode);
+            }
+        }
+
     }
 
     @Override
     public void actualiser(Sujet s) {
-        this.Attributs.getChildren().clear();
-        this.Methodes.getChildren().clear();
-        this.title.setText(this.classe.getNom());
-        for (CompositionClasse c : this.classe.getCompositionClasses()) {
-            if (c instanceof Attributs) {
-                this.Attributs.getChildren().add(new TextArea(c.toString()));
-            } else if (c instanceof Methodes) {
-                this.Methodes.getChildren().add(new TextArea(c.toString()));
-            }
-        }
+
     }
 }

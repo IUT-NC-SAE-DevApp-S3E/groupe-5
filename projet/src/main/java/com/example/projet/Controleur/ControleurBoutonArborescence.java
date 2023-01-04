@@ -1,5 +1,6 @@
 package com.example.projet.Controleur;
 
+import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
@@ -22,6 +23,7 @@ import java.io.File;
 
 public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
+    private Sujet sujet;
     private String path;
     private VBox vBox;
     private boolean isClicked = false;
@@ -31,10 +33,11 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     private int margin = 1;
 
 
-    public ControleurBoutonArborescence(String path, VBox vBox, int margin) {
+    public ControleurBoutonArborescence(String path, VBox vBox, int margin , Sujet s) {
         this.path = path;
         this.vBox = vBox;
         this.margin = margin;
+        this.sujet = s;
     }
 
 
@@ -107,7 +110,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                         bottomFile.setPrefWidth(this.vBox.getPrefWidth());
                         bottomFile.setSpacing(3);
                         this.vBox.getChildren().add(bottomFile);
-                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1));
+                        bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, this.sujet) );
                     } else {
                         ImageView view = new ImageView(new Image("file.png"));
                         // on ajoute un label au lieu d'un bouton
@@ -131,14 +134,24 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             if (event.getSceneX() < 250) {
                                 label.setTranslateX(0);
                                 label.setTranslateY(0);
-                                System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
                             } else {
-
-                                Classe c = new Classe(file.getPath(), file.getName());
-                                // on affiche le fichier
+                                Classe c = new Classe(f.getPath(), f.getName());
                                 try {
                                     c.lectureFichier();
                                 } catch (Exception e) {
+                                    // TODO on ne fait rien car le fichier est mauvais, dommage
+                                }
+                                System.out.println("---------------------------");
+                                for (CompositionClasse coo : c.getCompositionClasses()) {
+                                    System.out.println(coo.toString());
+                                }
+                                System.out.println("---------------------------");
+                                // on affiche le fichier
+                                try {
+                                    this.sujet.ajouterFichier(c);
+                                    this.sujet.notifierObservateur();
+                                } catch (Exception e) {
+                                    System.out.println("le fichier est mauvais");
                                 }
 
                                 // on remet le bouton a sa place et on le rend non draggable
