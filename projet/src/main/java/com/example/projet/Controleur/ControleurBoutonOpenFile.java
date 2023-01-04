@@ -1,6 +1,7 @@
 package com.example.projet.Controleur;
 
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.TrouverCheminOS;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,6 +34,14 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
         fileChooser.setTitle("Choisir un fichier");
         fileChooser.setInitialDirectory(new File(TrouverCheminOS.getChemin()));
         File file = fileChooser.showOpenDialog(choixDeFichier);
-        // TODO
+
+        Classe c = new Classe(file.getPath(), file.getName());
+
+        this.sujet.ajouterFichier(c);
+        try {
+            this.sujet.notifierObservateur();
+        } catch (Exception e) {
+
+        }
     }
 }
