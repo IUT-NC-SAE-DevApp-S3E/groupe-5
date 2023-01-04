@@ -76,14 +76,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void creerVisuelClasse(Classe classe) {
         VueClasse vueClasse = new VueClasse(classe);
         this.pane.getChildren().add(vueClasse);
-        vueClasse.setLayoutX(startX);
-        vueClasse.setLayoutY(startY);
-        System.out.println("la width est de : "+vueClasse.getWidth());
-        System.out.println("la height est de : "+vueClasse.getHeight());
-        this.startX = this.startX + 310;
-        if (this.startX > this.getWidth()) {
-            this.startX = 0;
-            this.startY = this.startY + 210;
+        vueClasse.setLayoutX(this.startX);
+        vueClasse.setLayoutY(this.startY);
+        this.startY += 210;
+        if (this.startY > 1000 ) {
+            this.startY = 0;
+            this.startX += 300;
         }
     }
 }
