@@ -2,14 +2,16 @@
 
 participant "Utilisateur" as U
 
-participant "ControleurBoutonOpenFile" as CBOF
+participant "ControleurBoutonOpenDirectory" as CBOF
+
+participant "ControleurBoutonOpenFile" as CBSF
 
 participant "FileChooser" as FC
 
 participant "Classe" as C
 
-participant "LectureFichier" as LF
 
+participant "Modele" as M
 activate U 
 U -> CBOF : Appuie sur le bouton 
 activate CBOF
@@ -17,17 +19,31 @@ CBOF -> FC : new()
 activate FC
 FC --> CBOF : File
 deactivate FC
-CBOF -> C : new()
-activate C
-C -> LF : LectureFichier
-activate LF
-LF --> C : Class
-deactivate LF
-C --> CBOF
+CBOF -> M : setSujet(Classe)
+activate M
+M -> M : notifierObservateurs()
+M --> CBOF
+deactivate M
+CBOF --> U
+deactivate CBOF
+alt Ouvrir un fichier
+    U -> CBSF : Appuie sur le bouton
+    activate CBSF
+    CBSF -> FC : new()
+    activate FC
+    FC --> CBSF : File
+    deactivate FC
+    CBSF -> C : new(File)
+    activate C
+    C --> CBSF : Classe
+    deactivate C
+    CBSF -> M : ajouterClasse(Classe)
+    activate M
+    M -> M : notifierObservateurs()
+    M --> CBSF
+    deactivate M
+    CBSF --> U
+    deactivate U
 
-
-
-
-
-
+end
 @enduml
