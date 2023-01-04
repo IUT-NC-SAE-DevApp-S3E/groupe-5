@@ -52,4 +52,8 @@ public class Modele implements Sujet {
     public String getCheminArborescence() {
         return this.cheminArborescence;
     }
+
+    public void setChemin(String res) {
+        this.cheminArborescence = res;
+    }
 }

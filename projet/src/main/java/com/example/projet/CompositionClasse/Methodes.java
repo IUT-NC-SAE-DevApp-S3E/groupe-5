@@ -44,6 +44,6 @@ public class Methodes extends CompositionClasse {
     @Override
     public String toString() {
         String res = this.getAcces() + " " + this.getType() + " " + this.getNom() + "()";
-        return "M : " + res;
+        return res;
     }
 }

@@ -2,6 +2,7 @@ package com.example.projet.Vue;
 
 import com.example.projet.Controleur.ControleurBoutonArborescence;
 import com.example.projet.Controleur.ControleurBoutonOpenFile;
+import com.example.projet.Controleur.ControleurBoutonOuvrirDossier;
 import com.example.projet.Controleur.ControleurNewClasse;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
@@ -20,6 +21,8 @@ import java.io.File;
 public class VueDossier extends VBox implements Observateur {
 
     private Sujet sujet;
+
+    private ScrollPane listeDossierFichier = new ScrollPane();
 
     public VueDossier(Sujet s, String chemin) {
         super();
@@ -49,11 +52,12 @@ public class VueDossier extends VBox implements Observateur {
                 case 3:
                     // folder open
                     button.setText("\uf07c");
-                    button.setOnAction(new ControleurBoutonOpenFile());
+                    button.setOnAction(new ControleurBoutonOuvrirDossier(this.sujet));
                     break;
                 case 4:
                     // export icon
                     button.setText("\uf15b");
+                    button.setOnAction(new ControleurBoutonOpenFile(this.sujet));
                     break;
                 case 5:
                     // icon fichier
@@ -124,6 +128,7 @@ public class VueDossier extends VBox implements Observateur {
                 bouton.setOnAction(controleurBoutonArborescence);
             }
         }
+        afficherDossier(chemin);
 
 
         HBox boutonafficherCacher = new HBox();
@@ -153,28 +158,64 @@ public class VueDossier extends VBox implements Observateur {
             boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
         }
 
-        this.getChildren().addAll(boutonHaut, listeDossierFichier, boutonafficherCacher);
+        this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);
     }
 
     @Override
     public void actualiser(Sujet s) {
+        afficherDossier(s.getCheminArborescence());
 
     }
 
-    public static void afficherContenuDossier(File f) {
-        try {
-            if (f.isDirectory()) {
-                File[] files = f.listFiles();
-                for (File file : files) {
-                    System.out.print(" | ");
-                    afficherContenuDossier(file);
-                }
-            } else {
-                System.out.println(" > " + f.getName());
-            }
-        } catch (Exception e) {
+    public void afficherDossier(String chemin)
+    {
+        VBox vBox = new VBox();
+        listeDossierFichier.setContent(vBox);
+        // le vbox prend la taille du scrollpane
+        vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
+        listeDossierFichier.setPrefSize(250, 510);
+        // on enleve les bordure du scrollpane
+        listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
+        // on cache la scrollbar
+        listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        listeDossierFichier.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
+        File file = new File(chemin);
+
+        for (File f : file.listFiles()) {
+            if (!f.getName().contains("$") && f.getName().charAt(0) != '.') {
+                if (f.isDirectory()) {
+                    ImageView view = new ImageView(new Image("folder.png"));
+                    Button bouton = new Button(" > " + f.getName());
+
+                    // on ajoute l'image a gauche du bouton
+                    bouton.setGraphic(view);
+                    // la taille de l'image est de 20x20
+                    view.setFitHeight(20);
+                    view.setPreserveRatio(true);
+
+                    vBox.getChildren().add(bouton);
+                    // la width du bouton est la width du scrollpane
+                    bouton.setPrefWidth(listeDossierFichier.getPrefWidth());
+                    // on cole le text a gauche
+                    bouton.setAlignment(Pos.BASELINE_LEFT);
+                    // on rend le bouton transparent
+                    bouton.setStyle("-fx-background-color: transparent;");
+
+                    // on met le controlleur sur le bouton
+                    VBox bottomFile = new VBox();
+                    // on met un spacing de 5
+                    bottomFile.setSpacing(3);
+
+                    vBox.getChildren().add(bottomFile);
+                    // la width du vbox est la width du scrollpane
+                    bottomFile.setPrefWidth(listeDossierFichier.getPrefWidth());
+                    ControleurBoutonArborescence controleurBoutonArborescence = new ControleurBoutonArborescence(f.getPath(), bottomFile, 1, this.sujet);
+                    bouton.setOnAction(controleurBoutonArborescence);
+                }
+            }
         }
     }
+
 
 }

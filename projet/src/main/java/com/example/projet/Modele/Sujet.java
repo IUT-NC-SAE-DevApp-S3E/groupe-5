@@ -20,4 +20,6 @@ public interface Sujet {
     public ArrayList<Fichier> getListeFichiers();
 
     public String getCheminArborescence();
+
+    public void setChemin(String res);
 }
