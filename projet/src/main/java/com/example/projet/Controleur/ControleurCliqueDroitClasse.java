@@ -12,13 +12,11 @@ import javafx.scene.layout.VBox;
 public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
 
 
-    private int startX = 0;
-    private int startY = 0;
-    private Sujet sujet;
-    private Pane pane;
-    private VBox menu = new VBox();
+    private final Sujet sujet;
+    private final Pane pane;
+    private VBox menu;
 
-    private VueClasse actualVBox;
+    private final VueClasse actualVBox;
     private boolean clicked = false;
 
     public ControleurCliqueDroitClasse(Sujet sujet, Pane pane, VueClasse actualVBox) {

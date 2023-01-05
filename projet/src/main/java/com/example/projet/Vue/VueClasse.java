@@ -9,6 +9,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -63,6 +64,10 @@ public class VueClasse extends VBox implements Observateur {
                 this.setLayoutX(Mouseevent.getSceneX() - 250);
                 this.setLayoutY(Mouseevent.getSceneY());
             }
+        });
+
+        Drag.setOnMouseReleased(Mouseevent -> {
+            this.sujet.notifierObservateur();
         });
 
 
