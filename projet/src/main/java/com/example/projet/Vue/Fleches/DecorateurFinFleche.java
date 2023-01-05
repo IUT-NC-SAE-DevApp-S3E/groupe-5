@@ -6,8 +6,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 public class DecorateurFinFleche extends Polygon {
-    public DecorateurFinFleche(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee, int rot) {
-        super(0, 0, -15, 15, 15, 15);
+    public DecorateurFinFleche(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
+        super(0, 0, -10, 15, 10, 15);
 
         Double coord1 = (double) (coordYDepart- coordYArrivee);
         Double coord2 = (double) (coordXDepart - coordXArrivee);
@@ -16,13 +16,12 @@ public class DecorateurFinFleche extends Polygon {
         //Créer une matrice de rotation
         Rotate rotate2 = new Rotate(Math.toDegrees(angle2), 0, 0);
         //Appliquer la rotation à la tête de la flèche
-        this.getTransforms().add(rotate2);
+        System.out.println(rotate2.getAngle());
+        this.setRotate(Math.abs(rotate2.getAngle()));
 
         // Déplacer la tête de la flèche pour qu'elle soit située à l'extrémité du segment de droite
-        this.setTranslateX(coordXArrivee);
-        this.setTranslateY(coordYArrivee);
-        this.setFill(Color.TRANSPARENT);
-        this.setStroke(Color.BLACK);
+        this.setTranslateX(coordXArrivee + 5);
+        this.setTranslateY(coordYArrivee - 5);
 
     }
 }

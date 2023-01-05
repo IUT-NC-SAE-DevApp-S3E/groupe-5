@@ -3,16 +3,11 @@ package com.example.projet.Vue;
 import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
-import com.example.projet.Utilitaires.Dossier;
-import com.example.projet.Utilitaires.Fichier;
 import com.example.projet.Vue.Fleches.VueFleche;
+import com.example.projet.Vue.Fleches.DecorateurFinFleche;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 
-import java.io.File;
-import java.net.MalformedURLException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +16,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
 
     private Pane pane = new Pane();
-    private int startX = 0;
-    private int startY = 0;
+
+    private final int DECALAGEX = 25;
+    private final int DECALAGEY = 25;
+    private int startX = 25;
+    private int startY = 25;
 
     private ArrayList<VueClasse> listeVueClasse = new ArrayList<>();
 
@@ -37,6 +35,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         super();
         this.setContent(this.pane);
         this.setPrefSize(1000, 700);
+        int coordX = 100;
+        int coordY = 100;
+        int coordX2 = 1000;
+        int coordY2 = 200;
+        //this.pane.getChildren().add(new VueFlechePointille(coordX, coordY, coordX2, coordY2));
+        //this.pane.getChildren().add(new DecorateurFinFleche(coordX, coordY, coordX2, coordY2));
     }
 
     @Override
@@ -70,9 +74,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             // on dit que le contenue n'est plus à clear
             s.setClear(false);
             // on remet les coordonnées de départ à 0 et 0
-            this.startX = 0;
-            this.startY = 0;
+            this.startX = DECALAGEX;
+            this.startY = DECALAGEY;
         }
+
     }
 
     /**
@@ -92,7 +97,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         vueClasse.setLayoutY(this.startY);
         this.startY += 210;
         if (this.startY > 1000) {
-            this.startY = 0;
+            this.startY = DECALAGEY;
             this.startX += 300;
         }
     }
@@ -131,7 +136,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
             System.out.println("coordDepartX : " + coordDepartX + " coordDepartY : " + coordDepartY);
             VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            this.pane.getChildren().add(fleche);
+            DecorateurFinFleche decorateurFinFleche = new DecorateurFinFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
+            this.pane.getChildren().addAll(fleche, decorateurFinFleche);
             this.listeFleches.add(fleche);
         }
     }

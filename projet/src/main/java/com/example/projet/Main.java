@@ -32,8 +32,6 @@ public class Main extends Application {
 
 
         hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);
-        hbox.getChildren().add(new VueFlechePointille(20, 30, 100, 100));
-        hbox.getChildren().add(new DecorateurFinFleche(20, 30, 100, 100, 50));
         Scene scene = new Scene(hbox);
         stage.setTitle("Diagramme de classe");
         stage.setScene(scene);
