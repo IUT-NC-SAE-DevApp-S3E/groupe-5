@@ -28,6 +28,7 @@ public class VueClasse extends VBox implements Observateur {
      * - un TextField qui représente le nom de la classe
      * - un VBox qui représente les attributs de la classe
      * - un VBox qui représente les méthodes de la classe
+     *
      * @param classe
      */
     public VueClasse(Classe classe) {
@@ -122,11 +123,28 @@ public class VueClasse extends VBox implements Observateur {
 
     /**
      * méthode ajouterAttribut
-     * @param attribut
-     * ajoute un attribut a la classe
+     *
+     * @param attribut ajoute un attribut a la classe
      */
     public void ajouterAttribut(TextField attribut) {
         this.Attributs.getChildren().add(attribut);
     }
 
+    /**
+     * méthode ajouterMethode
+     *
+     * @param methode ajoute une methode a la classe
+     */
+    public void ajouterMethode(TextField methode) {
+        this.Methodes.getChildren().add(methode);
+    }
+
+    /**
+     * méthode getClasse
+     *
+     * @return la classe
+     */
+    public Classe getClasse() {
+        return this.classe;
+    }
 }

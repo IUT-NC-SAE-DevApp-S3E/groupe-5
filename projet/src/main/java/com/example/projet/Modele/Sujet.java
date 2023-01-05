@@ -24,6 +24,8 @@ public interface Sujet {
 
     public void setChemin(String res);
 
+    public void supprimerFichier(Fichier f);
+
     public void setClear(boolean clear);
 
     public boolean getClear();

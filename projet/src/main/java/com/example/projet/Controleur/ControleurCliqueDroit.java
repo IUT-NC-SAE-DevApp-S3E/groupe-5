@@ -64,10 +64,20 @@ public class ControleurCliqueDroit implements EventHandler<MouseEvent> {
                             this.actualVBox.ajouterAttribut(newAttribut);
                         });
                         break;
+                    case 1:
+                        bouton.setOnAction(event1 -> {
+                            TextField newMethode = new TextField(" new ");
+                            newMethode.setPrefHeight(5);
+                            newMethode.setStyle("-fx-background-color: none;");
+                            newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                            this.actualVBox.ajouterMethode(newMethode);
+                        });
+                        break;
                     case 3:
                         bouton.setOnAction(event2 -> {
                             // on supprime la classe
                             this.pane.getChildren().remove(this.actualVBox);
+                            this.sujet.supprimerFichier(this.actualVBox.getClasse());
                             this.pane.getChildren().remove(this.menu);
                         });
                         break;

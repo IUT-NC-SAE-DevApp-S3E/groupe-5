@@ -106,24 +106,17 @@ public class Modele implements Sujet {
         this.startY = y;
     }
 
-    public void chercherParentsEtInterface()
-    {
-        for(Classe c : this.listeFichiers)
-        {
-            if(c.getSuperClasse() != null)
-            {
-                for(Classe c2 : this.listeFichiers)
-                {
-                    if(c2.getNom().equals(c.getSuperClasse().getNom()))
-                    {
+    public void chercherParentsEtInterface() {
+        for (Classe c : this.listeFichiers) {
+            if (c.getSuperClasse() != null) {
+                for (Classe c2 : this.listeFichiers) {
+                    if (c2.getNom().equals(c.getSuperClasse().getNom())) {
                         c.setSuperClasse(c2);
                     }
                 }
             }
-            if(c.getInterfaces() != null)
-            {
-                for(Classe c2 : this.listeFichiers)
-                {
+            if (c.getInterfaces() != null) {
+                for (Classe c2 : this.listeFichiers) {
                     for (int i = 0; i < c.getInterfaces().size(); i++) {
                         if (c2.getNom().equals(c.getInterfaces().get(i).getNom())) {
                             c.getInterfaces().set(i, c2);
@@ -132,5 +125,13 @@ public class Modele implements Sujet {
                 }
             }
         }
+    }
+
+    /**
+     * méthode supprimerFichier qui permet de supprimer un fichier de la liste des fichiers
+     * @param f le fichier a supprimer
+     */
+    public void supprimerFichier(Fichier f) {
+        this.listeFichiers.remove(f);
     }
 }
