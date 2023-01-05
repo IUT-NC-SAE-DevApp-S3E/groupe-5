@@ -5,6 +5,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.Dossier;
 import com.example.projet.Utilitaires.Fichier;
+import com.example.projet.Vue.Fleches.VueFleche;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -123,9 +124,14 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+(int) this.listeAssociationSuperClasse.get(vueClasse).getWidth()/2;
+            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+125;
             int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY()+(int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            VueFleche fleche = new VueFleche(vueClasse.getCoordX(), vueClasse.getCoordY(), this.listeAssociationSuperClasse.get(vueClasse).getCoordX(), coordArriveeX, coordArriveeY);
+            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
+            int coordDepartX = (int) vueClasse.getLayoutX() + 125;
+            int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
+            System.out.println("coordDepartX : " + coordDepartX + " coordDepartY : " + coordDepartY);
+            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
+            this.pane.getChildren().add(fleche);
             this.listeFleches.add(fleche);
         }
     }
