@@ -1,17 +1,16 @@
 package com.example.projet;
 
 import com.example.projet.Modele.Modele;
-import com.example.projet.Utilitaires.Dossier;
 import com.example.projet.Utilitaires.TrouverCheminOS;
-import com.example.projet.Vue.VueClasse;
+import com.example.projet.Vue.Fleches.DecorateurFinFleche;
+import com.example.projet.Vue.Fleches.VueFleche;
+import com.example.projet.Vue.Fleches.VueFlechePointille;
 import com.example.projet.Vue.VueDiagrammeClasse;
 import com.example.projet.Vue.VueDossier;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-import java.net.MalformedURLException;
 
 import static javafx.application.Application.launch;
 
@@ -33,8 +32,8 @@ public class Main extends Application {
 
 
         hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);
-
-
+        hbox.getChildren().add(new VueFlechePointille(20, 30, 100, 100));
+        hbox.getChildren().add(new DecorateurFinFleche(20, 30, 100, 100, 50));
         Scene scene = new Scene(hbox);
         stage.setTitle("Diagramme de classe");
         stage.setScene(scene);
