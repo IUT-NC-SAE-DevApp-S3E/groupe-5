@@ -4,6 +4,7 @@ package com.example.projet.Vue;
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
+import com.example.projet.Modele.Modele;
 import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
@@ -13,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.net.MalformedURLException;
+
 public class VueClasse extends VBox implements Observateur {
     private int startX = 0;
     private int startY = 0;
@@ -20,6 +23,7 @@ public class VueClasse extends VBox implements Observateur {
     private TextField title = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
+    private Sujet sujet;
 
     private int coordX = 0;
     private int coordY = 0;
@@ -37,8 +41,9 @@ public class VueClasse extends VBox implements Observateur {
      *
      * @param classe
      */
-    public VueClasse(Classe classe) {
+    public VueClasse(Classe classe, Sujet sujet) {
         super();
+        this.sujet = sujet;
 
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
@@ -67,7 +72,14 @@ public class VueClasse extends VBox implements Observateur {
         });
 
         Drag.setOnMouseReleased(Mouseevent -> {
-            this.sujet.notifierObservateur();
+            try {
+                System.out.println("Classe bouge " + (this.classe.getNom()).split("\\.")[0]);
+                System.out.println("X: " + (Mouseevent.getSceneX() -250) + " Y: " + Mouseevent.getSceneY());
+                VueDiagrammeClasse.setListeCoordonnees((this.classe.getNom()).split("\\.")[0], (int) Mouseevent.getSceneX() - 250, (int) Mouseevent.getSceneY());
+                this.sujet.notifierObservateur();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
         });
 
 

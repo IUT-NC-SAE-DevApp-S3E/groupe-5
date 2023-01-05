@@ -49,7 +49,8 @@ public class Classe extends Fichier {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
             if(c.getSuperclass() != null) {
-                this.superClasse = c.getSuperclass().getName();
+                String[] tab = c.getSuperclass().getName().split("\\.");
+                this.superClasse = tab[tab.length - 1];
             }
 
             if(c.getInterfaces().length > 0) {

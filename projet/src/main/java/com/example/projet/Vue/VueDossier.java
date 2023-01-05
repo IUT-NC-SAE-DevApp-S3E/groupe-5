@@ -96,7 +96,8 @@ public class VueDossier extends VBox implements Observateur {
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         listeDossierFichier.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        File file = new File(chemin);
+        File file = new File("C:\\Users\\nzosi\\OneDrive\\Documents\\Cour\\BUT\\S3\\Qualité de développement\\SAE\\groupe-5\\projet\\target\\classes\\com\\example");
+        // C:\Users\nzosi\OneDrive\Documents\Cour\BUT\S3\Qualité de développement\SAE\groupe-5\projet\target\classes\com\example
 
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {
