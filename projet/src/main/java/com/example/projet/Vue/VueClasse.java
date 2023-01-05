@@ -4,13 +4,17 @@ package com.example.projet.Vue;
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
+import com.example.projet.Modele.Modele;
 import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.net.MalformedURLException;
 
 public class VueClasse extends VBox implements Observateur {
     private int startX = 0;
@@ -19,6 +23,7 @@ public class VueClasse extends VBox implements Observateur {
     private TextField title = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
+    private Sujet sujet;
 
     private int coordX = 0;
     private int coordY = 0;
@@ -36,8 +41,9 @@ public class VueClasse extends VBox implements Observateur {
      *
      * @param classe
      */
-    public VueClasse(Classe classe) {
+    public VueClasse(Classe classe, Sujet sujet) {
         super();
+        this.sujet = sujet;
 
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
@@ -62,6 +68,14 @@ public class VueClasse extends VBox implements Observateur {
             if (Mouseevent.getButton().toString().equals("PRIMARY")) {
                 this.setLayoutX(Mouseevent.getSceneX() - 250);
                 this.setLayoutY(Mouseevent.getSceneY());
+            }
+        });
+
+        Drag.setOnMouseReleased(Mouseevent -> {
+            try {
+                this.sujet.notifierObservateur();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
             }
         });
 

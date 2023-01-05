@@ -3,10 +3,18 @@ package com.example.projet.Vue;
 import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
+import com.example.projet.Utilitaires.Dossier;
+import com.example.projet.Utilitaires.Fichier;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
@@ -14,6 +22,14 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     private Pane pane = new Pane();
     private int startX = 0;
     private int startY = 0;
+
+    private ArrayList<VueClasse> listeVueClasse = new ArrayList<>();
+
+    // HashMap qui comme clé prend une VueClasse et comme valeur un ArrayList de VueClasse
+    HashMap<VueClasse, VueClasse> listeAssociationSuperClasse = new HashMap<>();
+
+    // liste des flèches
+    private ArrayList<VueFleche> listeFleches = new ArrayList<>();
 
 
     public VueDiagrammeClasse() {
@@ -29,16 +45,19 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
          * on ajoute le visuel des classe qui sont dans le modèle
          */
         if (!s.getClear()) {
+            this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
             if (this.pane.getChildren().size() < fichiers.size()) {
                 for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
                     if (fichiers.get(i) instanceof Classe) {
-                        this.creerVisuelClasse((Classe) fichiers.get(i), s);
+                        Classe c = (Classe) fichiers.get(i);
+                        this.creerVisuelClasse(c, s);
                     }
                 }
             }
+            this.drawSuperClasse();
             /**
              * si il faut clear le contenue du digramme de classe
              */
@@ -53,7 +72,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.startX = 0;
             this.startY = 0;
         }
-
     }
 
     /**
@@ -63,8 +81,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * @param classe
      */
     public void creerVisuelClasse(Classe classe, Sujet s) {
-        VueClasse vueClasse = new VueClasse(classe);
+        VueClasse vueClasse = new VueClasse(classe, s);
         vueClasse.setOnMouseClicked(new ControleurCliqueDroitClasse(s, this.pane, vueClasse));
+        // on ajoute la VueClasse a la liste
+        this.listeVueClasse.add(vueClasse);
 
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);
@@ -75,4 +95,39 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.startX += 300;
         }
     }
+
+    /**
+     * méthode drawSuperClasse
+     * qui parcour la liste des classes et va trouver les super classe de chaque classe
+     * dessiner une ligne entre les classes
+     */
+    public void drawSuperClasse() {
+        // on supprime les flèches
+        this.pane.getChildren().removeAll(this.listeFleches);
+        // on clear la liste des associations
+        this.listeAssociationSuperClasse.clear();
+        for (int i = 0; i < this.listeVueClasse.size() -1; i++) {
+            boolean trouver = false;
+            String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
+            for (int j = i+1; j < this.listeVueClasse.size() && !trouver; j++) {
+                String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom().replace(".class", "");
+                if (nomClasseCourante.equals(nomSuperClasse)) {
+                    trouver = true;
+                    this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
+                    System.out.println("trouver : "+ this.listeVueClasse.get(i).getClasse().getNom() + " " + this.listeVueClasse.get(j).getClasse().getNom());
+                } else {
+                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
+                }
+            }
+        }
+
+        // Pour chaque association on dessine une ligne
+        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+(int) this.listeAssociationSuperClasse.get(vueClasse).getWidth()/2;
+            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY()+(int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
+            VueFleche fleche = new VueFleche(vueClasse.getCoordX(), vueClasse.getCoordY(), this.listeAssociationSuperClasse.get(vueClasse).getCoordX(), coordArriveeX, coordArriveeY);
+            this.listeFleches.add(fleche);
+        }
+    }
+
 }

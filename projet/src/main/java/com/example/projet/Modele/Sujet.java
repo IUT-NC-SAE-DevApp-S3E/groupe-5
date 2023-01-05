@@ -39,4 +39,5 @@ public interface Sujet {
     public void setStartX(int x);
 
     public void setStartY(int y);
+
 }
