@@ -16,6 +16,7 @@ public class Modele implements Sujet {
      * ils vont effacer le contenu du diagramme
      */
     private boolean clear = false;
+
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
     private ArrayList<Classe> listeFichiers = new ArrayList<>();

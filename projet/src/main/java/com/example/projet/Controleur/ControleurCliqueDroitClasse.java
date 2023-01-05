@@ -27,6 +27,8 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
         this.actualVBox = actualVBox;
 
         this.pane.setOnMousePressed(mouseEvent -> {
+            // quand un clique droit est effectué on récupère les coordonnées du clique
+            // pour pouvoir le menu ensuite au bon endroit
             this.sujet.setStartX((int)mouseEvent.getX());
             this.sujet.setStartY((int)mouseEvent.getY());
         });
@@ -56,19 +58,23 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                 switch (i) {
                     case 0:
                         bouton.setOnAction(event1 -> {
+                            // si on appuie sur le bouton ajouter un attribut dans le vbox des attributs
                             TextField newAttribut = new TextField(" new ");
                             newAttribut.setPrefHeight(5);
                             newAttribut.setStyle("-fx-background-color: none;");
                             newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                            // on ajoute aussi l'attribut dans la classe pour quelle soit dans le modèle
                             this.actualVBox.ajouterAttribut(newAttribut);
                         });
                         break;
                     case 1:
                         bouton.setOnAction(event1 -> {
+                            // si on appuie sur le bouton ajouter une methode dans le vbox des methodes
                             TextField newMethode = new TextField(" new ");
                             newMethode.setPrefHeight(5);
                             newMethode.setStyle("-fx-background-color: none;");
                             newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                            // on ajoute aussi la methode dans la classe pour quelle soit dans le modèle
                             this.actualVBox.ajouterMethode(newMethode);
                         });
                         break;
@@ -76,17 +82,19 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                         bouton.setOnAction(event2 -> {
                             // on supprime la classe
                             this.pane.getChildren().remove(this.actualVBox);
+                            // on remove aussi la classe du modèle
                             this.sujet.supprimerFichier(this.actualVBox.getClasse());
                             this.pane.getChildren().remove(this.menu);
                         });
                         break;
                 }
             }
-
+            // on ajoute le visuel du menu au pane
             this.pane.getChildren().add(menu);
             menu.setPrefSize(200, 100);
             // on met le menu a la position du clique
             System.out.println("coordonnées du clique : " + event.getScreenX() + " " + event.getScreenY());
+            // on place le menu a la position du clique
             menu.setLayoutX(this.sujet.getStartX() - 10);
             menu.setLayoutY(this.sujet.getStartY() - 10);
             // on met 0 padding au menu
@@ -94,7 +102,12 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             menu.setStyle("-fx-background-color: rgba(169,165,165,0.28);");
             // si la souris n'est pas au dessus du menu on le supprrime
 
+            /**
+             * si on a déjà fait un clique droit
+             */
         } else {
+            // on supprime le menu
+            // on met le boolean cliquer a false pour pouvoir refaire un clique droit
             this.clicked = false;
             this.pane.getChildren().remove(this.menu);
         }
