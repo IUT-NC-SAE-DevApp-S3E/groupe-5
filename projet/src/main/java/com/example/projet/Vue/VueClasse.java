@@ -4,7 +4,7 @@ package com.example.projet.Vue;
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
-import com.example.projet.Controleur.ControleurCliqueDroit;
+import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Pos;
@@ -19,6 +19,11 @@ public class VueClasse extends VBox implements Observateur {
     private TextField title = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
+
+    private int coordX = 0;
+    private int coordY = 0;
+    private int width = 0;
+    private int height = 0;
 
     /**
      * Constructeur de la classe VueClasse
@@ -47,9 +52,6 @@ public class VueClasse extends VBox implements Observateur {
         Drag.setPrefSize(200, 20);
         Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
 
-        /**
-         *
-         */
         Drag.setOnMousePressed(mouseEvent -> {
             this.startX = (int) mouseEvent.getSceneX();
             this.startY = (int) mouseEvent.getSceneY();
@@ -91,6 +93,9 @@ public class VueClasse extends VBox implements Observateur {
                 newAttribut.setPrefHeight(5);
                 newAttribut.setStyle("-fx-background-color: none;");
                 newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                newAttribut.setOnMouseClicked(new ControleurCliqueDroitElement(this.classe, c, newAttribut));
+                // on enlève le menu contextuel du TextField
+                newAttribut.setContextMenu(null);
                 this.Attributs.getChildren().add(newAttribut);
             } else if (c instanceof Methodes) {
                 TextField newMethode = new TextField(c.toString());
@@ -102,6 +107,8 @@ public class VueClasse extends VBox implements Observateur {
         }
 
 
+        this.setTaille();
+
     }
 
     @Override
@@ -109,6 +116,14 @@ public class VueClasse extends VBox implements Observateur {
 
     }
 
+    /**
+     * getVisuel
+     *
+     * @return this
+     */
+    public VueClasse getVisuel() {
+        return this;
+    }
 
     /**
      * getter des vbox
@@ -146,5 +161,42 @@ public class VueClasse extends VBox implements Observateur {
      */
     public Classe getClasse() {
         return this.classe;
+    }
+
+    /**
+     * méthode setTaille
+     */
+    public void setTaille() {
+        this.width = (int) this.getWidth();
+        this.height = (int) this.getHeight();
+    }
+
+    /**
+     * méthode getCoordX
+     *
+     * @return coordX int la coordonnée X de la classe
+     */
+    public int getCoordX() {
+        return this.coordX;
+    }
+
+    /**
+     * méthode getCoordY
+     *
+     * @return coordY int la coordonnée Y de la classe
+     */
+    public int getCoordY() {
+        return this.coordY;
+    }
+
+    /**
+     * méthode estAuDessus
+     * cette méthode return true si une vue est au dessus d'une autre
+     *
+     * @param vc
+     * @return boolean
+     */
+    public boolean estAuDessus(VueClasse vc) {
+        return false;
     }
 }

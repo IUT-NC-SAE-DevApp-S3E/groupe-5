@@ -2,7 +2,6 @@ package com.example.projet.Controleur;
 
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Vue.VueClasse;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class ControleurCliqueDroit implements EventHandler<MouseEvent> {
+public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
 
 
     private int startX = 0;
@@ -22,7 +21,7 @@ public class ControleurCliqueDroit implements EventHandler<MouseEvent> {
     private VueClasse actualVBox;
     private boolean clicked = false;
 
-    public ControleurCliqueDroit(Sujet sujet, Pane pane, VueClasse actualVBox) {
+    public ControleurCliqueDroitClasse(Sujet sujet, Pane pane, VueClasse actualVBox) {
         this.sujet = sujet;
         this.pane = pane;
         this.actualVBox = actualVBox;
@@ -83,10 +82,6 @@ public class ControleurCliqueDroit implements EventHandler<MouseEvent> {
                         break;
                 }
             }
-
-
-
-
 
             this.pane.getChildren().add(menu);
             menu.setPrefSize(200, 100);
