@@ -120,7 +120,6 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 if (event.getSceneX() < 250) {
                                     bouton.setTranslateX(0);
                                     bouton.setTranslateY(0);
-                                    System.out.println("dans le scrollPane car x = " + event.getSceneX() + " < 110");
                                     /**
                                      * sinon on charge le dossier correspondant au bouton
                                      * pour pouvoir l'afficher dans la vueDiagrammeClasse

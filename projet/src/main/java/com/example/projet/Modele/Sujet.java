@@ -29,4 +29,12 @@ public interface Sujet {
     public boolean getClear();
 
     public void clearFichier();
+
+    public int getStartX();
+
+    public int getStartY();
+
+    public void setStartX(int x);
+
+    public void setStartY(int y);
 }

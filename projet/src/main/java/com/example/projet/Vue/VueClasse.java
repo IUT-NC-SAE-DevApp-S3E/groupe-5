@@ -4,6 +4,7 @@ package com.example.projet.Vue;
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
+import com.example.projet.Controleur.ControleurCliqueDroit;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Pos;
@@ -31,6 +32,7 @@ public class VueClasse extends VBox implements Observateur {
      */
     public VueClasse(Classe classe) {
         super();
+
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
         // on dit qu'on peut éditer le titre de la classe
@@ -41,11 +43,11 @@ public class VueClasse extends VBox implements Observateur {
         this.prefHeight(400);
 
         // stylisation
-        Drag.setPrefSize(200, 10);
+        Drag.setPrefSize(200, 20);
         Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
 
         /**
-         * 
+         *
          */
         Drag.setOnMousePressed(mouseEvent -> {
             this.startX = (int) mouseEvent.getSceneX();
@@ -54,8 +56,10 @@ public class VueClasse extends VBox implements Observateur {
 
 
         Drag.setOnMouseDragged(Mouseevent -> {
-            this.setLayoutX(Mouseevent.getSceneX() - 250);
-            this.setLayoutY(Mouseevent.getSceneY());
+            if (Mouseevent.getButton().toString().equals("PRIMARY")) {
+                this.setLayoutX(Mouseevent.getSceneX() - 250);
+                this.setLayoutY(Mouseevent.getSceneY());
+            }
         });
 
 
@@ -76,7 +80,6 @@ public class VueClasse extends VBox implements Observateur {
 
         this.classe = classe;
 
-        System.out.println(this.classe);
 
         this.title.setText(this.classe.getNom());
         // on met le titre en gras

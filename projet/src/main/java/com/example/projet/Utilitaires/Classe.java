@@ -44,7 +44,6 @@ public class Classe extends Fichier {
      */
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
-        System.out.println(c.getName());
         try {
             for (java.lang.reflect.Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();

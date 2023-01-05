@@ -22,6 +22,10 @@ public class Modele implements Sujet {
 
     private String cheminArborescence = TrouverCheminOS.getChemin();
 
+    private int startX = 0;
+
+    private int startY = 0;
+
     @Override
     public void enregistrerObservateur(Observateur o) {
         this.listeObservateurs.add(o);
@@ -83,5 +87,21 @@ public class Modele implements Sujet {
      */
     public void clearFichier() {
         this.listeFichiers = new ArrayList<>();
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public void setStartX(int x) {
+        this.startX = x;
+    }
+
+    public void setStartY(int y) {
+        this.startY = y;
     }
 }

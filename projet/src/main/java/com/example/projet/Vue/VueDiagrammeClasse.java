@@ -1,5 +1,6 @@
 package com.example.projet.Vue;
 
+import com.example.projet.Controleur.ControleurCliqueDroit;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.Dossier;
@@ -29,17 +30,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     @Override
     public void actualiser(Sujet s) {
         if (!s.getClear()) {
-            System.out.println("je ne suis pas a clear");
             ArrayList<Classe> fichiers = s.getListeFichiers();
-
-            System.out.println("il y a : " + this.pane.getChildren().size() + " enfants");
-            System.out.println("il y a : "+fichiers.size()+" fichiers");
             if(this.pane.getChildren().size() < fichiers.size()) {
                 System.out.println("je suis dans la boucle");
                 for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
                     if (fichiers.get(i) instanceof Classe) {
-                        System.out.println("je suis dans la boucle de classe=====================");
-                        this.creerVisuelClasse((Classe) fichiers.get(i));
+                        this.creerVisuelClasse((Classe) fichiers.get(i), s);
                     }
                 }
             }
@@ -59,8 +55,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * et faire en sorte que les classes ne se superposent pas
      * @param classe
      */
-    public void creerVisuelClasse(Classe classe) {
+    public void creerVisuelClasse(Classe classe, Sujet s) {
         VueClasse vueClasse = new VueClasse(classe);
+        vueClasse.setOnMouseClicked(new ControleurCliqueDroit(s, this.pane));
+
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);
         vueClasse.setLayoutY(this.startY);
