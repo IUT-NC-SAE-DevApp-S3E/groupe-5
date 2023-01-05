@@ -27,6 +27,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     // HashMap qui comme clé prend une VueClasse et comme valeur un ArrayList de VueClasse
     HashMap<VueClasse, VueClasse> listeAssociationSuperClasse = new HashMap<>();
+
+    // liste des flèches
+    private ArrayList<VueFleche> listeFleches = new ArrayList<>();
+
+
     public VueDiagrammeClasse() {
         super();
         this.setContent(this.pane);
@@ -97,6 +102,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * dessiner une ligne entre les classes
      */
     public void drawSuperClasse() {
+        // on supprime les flèches
+        this.pane.getChildren().removeAll(this.listeFleches);
         // on clear la liste des associations
         this.listeAssociationSuperClasse.clear();
         for (int i = 0; i < this.listeVueClasse.size() -1; i++) {
@@ -119,6 +126,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+(int) this.listeAssociationSuperClasse.get(vueClasse).getWidth()/2;
             int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY()+(int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
             VueFleche fleche = new VueFleche(vueClasse.getCoordX(), vueClasse.getCoordY(), this.listeAssociationSuperClasse.get(vueClasse).getCoordX(), coordArriveeX, coordArriveeY);
+            this.listeFleches.add(fleche);
         }
     }
 
