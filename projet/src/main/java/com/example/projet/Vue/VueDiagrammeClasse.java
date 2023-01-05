@@ -57,7 +57,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     public void creerVisuelClasse(Classe classe, Sujet s) {
         VueClasse vueClasse = new VueClasse(classe);
-        vueClasse.setOnMouseClicked(new ControleurCliqueDroit(s, this.pane));
+        vueClasse.setOnMouseClicked(new ControleurCliqueDroit(s, this.pane, vueClasse));
 
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);

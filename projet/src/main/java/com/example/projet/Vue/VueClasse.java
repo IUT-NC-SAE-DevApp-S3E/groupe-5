@@ -109,4 +109,24 @@ public class VueClasse extends VBox implements Observateur {
     }
 
 
+    /**
+     * getter des vbox
+     */
+    public VBox getAttributs() {
+        return this.Attributs;
+    }
+
+    public VBox getMethodes() {
+        return this.Methodes;
+    }
+
+    /**
+     * méthode ajouterAttribut
+     * @param attribut
+     * ajoute un attribut a la classe
+     */
+    public void ajouterAttribut(TextField attribut) {
+        this.Attributs.getChildren().add(attribut);
+    }
+
 }
