@@ -22,18 +22,15 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     private Pane pane = new Pane();
     private int startX = 0;
     private int startY = 0;
-    private static HashMap<String, int[]> listeCoordonnees;
-    private static HashMap<String, String> listeAssociation;
-    private static HashMap<String, Line> listeFleche;
 
+    private ArrayList<VueClasse> listeVueClasse = new ArrayList<>();
 
+    // HashMap qui comme clé prend une VueClasse et comme valeur un ArrayList de VueClasse
+    HashMap<VueClasse, VueClasse> listeAssociationSuperClasse = new HashMap<>();
     public VueDiagrammeClasse() {
         super();
         this.setContent(this.pane);
         this.setPrefSize(1000, 700);
-        this.listeCoordonnees = new HashMap<>();
-        this.listeAssociation = new HashMap<>();
-        this.listeFleche = new HashMap<>();
     }
 
     @Override
@@ -43,6 +40,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
          * on ajoute le visuel des classe qui sont dans le modèle
          */
         if (!s.getClear()) {
+            this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
@@ -51,24 +49,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     if (fichiers.get(i) instanceof Classe) {
                         Classe c = (Classe) fichiers.get(i);
                         this.creerVisuelClasse(c, s);
-
-
-                        // ajoute les associations au attributs
-                        if(!listeCoordonnees.containsKey(c.getNom())) {
-                            String nom = c.getNom().split("\\.")[0];
-                            listeCoordonnees.put(nom, new int[]{this.startX, this.startY});
-                            String parent = c.getSuperClasse();
-                            System.out.println("parent : " + parent);
-                            if(parent != null) {
-                                System.out.println("classe : " + nom + ", parent : " + parent);
-                                listeAssociation.put(nom, parent);
-                            }
-                        }
-
-
                     }
                 }
             }
+            this.drawSuperClasse();
             /**
              * si il faut clear le contenue du digramme de classe
              */
@@ -83,26 +67,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.startX = 0;
             this.startY = 0;
         }
-
-        // créer les flèches entre les classes
-        for(String cle : listeAssociation.keySet()){
-            System.out.println(cle + " " + listeAssociation.get(cle));
-            if(listeCoordonnees.containsKey(listeAssociation.get(cle))){
-                int[] pos = listeCoordonnees.get(cle);
-                int[] posParent = listeCoordonnees.get(listeAssociation.get(cle));
-                Line l = new Line(pos[0]+125, pos[1]-210, posParent[0]+125, posParent[1]-210);
-                if(this.listeFleche.containsKey(cle)) {
-                    this.listeFleche.get(cle).setStartX(pos[0]+125);
-                    this.listeFleche.get(cle).setStartY(pos[1]-210);
-                    this.listeFleche.get(cle).setEndX(posParent[0]+125);
-                    this.listeFleche.get(cle).setEndY(posParent[1]-210);
-                }
-                this.listeFleche.put(cle, new Line(pos[0] + 125, pos[1] - 210, posParent[0] + 125, posParent[1] - 210));
-                this.pane.getChildren().add(l);
-            }
-        }
-
-
     }
 
     /**
@@ -114,6 +78,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void creerVisuelClasse(Classe classe, Sujet s) {
         VueClasse vueClasse = new VueClasse(classe, s);
         vueClasse.setOnMouseClicked(new ControleurCliqueDroitClasse(s, this.pane, vueClasse));
+        // on ajoute la VueClasse a la liste
+        this.listeVueClasse.add(vueClasse);
 
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);
@@ -125,7 +91,28 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
     }
 
-    public static void setListeCoordonnees(String nomClasse, int posX, int posY){
-        VueDiagrammeClasse.listeCoordonnees.put(nomClasse, new int[]{posX, posY});
+    /**
+     * méthode drawSuperClasse
+     * qui parcour la liste des classes et va trouver les super classe de chaque classe
+     * dessiner une ligne entre les classes
+     */
+    public void drawSuperClasse() {
+        // on clear la liste des associations
+        this.listeAssociationSuperClasse.clear();
+        for (int i = 0; i < this.listeVueClasse.size() -1; i++) {
+            boolean trouver = false;
+            String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
+            for (int j = i+1; j < this.listeVueClasse.size() && !trouver; j++) {
+                String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom().replace(".class", "");
+                if (nomClasseCourante.equals(nomSuperClasse)) {
+                    trouver = true;
+                    this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
+                    System.out.println("trouver : "+ this.listeVueClasse.get(i).getClasse().getNom() + " " + this.listeVueClasse.get(j).getClasse().getNom());
+                } else {
+                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
+                }
+            }
+        }
     }
+
 }

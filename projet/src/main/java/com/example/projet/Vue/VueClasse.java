@@ -73,9 +73,6 @@ public class VueClasse extends VBox implements Observateur {
 
         Drag.setOnMouseReleased(Mouseevent -> {
             try {
-                System.out.println("Classe bouge " + (this.classe.getNom()).split("\\.")[0]);
-                System.out.println("X: " + (Mouseevent.getSceneX() -250) + " Y: " + Mouseevent.getSceneY());
-                VueDiagrammeClasse.setListeCoordonnees((this.classe.getNom()).split("\\.")[0], (int) Mouseevent.getSceneX() - 250, (int) Mouseevent.getSceneY());
                 this.sujet.notifierObservateur();
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
