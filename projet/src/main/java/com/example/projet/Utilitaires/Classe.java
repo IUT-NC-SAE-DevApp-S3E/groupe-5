@@ -109,4 +109,8 @@ public class Classe extends Fichier {
     public ArrayList<CompositionClasse> getCompositionClasses() {
         return compositionClasses;
     }
+
+    public Classe getSuperClasse(){
+        return this.superClasse;
+    }
 }
