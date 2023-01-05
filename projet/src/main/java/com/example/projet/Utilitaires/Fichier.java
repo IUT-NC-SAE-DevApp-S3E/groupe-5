@@ -3,6 +3,7 @@ package com.example.projet.Utilitaires;
 public abstract class Fichier {
     private String nom, chemin;
 
+
     public Fichier(String chemin, String nom) {
         this.chemin = chemin;
         this.nom = nom;

@@ -38,6 +38,7 @@ public class Modele implements Sujet {
 
     @Override
     public void notifierObservateur() {
+        chercherParentsEtInterface();
         for (Observateur o : listeObservateurs) {
             o.actualiser(this);
         }
@@ -103,5 +104,33 @@ public class Modele implements Sujet {
 
     public void setStartY(int y) {
         this.startY = y;
+    }
+
+    public void chercherParentsEtInterface()
+    {
+        for(Classe c : this.listeFichiers)
+        {
+            if(c.getSuperClasse() != null)
+            {
+                for(Classe c2 : this.listeFichiers)
+                {
+                    if(c2.getNom().equals(c.getSuperClasse().getNom()))
+                    {
+                        c.setSuperClasse(c2);
+                    }
+                }
+            }
+            if(c.getInterfaces() != null)
+            {
+                for(Classe c2 : this.listeFichiers)
+                {
+                    for (int i = 0; i < c.getInterfaces().size(); i++) {
+                        if (c2.getNom().equals(c.getInterfaces().get(i).getNom())) {
+                            c.getInterfaces().set(i, c2);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class LectureFichier {
-    public LectureFichier() {
+    private LectureFichier() {
     }
 
     public static Class<?> lectureFichier(String chemin, String nomFichier) throws MalformedURLException {
@@ -25,18 +25,18 @@ public class LectureFichier {
         Class<?> c = null;
         file = file.getParentFile();
         while (nbDossier > 0 && !trouver) {
+            // On crée un classLoader afin de pouvoir charger la classe
             try (URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()})) {
                 c = classLoader.loadClass(nomF);
                 trouver = true;
             }
             catch (NoClassDefFoundError e)
             {
-                System.out.println("Message erreur : "+e.getMessage());
+                // Nous récupérons l'erreur "NoClassDefFoundError" et nous la traitons afin de connaitre le package de la classe
                 nomF = e.getMessage().split(" ")[0].replace("/", ".");
-                System.out.println("NomF : " + nomF);
+                // Nous décrémente "nbDossier" afin de remonter dans l'arborescence
                 nbDossier--;
                 file = file.getParentFile();
-                System.out.println("Chemin : " + file.getAbsolutePath());
             }
             catch(ClassNotFoundException | IOException e)
             {
