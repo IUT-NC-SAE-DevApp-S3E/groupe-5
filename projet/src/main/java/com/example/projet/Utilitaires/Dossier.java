@@ -52,6 +52,7 @@ public class Dossier extends Fichier {
      * @param debut
      * @return
      */
+
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         for (Fichier f : this.listeFichiers) {
@@ -59,6 +60,7 @@ public class Dossier extends Fichier {
         }
         return res;
     }
+
 
     // Getters and Setters
     public ArrayList<Fichier> getListeFichiers() {

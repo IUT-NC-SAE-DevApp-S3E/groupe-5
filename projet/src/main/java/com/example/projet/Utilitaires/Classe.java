@@ -6,6 +6,7 @@ import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,6 +48,25 @@ public class Classe extends Fichier {
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
+            if(c.getSuperclass() != null) {
+                this.superClasse = new Classe(c.getSuperclass().getName());
+            }
+
+            if(c.getInterfaces().length > 0) {
+                this.interfaces = new ArrayList<>();
+                for(Class<?> i : c.getInterfaces()) {
+                    this.interfaces.add(new Classe(i.getName()));
+                }
+            }
+
+            if(c.isInterface()) {
+                this.type = "interface";
+            } else if(Modifier.isAbstract(c.getModifiers())) {
+                this.type = "abstract";
+            } else {
+                this.type = "class";
+            }
+
             for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
                 String[] tabType = type.split("\\.");
@@ -65,7 +85,7 @@ public class Classe extends Fichier {
 
             // on récupère les méthodes de la classe
 
-            for (java.lang.reflect.Method m : c.getDeclaredMethods()) {
+            for (Method m : c.getDeclaredMethods()) {
                 // on récupère le type de retour de la méthode
                 String type = m.getReturnType().toString();
                 String[] tabType = type.split("\\.");
@@ -91,7 +111,22 @@ public class Classe extends Fichier {
     }
 
 
+    public void setSuperClasse(Classe superClasse) {
+        this.superClasse = superClasse;
+    }
+
+    public void setInterfaces(ArrayList<Classe> interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public ArrayList<Classe> getInterfaces() {
+        return this.interfaces;
+    }
+
+
+
     public String toString(String debut) {
+
         String res = debut + this.getNom() + "\n";
         return res;
     }
