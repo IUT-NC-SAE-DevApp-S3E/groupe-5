@@ -5,6 +5,8 @@ import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -44,19 +46,18 @@ public class Classe extends Fichier {
      */
     public void lectureFichier() throws MalformedURLException {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
-        System.out.println(c.getName());
         try {
-            for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+            for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
                 String[] tabType = type.split("\\.");
                 type = tabType[tabType.length - 1];
                 // on créer un Attribut
                 String access = "";
-                if (java.lang.reflect.Modifier.isPublic(f.getModifiers())) {
+                if (Modifier.isPublic(f.getModifiers())) {
                     access = "+";
-                } else if (java.lang.reflect.Modifier.isPrivate(f.getModifiers())) {
+                } else if (Modifier.isPrivate(f.getModifiers())) {
                     access = "-";
-                } else if (java.lang.reflect.Modifier.isProtected(f.getModifiers())) {
+                } else if (Modifier.isProtected(f.getModifiers())) {
                     access = "=";
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
@@ -71,11 +72,11 @@ public class Classe extends Fichier {
                 type = tabType[tabType.length - 1];
                 // on créer une méthode
                 String access = "";
-                if (java.lang.reflect.Modifier.isPublic(m.getModifiers())) {
+                if (Modifier.isPublic(m.getModifiers())) {
                     access = "+";
-                } else if (java.lang.reflect.Modifier.isPrivate(m.getModifiers())) {
+                } else if (Modifier.isPrivate(m.getModifiers())) {
                     access = "-";
-                } else if (java.lang.reflect.Modifier.isProtected(m.getModifiers())) {
+                } else if (Modifier.isProtected(m.getModifiers())) {
                     access = "=";
                 }
                 this.compositionClasses.add(new Methodes(access, m.getName(), type));

@@ -53,9 +53,9 @@ public class VueClasse extends VBox implements Observateur {
         });
 
 
-        Drag.setOnMouseDragged(Mouseevent -> {
-            this.setLayoutX(Mouseevent.getSceneX() - 250);
-            this.setLayoutY(Mouseevent.getSceneY());
+        Drag.setOnMouseDragged(mouseEvent -> {
+            this.setLayoutX(mouseEvent.getSceneX() - 250);
+            this.setLayoutY(mouseEvent.getSceneY());
         });
 
 
