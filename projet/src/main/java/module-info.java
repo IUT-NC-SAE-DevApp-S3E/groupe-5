@@ -5,4 +5,5 @@ module com.example.projet {
 
     opens com.example.projet to javafx.fxml;
     exports com.example.projet;
+    exports com.example.projet.Utilitaires;
 }
