@@ -84,7 +84,7 @@ public class VueClasse extends VBox implements Observateur {
         this.classe = classe;
 
 
-        this.title.setText(this.classe.getNom());
+        this.title.setText((this.classe.getNom()).split("\\.")[0]);
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
