@@ -113,6 +113,13 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 }
             }
         }
+
+        // Pour chaque association on dessine une ligne
+        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+(int) this.listeAssociationSuperClasse.get(vueClasse).getWidth()/2;
+            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY()+(int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
+            VueFleche fleche = new VueFleche(vueClasse.getCoordX(), vueClasse.getCoordY(), this.listeAssociationSuperClasse.get(vueClasse).getCoordX(), coordArriveeX, coordArriveeY);
+        }
     }
 
 }
