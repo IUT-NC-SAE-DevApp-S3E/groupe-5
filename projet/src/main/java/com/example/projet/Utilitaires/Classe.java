@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
     private String type;
-    private Classe superClasse;
-    private ArrayList<Classe> interfaces;
+    private String superClasse;
+    private ArrayList<String> interfaces;
 
     /**
      * Constructeur de la classe Classe
@@ -49,13 +49,13 @@ public class Classe extends Fichier {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
             if(c.getSuperclass() != null) {
-                this.superClasse = new Classe(c.getSuperclass().getName());
+                this.superClasse = c.getSuperclass().getName();
             }
 
             if(c.getInterfaces().length > 0) {
                 this.interfaces = new ArrayList<>();
                 for(Class<?> i : c.getInterfaces()) {
-                    this.interfaces.add(new Classe(i.getName()));
+                    this.interfaces.add(i.getName());
                 }
             }
 
@@ -111,15 +111,15 @@ public class Classe extends Fichier {
     }
 
 
-    public void setSuperClasse(Classe superClasse) {
-        this.superClasse = superClasse;
+    public void setSuperClasse(String sC) {
+        this.superClasse = sC;
     }
 
-    public void setInterfaces(ArrayList<Classe> interfaces) {
+    public void setInterfaces(ArrayList<String> interfaces) {
         this.interfaces = interfaces;
     }
 
-    public ArrayList<Classe> getInterfaces() {
+    public ArrayList<String> getInterfaces() {
         return this.interfaces;
     }
 
@@ -146,7 +146,7 @@ public class Classe extends Fichier {
         return compositionClasses;
     }
 
-    public Classe getSuperClasse(){
+    public String getSuperClasse(){
         return this.superClasse;
     }
 }

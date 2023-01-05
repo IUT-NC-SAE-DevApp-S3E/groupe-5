@@ -11,7 +11,7 @@ public class LectureFichier {
     private LectureFichier() {
     }
 
-    public static Class<?> lectureFichier(String chemin, String nomFichier) throws MalformedURLException {
+    public static Class<?> lectureFichier(String chemin, String nomFichier) {
         // on récupère le chemin et on remplace les \ par des /
         String chem = chemin.replace("\\", "/");
         // on récupère le nombre de nom de dossier
