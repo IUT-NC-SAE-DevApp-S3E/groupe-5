@@ -44,6 +44,7 @@ public class VueClasse extends VBox implements Observateur {
     public VueClasse(Classe classe, Sujet sujet) {
         super();
         this.sujet = sujet;
+        this.classe = classe;
 
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
@@ -59,6 +60,15 @@ public class VueClasse extends VBox implements Observateur {
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
         Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
+
+        switch (this.classe.getType().toLowerCase()) {
+            case "interface":
+                Drag.setStyle("-fx-background-color: rgba(39,98,7,0.66);-fx-background-radius: 10 10 0 0;");
+                break;
+            case "abstract":
+                Drag.setStyle("-fx-background-color: rgba(58,61,232,0.66);-fx-background-radius: 10 10 0 0;");
+                break;
+        }
         // stylisation --------------------------------
 
         Drag.setOnMousePressed(mouseEvent -> {
@@ -95,8 +105,6 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setAlignment(Pos.CENTER);
         this.title.setStyle("-fx-background-color: none;");
         // Stylisation --------------------------------
-
-        this.classe = classe;
 
 
         this.title.setText((this.classe.getNom()).split("\\.")[0]);

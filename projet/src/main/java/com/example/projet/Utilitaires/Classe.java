@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
-    private String type;
+    private String type = "";
     private String superClasse;
     private ArrayList<String> interfaces;
 
@@ -67,6 +67,7 @@ public class Classe extends Fichier {
             } else {
                 this.type = "class";
             }
+            System.out.println("type: " + this.type);
 
             for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
@@ -163,5 +164,13 @@ public class Classe extends Fichier {
      */
     public void ajouterCompositionClasse(CompositionClasse c) {
         this.compositionClasses.add(c);
+    }
+
+    /**
+     * méthode getTypes
+     * @return type String
+     */
+    public String getType() {
+        return this.type;
     }
 }
