@@ -15,6 +15,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
     private final Sujet sujet;
     private final Pane pane;
     private VBox menu;
+    private VBox menuDependance = new VBox();
 
     private final VueClasse actualVBox;
     private boolean clicked = false;
@@ -76,6 +77,14 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             this.actualVBox.ajouterMethode(newMethode);
                         });
                         break;
+                    case 2:
+                        bouton.setOnAction(event1 -> {
+                            VBox menuListeDépendance = this.actualVBox.afficherMenuDependance();
+                            this.pane.getChildren().add(menuListeDépendance);
+                            menuListeDépendance.setLayoutX(menu.getLayoutX()+menu.getWidth());
+                            this.menuDependance = menuListeDépendance;
+                        });
+                        break;
                     case 3:
                         bouton.setOnAction(event2 -> {
                             // on supprime la classe
@@ -83,6 +92,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             // on remove aussi la classe du modèle
                             this.sujet.supprimerFichier(this.actualVBox.getClasse());
                             this.pane.getChildren().remove(this.menu);
+                            this.pane.getChildren().remove(this.menuDependance);
                         });
                         break;
                 }
@@ -108,6 +118,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             // on met le boolean cliquer a false pour pouvoir refaire un clique droit
             this.clicked = false;
             this.pane.getChildren().remove(this.menu);
+            this.pane.getChildren().remove(this.menuDependance);
         }
     }
 

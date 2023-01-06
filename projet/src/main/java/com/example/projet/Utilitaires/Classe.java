@@ -81,7 +81,7 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(f.getModifiers())) {
                     access = "=";
                 }
-                this.compositionClasses.add(new Attributs(access, f.getName(), type, null, null));
+                this.compositionClasses.add(new Attributs(access, f.getName(), type, null));
             }
 
             // on récupère les méthodes de la classe
@@ -124,10 +124,16 @@ public class Classe extends Fichier {
         return this.interfaces;
     }
 
+    /**
+     * méthode ajouterInterface
+     * @param i
+     */
+    public void ajouterInterface(String i) {
+        this.interfaces.add(i);
+    }
 
 
     public String toString(String debut) {
-
         String res = debut + this.getNom() + "\n";
         return res;
     }
@@ -149,5 +155,13 @@ public class Classe extends Fichier {
 
     public String getSuperClasse(){
         return this.superClasse;
+    }
+
+    /**
+     * ajouterCompositionClasse
+     * @param c
+     */
+    public void ajouterCompositionClasse(CompositionClasse c) {
+        this.compositionClasses.add(c);
     }
 }

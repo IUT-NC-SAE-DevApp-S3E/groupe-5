@@ -44,6 +44,7 @@ public class Modele implements Sujet {
 
     /**
      * methode enregistrerObservateur qui permet d'enregistrer un observateur
+     *
      * @param o l'observateur
      */
     @Override
@@ -53,6 +54,7 @@ public class Modele implements Sujet {
 
     /**
      * methode supprimerObservateur qui permet de supprimer un observateur
+     *
      * @param o l'observateur
      */
     @Override
@@ -158,6 +160,7 @@ public class Modele implements Sujet {
 
     /**
      * méthode supprimerFichier qui permet de supprimer un fichier de la liste des fichiers
+     *
      * @param f le fichier a supprimer
      */
     public void supprimerFichier(Fichier f) {

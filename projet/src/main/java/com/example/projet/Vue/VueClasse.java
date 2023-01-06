@@ -213,4 +213,42 @@ public class VueClasse extends VBox implements Observateur {
     public boolean estAuDessus(VueClasse vc) {
         return false;
     }
+
+    /**
+     * méthode afficherMenuDependance
+     * qui affiche le menu contextuel pour ajouter une dépendance
+     */
+    public VBox afficherMenuDependance() {
+        VBox menu = new VBox();
+        menu.setPrefWidth(200);
+        for (Classe c : this.sujet.getListeFichiers()) {
+            if (!c.equals(this.classe)) {
+                Button bouton = new Button(c.getNom());
+                bouton.setStyle("-fx-background-color: #f3f3f3;");
+                bouton.setPrefWidth(200);
+                bouton.setPrefHeight(25);
+                // on met un hover aux boutons pour qu'ils soient plus visibles
+                bouton.setOnMouseEntered(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #ababab;");
+                });
+                bouton.setOnMouseExited(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #f3f3f3;");
+                });
+                menu.getChildren().add(bouton);
+
+                bouton.setOnAction(actionEvent -> {
+                    this.classe.ajouterCompositionClasse(new Attributs("private", c.getNom().toLowerCase(), c.getNom(), "none"));
+                    // on ajoute un TextField pour l'attribut
+                    TextField newAttribut = new TextField("- " + c.getNom().toLowerCase() + " " + c.getNom());
+                    newAttribut.setPrefHeight(5);
+                    newAttribut.setStyle("-fx-background-color: none;");
+                    newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                    this.Attributs.getChildren().add(newAttribut);
+                    // on remove le menu
+                    this.getChildren().remove(menu);
+                });
+            }
+        }
+        return menu;
+    }
 }

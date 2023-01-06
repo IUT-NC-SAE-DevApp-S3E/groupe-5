@@ -15,7 +15,7 @@ public class Attributs extends CompositionClasse {
     /**
      * type de l'attribut
      */
-    private Classe typeAttribut;
+    // private Classe typeAttribut;
 
     /**
      * Constructeur de la classe Attributs qui initialise les attributs
@@ -23,12 +23,10 @@ public class Attributs extends CompositionClasse {
      * @param nom le nom de l'attribut
      * @param type le type de l'attribut
      * @param definition la definition de l'attribut
-     * @param typeAttribut le type de l'attribut
      */
-    public Attributs(String acces, String nom, String type, String definition, Classe typeAttribut) {
+    public Attributs(String acces, String nom, String type, String definition) {
         super(acces, nom, type);
         this.definition = definition;
-        this.typeAttribut = typeAttribut;
     }
 
     /**
@@ -38,9 +36,11 @@ public class Attributs extends CompositionClasse {
         return definition;
     }
 
-    public Classe getTypeAttribut() {
+    /*
+    public String getTypeAttribut() {
         return typeAttribut;
     }
+     */
 
     /**
      * SETTER DES ATTRIBUTS
@@ -49,9 +49,11 @@ public class Attributs extends CompositionClasse {
         this.definition = definition;
     }
 
-    public void setTypeAttribut(Classe typeAttribut) {
+    /*
+    public void setTypeAttribut(String typeAttribut) {
         this.typeAttribut = typeAttribut;
     }
+     */
 
     /**
      * methode toString qui permet d'afficher l'attribut sous forme de chaine de caractere
