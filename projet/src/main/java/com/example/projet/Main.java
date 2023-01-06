@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         HBox hbox = new HBox();
         Modele modele = new Modele();
-        VueDiagrammeClasse vueDiagrammeClasse = new VueDiagrammeClasse();
+        VueDiagrammeClasse vueDiagrammeClasse = new VueDiagrammeClasse(modele);
         VueDossier vueDossier = new VueDossier(modele, TrouverCheminOS.getChemin());
 
         modele.enregistrerObservateur(vueDossier);

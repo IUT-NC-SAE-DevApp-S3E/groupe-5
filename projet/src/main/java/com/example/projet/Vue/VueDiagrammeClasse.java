@@ -9,8 +9,10 @@ import com.example.projet.Vue.Fleches.VueFleche;
 import com.example.projet.Vue.Fleches.DecorateurFinFleche;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,6 +25,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     private final int DECALAGEY = 25;
     private int startX = 25;
     private int startY = 25;
+    private Sujet sujet;
 
     private ArrayList<VueClasse> listeVueClasse = new ArrayList<>();
 
@@ -35,10 +38,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
 
 
-    public VueDiagrammeClasse() {
+    public VueDiagrammeClasse(Sujet sujet) {
         super();
         this.setContent(this.pane);
         this.setPrefSize(1000, 700);
+        this.sujet = sujet;
     }
 
     @Override
@@ -119,7 +123,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
-                    System.out.println("trouver : "+ this.listeVueClasse.get(i).getClasse().getNom() + " " + this.listeVueClasse.get(j).getClasse().getNom());
                 } else {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
@@ -130,15 +133,14 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
             int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX()+125;
             int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY()+(int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
             int coordDepartX = (int) vueClasse.getLayoutX() + 125;
             int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
-            System.out.println("coordDepartX : " + coordDepartX + " coordDepartY : " + coordDepartY);
             VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
             FinFlecheVide finFlecheVide = new FinFlecheVide(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
             this.pane.getChildren().addAll(fleche, finFlecheVide);
             this.listeFleches.put(fleche, finFlecheVide);
         }
     }
+
 
 }

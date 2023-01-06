@@ -168,4 +168,5 @@ public class Modele implements Sujet {
     public void supprimerFichier(Fichier f) {
         this.listeFichiers.remove(f);
     }
+
 }

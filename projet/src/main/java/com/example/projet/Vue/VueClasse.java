@@ -9,10 +9,13 @@ import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 import java.net.MalformedURLException;
 
@@ -20,6 +23,7 @@ public class VueClasse extends VBox implements Observateur {
     private int startX = 0;
     private int startY = 0;
     private Classe classe;
+    private StackPane drag;
     private TextField title = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
@@ -48,6 +52,7 @@ public class VueClasse extends VBox implements Observateur {
 
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
+        this.drag = Drag;
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
@@ -71,19 +76,20 @@ public class VueClasse extends VBox implements Observateur {
         }
         // stylisation --------------------------------
 
-        Drag.setOnMousePressed(mouseEvent -> {
-            this.startX = (int) mouseEvent.getSceneX();
-            this.startY = (int) mouseEvent.getSceneY();
+        // on rend drag draggable
+        Drag.setOnMousePressed((MouseEvent event) -> {
+            startX = (int) event.getSceneX();
+            startY = (int) event.getSceneY();
         });
 
-
-        Drag.setOnMouseDragged(mouseEvent -> {
-            if (mouseEvent.getButton().toString().equals("PRIMARY")) {
-                this.setLayoutX(mouseEvent.getSceneX()- 250);
-                this.setLayoutY(mouseEvent.getSceneY());
-                // on passe la vue actuel au dessus des autres
-                this.toFront();
-            }
+        // on déplace la classe
+        Drag.setOnMouseDragged((MouseEvent event) -> {
+            int offsetX = (int) event.getSceneX() - startX;
+            int offsetY = (int) event.getSceneY() - startY;
+            this.setTranslateX(this.getTranslateX() + offsetX);
+            this.setTranslateY(this.getTranslateY() + offsetY);
+            startX = (int) event.getSceneX();
+            startY = (int) event.getSceneY();
         });
 
         Drag.setOnMouseReleased(mouseEvent -> {
@@ -229,11 +235,13 @@ public class VueClasse extends VBox implements Observateur {
      * lorsque l'on clique sur le bouton pour ajouter un dépendance
      * ce menu apparait
      */
-    public VBox afficherMenuDependance() {
+    public ScrollPane afficherMenuDependance() {
+        ScrollPane menu = new ScrollPane();
         // on initialise le VBox
-        VBox menu = new VBox();
+        VBox contentScroll = new VBox();
+        menu.setContent(contentScroll);
         // stylisation
-        menu.setPrefWidth(200);
+        contentScroll.setPrefWidth(200);
         // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
         for (Classe c : this.sujet.getListeFichiers()) {
             // on ne met pas la classe correxpondante à la classe que l'on vient de cliquer
@@ -256,7 +264,7 @@ public class VueClasse extends VBox implements Observateur {
                 });
 
                 // on ajoute ajoute le bouton au menuContextuel
-                menu.getChildren().add(bouton);
+                contentScroll.getChildren().add(bouton);
 
                 // pour chaque bouton onajouter un evenement qui va ajouter la dépandance à la classe correspondante
                 bouton.setOnAction(actionEvent -> {
@@ -276,5 +284,14 @@ public class VueClasse extends VBox implements Observateur {
             }
         }
         return menu;
+    }
+
+    /**
+     * méthode getDrag
+     *
+     * @return drag
+     */
+    public StackPane getDrag() {
+        return this.drag;
     }
 }

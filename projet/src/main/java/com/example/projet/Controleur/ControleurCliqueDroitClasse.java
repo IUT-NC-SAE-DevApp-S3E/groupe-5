@@ -4,6 +4,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Vue.VueClasse;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -15,7 +16,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
     private final Sujet sujet;
     private final Pane pane;
     private VBox menu;
-    private VBox menuDependance = new VBox();
+    private ScrollPane menuDependance = new ScrollPane();
 
     private final VueClasse actualVBox;
     private boolean clicked = false;
@@ -79,7 +80,11 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                         break;
                     case 2:
                         bouton.setOnAction(event1 -> {
-                            VBox menuListeDépendance = this.actualVBox.afficherMenuDependance();
+                            ScrollPane menuListeDépendance = this.actualVBox.afficherMenuDependance();
+                            menuListeDépendance.setPrefWidth(200);
+                            menuListeDépendance.setPrefHeight(300);
+                            // on rend le menu non scrollable sur les y
+                            menuListeDépendance.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                             this.pane.getChildren().add(menuListeDépendance);
                             menuListeDépendance.setLayoutX(menu.getLayoutX()+menu.getWidth());
                             this.menuDependance = menuListeDépendance;
