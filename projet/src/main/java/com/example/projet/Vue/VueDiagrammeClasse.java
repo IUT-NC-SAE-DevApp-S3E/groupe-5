@@ -39,12 +39,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         super();
         this.setContent(this.pane);
         this.setPrefSize(1000, 700);
-        int coordX = 100;
-        int coordY = 100;
-        int coordX2 = 1000;
-        int coordY2 = 200;
-        //this.pane.getChildren().add(new VueFlechePointille(coordX, coordY, coordX2, coordY2));
-        //this.pane.getChildren().add(new DecorateurFinFleche(coordX, coordY, coordX2, coordY2));
     }
 
     @Override
@@ -87,8 +81,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     /**
      * méthode creerVisuelClasse qui va ajouter une classe au pane
      * et faire en sorte que les classes ne se superposent pas
-     *
      * @param classe
+     * @param s
      */
     public void creerVisuelClasse(Classe classe, Sujet s) {
         VueClasse vueClasse = new VueClasse(classe, s);
@@ -121,7 +115,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             boolean trouver = false;
             String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
             for (int j = i+1; j < this.listeVueClasse.size() && !trouver; j++) {
-                String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom().replace(".class", "");
+                String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom();
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));

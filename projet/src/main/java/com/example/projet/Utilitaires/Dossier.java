@@ -19,7 +19,7 @@ public class Dossier extends Fichier {
      * ce principe fonctionne à l'aide du patron de conception composite.
      * @throws IOException
      */
-    public void lectureDossier() throws IOException {
+    public void lectureDossier() {
         File file = new File(this.getChemin());
         // on récupère la liste des fichiers
         File[] files = file.listFiles();
@@ -29,7 +29,7 @@ public class Dossier extends Fichier {
             if (f.isFile()) {
                 if (f.getAbsolutePath().endsWith(".class") && !f.getName().contains("module-info")) {
                     // à chaque fois que l'on tombe sur un fichier en .class on crée un objet Classe
-                    Classe c = new Classe(f.getAbsolutePath(), f.getName());
+                    Classe c = new Classe(f.getAbsolutePath(), f.getName().replace(".class", ""));
                     System.out.println("----" + f.getAbsolutePath());
                     c.lectureFichier();
                     // Puis on l'ajoute à la liste de fichier.
