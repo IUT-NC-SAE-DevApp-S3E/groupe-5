@@ -31,7 +31,7 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
     /**
      * Méthode qui permet de gérer l'évènement du bouton OpenFile
-     * @param event
+     * @param actionEvent
      */
     public void handle(ActionEvent actionEvent) {
         Stage choixDeFichier = new Stage();

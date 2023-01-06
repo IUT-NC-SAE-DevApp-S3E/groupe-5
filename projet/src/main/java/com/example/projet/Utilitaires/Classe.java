@@ -22,18 +22,21 @@ public class Classe extends Fichier {
     /**
      * Constructeur de la classe Classe
      * ce constructeur prend deux paramètres
+     *
      * @param chemin du fichier de la classe
-     * @param nom du fichier de la classe
+     * @param nom    du fichier de la classe
      */
     public Classe(String chemin, String nom) {
         super(chemin, nom);
         this.compositionClasses = new ArrayList<>();
+        this.interfaces = new ArrayList<>();
     }
 
     /**
      * Constructeur de la classe Classe
      * ce constructeur prend un seul paramètre
      * ce constructeur permet de créer un classe à partir du bouton et nom d'un fichier réel
+     *
      * @param nom
      */
     public Classe(String nom) {
@@ -43,26 +46,26 @@ public class Classe extends Fichier {
 
     /**
      * méthode lectureFichier
+     *
      * @throws MalformedURLException
      */
     public void lectureFichier() {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
-            if(c.getSuperclass() != null) {
+            if (c.getSuperclass() != null) {
                 String[] tab = c.getSuperclass().getName().split("\\.");
                 this.superClasse = tab[tab.length - 1];
             }
 
-            if(c.getInterfaces().length > 0) {
-                this.interfaces = new ArrayList<>();
-                for(Class<?> i : c.getInterfaces()) {
-                    this.interfaces.add(i.getName());
-                }
+            for (Class<?> i : c.getInterfaces()) {
+                String[] nomInterface = i.getName().split("\\.");
+                this.interfaces.add(nomInterface[nomInterface.length - 1]);
             }
 
-            if(c.isInterface()) {
+
+            if (c.isInterface()) {
                 this.type = "interface";
-            } else if(Modifier.isAbstract(c.getModifiers())) {
+            } else if (Modifier.isAbstract(c.getModifiers())) {
                 this.type = "abstract";
             } else {
                 this.type = "class";
@@ -127,6 +130,7 @@ public class Classe extends Fichier {
 
     /**
      * méthode ajouterInterface
+     *
      * @param i
      */
     public void ajouterInterface(String i) {
@@ -154,12 +158,13 @@ public class Classe extends Fichier {
         return compositionClasses;
     }
 
-    public String getSuperClasse(){
+    public String getSuperClasse() {
         return this.superClasse;
     }
 
     /**
      * ajouterCompositionClasse
+     *
      * @param c
      */
     public void ajouterCompositionClasse(CompositionClasse c) {
@@ -168,6 +173,7 @@ public class Classe extends Fichier {
 
     /**
      * méthode getTypes
+     *
      * @return type String
      */
     public String getType() {
