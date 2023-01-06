@@ -1,11 +1,13 @@
 package com.example.projet.Vue.Fleches;
 
+import com.example.projet.Modele.Sujet;
+import com.example.projet.Vue.Observateur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-public class DecorateurFinFleche extends Polygon {
+public class DecorateurFinFleche extends Polygon implements Observateur {
     public DecorateurFinFleche(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
         super(0, 0, -10, 15, 10, 15);
 
@@ -22,6 +24,11 @@ public class DecorateurFinFleche extends Polygon {
         // Déplacer la tête de la flèche pour qu'elle soit située à l'extrémité du segment de droite
         this.setTranslateX(coordXArrivee + 5);
         this.setTranslateY(coordYArrivee - 5);
+
+    }
+
+    @Override
+    public void actualiser(Sujet s) {
 
     }
 }
