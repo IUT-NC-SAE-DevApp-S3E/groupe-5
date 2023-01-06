@@ -217,35 +217,52 @@ public class VueClasse extends VBox implements Observateur {
     /**
      * méthode afficherMenuDependance
      * qui affiche le menu contextuel pour ajouter une dépendance
+     * lorsque l'on clique sur le bouton pour ajouter un dépendance
+     * ce menu apparait
      */
     public VBox afficherMenuDependance() {
+        // on initialise le VBox
         VBox menu = new VBox();
+        // stylisation
         menu.setPrefWidth(200);
+        // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
         for (Classe c : this.sujet.getListeFichiers()) {
+            // on ne met pas la classe correxpondante à la classe que l'on vient de cliquer
             if (!c.equals(this.classe)) {
+                // on met comme titre le nom de la classe
                 Button bouton = new Button(c.getNom());
+
+                //Stylisation --------------------------------
                 bouton.setStyle("-fx-background-color: #f3f3f3;");
                 bouton.setPrefWidth(200);
                 bouton.setPrefHeight(25);
-                // on met un hover aux boutons pour qu'ils soient plus visibles
+                //Stylisation --------------------------------
+
+                // on met un hover aux boutons pour qu'ils soient plus visibles lorsqu'on passe la souris dessus
                 bouton.setOnMouseEntered(mouseEvent -> {
                     bouton.setStyle("-fx-background-color: #ababab;");
                 });
                 bouton.setOnMouseExited(mouseEvent -> {
                     bouton.setStyle("-fx-background-color: #f3f3f3;");
                 });
+
+                // on ajoute ajoute le bouton au menuContextuel
                 menu.getChildren().add(bouton);
 
+                // pour chaque bouton onajouter un evenement qui va ajouter la dépandance à la classe correspondante
                 bouton.setOnAction(actionEvent -> {
                     this.classe.ajouterCompositionClasse(new Attributs("private", c.getNom().toLowerCase(), c.getNom(), "none"));
-                    // on ajoute un TextField pour l'attribut
+                    // on créer un TextField pour l'attribut que l'on ajoute dans le diagramme de classe
                     TextField newAttribut = new TextField("- " + c.getNom().toLowerCase() + " " + c.getNom());
+
+                    //Stylisation --------------------------------
                     newAttribut.setPrefHeight(5);
                     newAttribut.setStyle("-fx-background-color: none;");
                     newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                    //Stylisation --------------------------------
+
+                    // on ajoute le TextField dans la vue
                     this.Attributs.getChildren().add(newAttribut);
-                    // on remove le menu
-                    this.getChildren().remove(menu);
                 });
             }
         }
