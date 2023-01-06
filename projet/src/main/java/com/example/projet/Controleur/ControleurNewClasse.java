@@ -6,6 +6,9 @@ import com.example.projet.Vue.Observateur;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+/**
+ * Classe qui permet de gerer le boutons ajouter une classe
+ */
 public class ControleurNewClasse implements EventHandler<ActionEvent> {
     private Sujet sujet;
 
