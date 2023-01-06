@@ -13,9 +13,14 @@ Interface Observateur
 
 class Modele
 {
+    - clear : boolean
+    - cheminArborescence : String
+    - startX : int
+    - startY : int
     + enregistrerObservateur(Observateur) : void
     + supprimerObservateur(Observateur) : void
     + notifierObservateurs() : void
+    + chercherParentsEtInterface() : void
 }
 
 Sujet <|.. Modele
@@ -42,11 +47,43 @@ class VueDiagrammeClasse
     + VueDiagrammeClasse() : void
     + actualiser(Sujet) : void
 }
+class DecorateurFleche
+{
+    + DecorateurFleche() : void
+    + actualiser(Sujet) : void
+}
+class VueFleche
+{
+    + VueFleche() : void
+}
+class VueFlechePointille
+{
+    + VueFlechePointille() : void
+}
+class DecorateurFinFleche
+{
+    + DecorateurFinFleche() : void
+    + actualiser(Sujet) : void
+}
+class FinFlecheRempli
+{
+    + FinFlecheRempli() : void
+}
+class FinFlecheVide
+{
+    + FinFlecheVide() : void
+}
 
 Observateur <|.. VueDossier
 Observateur <|.. VueClasse
 Observateur <|.. VueMenuContextuel
 Observateur <|.. VueDiagrammeClasse
+Observateur <|.. DecorateurFleche
+Observateur <|.. DecorateurFinFleche
+DecorateurFleche <|-- VueFleche
+DecorateurFleche <|-- VueFlechePointille
+DecorateurFinFleche <|-- FinFlecheRempli
+DecorateurFinFleche <|-- FinFlecheVide
 
 class ControleurNewClasse
 {
@@ -84,12 +121,26 @@ class ControleurBoutonOuvrirDossier
     + handle(ActionEvent) : void
 }
 
+class ControleurCliqueDroitElement
+{
+    + ControleurCliqueDroitElement(Sujet s)
+    + handle(ActionEvent) : void
+}
+
+class ControleurBoutonClear
+{
+    + ControleurBoutonClear(Sujet s)
+    + handle(ActionEvent) : void
+}
+
 Modele "0..1" <-- ControleurNewClasse : -modele
 Modele "0..1" <-- ControleurBoutonArborescence : -modele
 Modele "0..1" <-- ControleurCliqueDroit : -modele
 Modele "0..1" <-- ControleurBoutonsAffichage : -modele
 Modele "0..1" <-- ControleurBoutonOpenFile : -modele
 Modele "0..1" <-- ControleurBoutonOuvrirDossier : -modele
+Modele "0..1" <-- ControleurCliqueDroitElement : -modele
+Modele "0..1" <-- ControleurBoutonClear : -modele
 
 class Fichier
 {
@@ -128,8 +179,7 @@ abstract CompositionClasse
 class Attributs
 {
     - definition : String
-    - typeAttribut : String
-    + Attributs(String, String, String)
+    + Attributs(String, String, String, String)
     + getAcces() : String
     + getNom() : String
     + getType() : String

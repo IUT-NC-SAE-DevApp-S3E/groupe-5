@@ -45,7 +45,7 @@ public class Classe extends Fichier {
      * méthode lectureFichier
      * @throws MalformedURLException
      */
-    public void lectureFichier() throws MalformedURLException {
+    public void lectureFichier() {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
             if(c.getSuperclass() != null) {
