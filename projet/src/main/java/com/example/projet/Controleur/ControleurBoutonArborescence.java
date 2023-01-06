@@ -22,6 +22,9 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Classe qui permet de gerer les boutons de l'arborescence
+ */
 public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
