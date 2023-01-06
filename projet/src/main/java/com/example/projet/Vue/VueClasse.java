@@ -51,12 +51,15 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
+        // stylisation --------------------------------
         this.prefWidth(200);
         this.prefHeight(400);
+        // stylisation --------------------------------
 
-        // stylisation
+        // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
         Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
+        // stylisation --------------------------------
 
         Drag.setOnMousePressed(mouseEvent -> {
             this.startX = (int) mouseEvent.getSceneX();
@@ -81,21 +84,17 @@ public class VueClasse extends VBox implements Observateur {
             }
         });
 
-
+        // Stylisation --------------------------------
         // on met une bordur de 1 px au top et au bottom du VBox Attribut
         this.Attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
-
-
         this.Methodes.setStyle("-fx-min-height: 8px;");
-
-
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
-
         // on met la taille du titre a 20
         this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);
         this.title.setStyle("-fx-background-color: none;");
+        // Stylisation --------------------------------
 
         this.classe = classe;
 
