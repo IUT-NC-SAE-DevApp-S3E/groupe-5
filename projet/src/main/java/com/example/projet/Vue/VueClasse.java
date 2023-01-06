@@ -68,6 +68,8 @@ public class VueClasse extends VBox implements Observateur {
             if (mouseEvent.getButton().toString().equals("PRIMARY")) {
                 this.setLayoutX(mouseEvent.getSceneX()- 250);
                 this.setLayoutY(mouseEvent.getSceneY());
+                // on passe la vue actuel au dessus des autres
+                this.toFront();
             }
         });
 
