@@ -9,6 +9,9 @@ import com.example.projet.Utilitaires.Fichier;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+/**
+ * Classe Modele qui permet de gerer le modele
+ */
 public class Modele implements Sujet {
 
     /**
@@ -18,26 +21,48 @@ public class Modele implements Sujet {
      */
     private boolean clear = false;
 
+    /**
+     * liste des observateurs
+     */
     private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
+    /**
+     * liste des fichiers
+     */
     private ArrayList<Classe> listeFichiers = new ArrayList<>();
 
+    /**
+     * chemin de l'arborescence
+     */
     private String cheminArborescence = TrouverCheminOS.getChemin();
 
+    /**
+     * position en X et Y pour placer les classes sur l'inferface graphique
+     */
     private int startX = 0;
-
     private int startY = 0;
 
+    /**
+     * methode enregistrerObservateur qui permet d'enregistrer un observateur
+     * @param o l'observateur
+     */
     @Override
     public void enregistrerObservateur(Observateur o) {
         this.listeObservateurs.add(o);
     }
 
+    /**
+     * methode supprimerObservateur qui permet de supprimer un observateur
+     * @param o l'observateur
+     */
     @Override
     public void supprimerObservateur(Observateur o) {
         this.listeObservateurs.remove(o);
     }
 
+    /**
+     * methode notifierObservateur qui permet de notifier tous les observateurs
+     */
     @Override
     public void notifierObservateur() {
         chercherParentsEtInterface();
@@ -46,7 +71,9 @@ public class Modele implements Sujet {
         }
     }
 
-    // Getters and Setters
+    /**
+     * GETTER ET SETTER DE LISTEFICHIERS
+     */
     public ArrayList<Classe> getListeFichiers() {
         return this.listeFichiers;
     }

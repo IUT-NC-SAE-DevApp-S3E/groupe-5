@@ -1,7 +1,7 @@
 package com.example.projet.CompositionClasse;
 
 /**
- * Classe CompositionClasse qui permet de gerer les attributs, constructeurs et methodes d'une classe
+ * Classe abstraite CompositionClasse qui permet de gerer les attributs, constructeurs et methodes d'une classe
  */
 public abstract class CompositionClasse {
 
