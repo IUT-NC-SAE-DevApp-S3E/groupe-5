@@ -102,6 +102,7 @@ public class Modele implements Sujet {
 
     /**
      * @return the clear
+     * pour savoir si le diagramme doit etre efface
      */
     public boolean getClear() {
         return clear;
@@ -109,6 +110,7 @@ public class Modele implements Sujet {
 
     /**
      * @param clear
+     * pour définir si le diagramme doit etre efface
      */
     public void setClear(boolean clear) {
         this.clear = clear;

@@ -19,9 +19,10 @@ public class Attributs extends CompositionClasse {
 
     /**
      * Constructeur de la classe Attributs qui initialise les attributs
-     * @param acces l'acces de l'attribut
-     * @param nom le nom de l'attribut
-     * @param type le type de l'attribut
+     *
+     * @param acces      l'acces de l'attribut
+     * @param nom        le nom de l'attribut
+     * @param type       le type de l'attribut
      * @param definition la definition de l'attribut
      */
     public Attributs(String acces, String nom, String type, String definition) {
@@ -30,7 +31,7 @@ public class Attributs extends CompositionClasse {
     }
 
     /**
-     *  GETTER DES ATTRIBUTS
+     * GETTER DES ATTRIBUTS
      */
     public String getDefinition() {
         return definition;
@@ -57,6 +58,7 @@ public class Attributs extends CompositionClasse {
 
     /**
      * methode toString qui permet d'afficher l'attribut sous forme de chaine de caractere
+     *
      * @return la chaine de caractere
      */
     @Override
