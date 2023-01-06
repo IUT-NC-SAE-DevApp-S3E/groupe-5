@@ -107,7 +107,7 @@ public class Classe extends Fichier {
         }
 
 
-        afficher();
+        //afficher();
 
     }
 

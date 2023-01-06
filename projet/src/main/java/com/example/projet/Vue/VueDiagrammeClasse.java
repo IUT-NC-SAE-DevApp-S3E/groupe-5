@@ -3,6 +3,8 @@ package com.example.projet.Vue;
 import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
+import com.example.projet.Vue.Fleches.DecorateurFleche;
+import com.example.projet.Vue.Fleches.FinFlecheVide;
 import com.example.projet.Vue.Fleches.VueFleche;
 import com.example.projet.Vue.Fleches.DecorateurFinFleche;
 import javafx.scene.control.ScrollPane;
@@ -28,7 +30,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     HashMap<VueClasse, VueClasse> listeAssociationSuperClasse = new HashMap<>();
 
     // liste des flèches
-    private ArrayList<VueFleche> listeFleches = new ArrayList<>();
+    private HashMap<DecorateurFleche, DecorateurFinFleche> listeFleches = new HashMap<>();
+
+
 
 
     public VueDiagrammeClasse() {
@@ -50,7 +54,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
          * on ajoute le visuel des classe qui sont dans le modèle
          */
         if (!s.getClear()) {
-            this.listeVueClasse.clear();
+            //this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
@@ -109,7 +113,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     public void drawSuperClasse() {
         // on supprime les flèches
-        this.pane.getChildren().removeAll(this.listeFleches);
+        this.pane.getChildren().removeAll(this.listeFleches.keySet());
+        this.pane.getChildren().removeAll(this.listeFleches.values());
         // on clear la liste des associations
         this.listeAssociationSuperClasse.clear();
         for (int i = 0; i < this.listeVueClasse.size() -1; i++) {
@@ -136,9 +141,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
             System.out.println("coordDepartX : " + coordDepartX + " coordDepartY : " + coordDepartY);
             VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            DecorateurFinFleche decorateurFinFleche = new DecorateurFinFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            this.pane.getChildren().addAll(fleche, decorateurFinFleche);
-            this.listeFleches.add(fleche);
+            FinFlecheVide finFlecheVide = new FinFlecheVide(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
+            this.pane.getChildren().addAll(fleche, finFlecheVide);
+            this.listeFleches.put(fleche, finFlecheVide);
         }
     }
 

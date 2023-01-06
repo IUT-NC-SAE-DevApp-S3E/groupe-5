@@ -64,14 +64,14 @@ public class VueClasse extends VBox implements Observateur {
         });
 
 
-        Drag.setOnMouseDragged(Mouseevent -> {
-            if (Mouseevent.getButton().toString().equals("PRIMARY")) {
-                this.setLayoutX(Mouseevent.getSceneX() - 250);
-                this.setLayoutY(Mouseevent.getSceneY());
+        Drag.setOnMouseDragged(mouseEvent -> {
+            if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+                this.setLayoutX(mouseEvent.getSceneX()- 250);
+                this.setLayoutY(mouseEvent.getSceneY());
             }
         });
 
-        Drag.setOnMouseReleased(Mouseevent -> {
+        Drag.setOnMouseReleased(mouseEvent -> {
             try {
                 this.sujet.notifierObservateur();
             } catch (MalformedURLException e) {
