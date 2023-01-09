@@ -4,6 +4,7 @@ import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -46,6 +47,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     /**
      * constructeur de la classe VueDiagrammeClasse
+     *
      * @param sujet le modele
      */
     public VueDiagrammeClasse(Sujet sujet) {
@@ -57,6 +59,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     /**
      * methode actualiser qui permet d'actualiser l'interface graphique
+     *
      * @param s le sujet
      */
     @Override
@@ -66,10 +69,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
          * on ajoute le visuel des classe qui sont dans le modèle
          */
         if (!s.getClear()) {
-            // on affiche vide si les listes sont vides
-            if (this.listeAssociationSuperClasse.isEmpty() && this.listeAssociationInterfaces.isEmpty()) {
-                System.out.println("videvidevide");
-            }
+
             //this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
@@ -89,8 +89,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawSuperClasse();
             this.drawImplementations();
             this.placerVue();
-             * si il faut clear le contenue du digramme de classe
-             */
         } else {
             // on clear le visuel
             this.pane.getChildren().clear();
@@ -157,7 +155,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
             int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordX() + 125;
-            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
+            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHauteur();
             int coordDepartX = (int) vueClasse.getCoordX() + 125;
             int coordDepartY = (int) vueClasse.getCoordY();
             VueFleche vueFleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 2);
@@ -182,7 +180,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
                     System.out.println("association entre " + this.listeVueClasse.get(i).getClasse().getNom() + " et " + this.listeVueClasse.get(j).getClasse().getNom());
                     this.listeVueClasse.get(j).getClasse().getMoyValue().ajouterFilsSuper();
-                    System.out.println(this.listeVueClasse.get(j).getClasse().getNom()+" a "+this.listeVueClasse.get(j).getClasse().getMoyValue().getValue()+" fils");
+                    System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " a " + this.listeVueClasse.get(j).getClasse().getMoyValue().getValue() + " fils");
                 } else {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
@@ -214,10 +212,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
             int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordX() + 125;
-            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
+            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHauteur();
             int coordDepartX = (int) vueClasse.getCoordX() + 125;
             int coordDepartY = (int) vueClasse.getCoordY();
-            System.out.println("coord class "+vueClasse.getClasse().getNom()+" : "+coordDepartX + " coord class Y : "+ coordDepartY);
+            System.out.println("coord class " + vueClasse.getClasse().getNom() + " : " + coordDepartX + " coord class Y : " + coordDepartY);
             VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
             this.pane.getChildren().add(fleche);
             this.listeFleches.add(fleche);
@@ -248,10 +246,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
         for (VueClasse vueClasse : this.listeVueClasse) {
             double value = vueClasse.getClasse().getMoyValue().getValue();
-            System.out.println("value classe "+ vueClasse.getClasse().getNom()+" : "+value);
+            System.out.println("value classe " + vueClasse.getClasse().getNom() + " : " + value);
             // on arrondi value
             int valueArrondi = (int) Math.round(value);
-            System.out.println("value arrondi : "+valueArrondi);
+            System.out.println("value arrondi : " + valueArrondi);
             switch (valueArrondi) {
                 case 0:
                     this.hauteurLigne.get(0).add(vueClasse);
@@ -290,7 +288,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 this.startX += 275;
                 // on récupère la largeur de la Vue
                 double hauteur = this.hauteurLigne.get(i).get(j).getHauteur();
-                if ( hauteur > plusGrand) {
+                if (hauteur > plusGrand) {
                     plusGrand = (int) this.hauteurLigne.get(i).get(j).getHauteur();
                 }
             }

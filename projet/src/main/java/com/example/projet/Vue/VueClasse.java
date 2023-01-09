@@ -255,7 +255,8 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     public int getHauteur(){
-        return 60 + (this.Attributs.getChildren().size() *20) + (this.Methodes.getChildren().size() * 20)+10;
+        Bounds boundsInScene = this.getBoundsInParent();
+        return (int) boundsInScene.getHeight();
     }
 
     /**
