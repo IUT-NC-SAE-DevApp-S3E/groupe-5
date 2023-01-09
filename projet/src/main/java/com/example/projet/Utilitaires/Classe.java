@@ -105,6 +105,7 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(m.getModifiers())) {
                     access = "=";
                 }
+                // ajout de la définition de la méthode
                 if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
                     definition += "abstract ";
                 }

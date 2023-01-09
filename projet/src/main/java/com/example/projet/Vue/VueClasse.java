@@ -143,6 +143,7 @@ public class VueClasse extends VBox implements Observateur {
                  */
                 VueMethode newMethode = new VueMethode(this.Methodes, this.classe);
                 newMethode.setNom(c.toString());
+                // permet de ne pas afficher la methode si ce n'est pas une méthode écrite dans la classe
                 if(!c.toString().contains("$")) {
                     this.Methodes.getChildren().add(newMethode);
                 }
