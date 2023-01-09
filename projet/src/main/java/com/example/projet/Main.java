@@ -2,9 +2,6 @@ package com.example.projet;
 
 import com.example.projet.Modele.Modele;
 import com.example.projet.Utilitaires.TrouverCheminOS;
-import com.example.projet.Vue.Fleches.DecorateurFinFleche;
-import com.example.projet.Vue.Fleches.VueFleche;
-import com.example.projet.Vue.Fleches.VueFlechePointille;
 import com.example.projet.Vue.VueDiagrammeClasse;
 import com.example.projet.Vue.VueDossier;
 import javafx.application.Application;
