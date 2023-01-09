@@ -5,6 +5,7 @@ import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -96,7 +97,7 @@ public class Classe extends Fichier {
                 String[] tabType = type.split("\\.");
                 type = tabType[tabType.length - 1];
                 // on créer une méthode
-                String access = "";
+                String access = "", definition = "";
                 if (Modifier.isPublic(m.getModifiers())) {
                     access = "+";
                 } else if (Modifier.isPrivate(m.getModifiers())) {
@@ -104,7 +105,16 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(m.getModifiers())) {
                     access = "=";
                 }
-                this.compositionClasses.add(new Methodes(access, m.getName(), type));
+                if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
+                    definition += "abstract ";
+                }
+                if(Modifier.isStatic(m.getModifiers())){
+                    definition += "static ";
+                }
+                if(Modifier.isFinal(m.getModifiers())){
+                    definition += "final ";
+                }
+                this.compositionClasses.add(new Methodes(access, m.getName(), type, definition));
             }
         } catch (NoClassDefFoundError e) {
             System.out.println("Message erreur : " + e.getMessage());

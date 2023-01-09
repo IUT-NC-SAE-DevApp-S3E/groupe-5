@@ -17,6 +17,10 @@ public abstract class Fichier {
         return nom;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     public String getChemin() {
         return chemin;
     }
