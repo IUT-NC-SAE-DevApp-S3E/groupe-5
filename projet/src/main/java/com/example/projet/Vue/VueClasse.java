@@ -3,6 +3,7 @@ package com.example.projet.Vue;
 
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
+import com.example.projet.CompositionClasse.Constructeur;
 import com.example.projet.CompositionClasse.Methodes;
 import com.example.projet.Modele.Modele;
 import com.example.projet.Controleur.ControleurCliqueDroitElement;
@@ -158,7 +159,7 @@ public class VueClasse extends VBox implements Observateur {
                 VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
                 newAttribut.setNom(c.toString());
                 this.Attributs.getChildren().add(newAttribut);
-            } else if (c instanceof Methodes) {
+            } else if (c instanceof Methodes || c instanceof Constructeur) {
                 /*
                 TextField newMethode = new TextField(c.toString());
                 newMethode.setPrefHeight(5);

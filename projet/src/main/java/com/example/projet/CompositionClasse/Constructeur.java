@@ -22,4 +22,8 @@ public class Constructeur extends CompositionClasse {
         super(acces, nom, type);
     }
 
+    public String toString(){
+        return this.getAcces() + " " + this.getNom() + "()";
+    }
+
 }

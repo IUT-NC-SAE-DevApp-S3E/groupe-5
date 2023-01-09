@@ -2,10 +2,12 @@ package com.example.projet.Utilitaires;
 
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
+import com.example.projet.CompositionClasse.Constructeur;
 import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -89,8 +91,22 @@ public class Classe extends Fichier {
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, null));
             }
 
-            // on récupère les méthodes de la classe
+            // on recupere les constructeurs de la classe
+            for(Constructor constructor : c.getDeclaredConstructors()){
+                String access = "";
+                if (Modifier.isPublic(constructor.getModifiers())) {
+                    access = "+";
+                } else if (Modifier.isPrivate(constructor.getModifiers())) {
+                    access = "-";
+                } else if (Modifier.isProtected(constructor.getModifiers())) {
+                    access = "=";
+                }
+                String[] nomMethode = constructor.getName().split("\\.");
+                System.out.println(nomMethode[nomMethode.length-1]);
+                this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length-1], ""));
+            }
 
+            // on récupère les méthodes de la classe
             for (Method m : c.getDeclaredMethods()) {
                 // on récupère le type de retour de la méthode
                 String type = m.getReturnType().toString();
