@@ -7,14 +7,25 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * Classe VueMethode qui permet d'afficher une méthode
+ */
 public class VueMethode extends HBox {
 
+    /**
+     * attribut de la classe VueMethode
+     */
     private VBox contenueAttribut;
     private TextField nomAttribut = new TextField("");
     private Button supprimerAttribut = new Button("");
     public Classe classe;
 
-    public VueMethode(VBox contenueAttribut, Classe classe) {
+    /**
+     * constructeur de la classe VueMethode
+     * @param contenueMethode le contenu de la methode
+     * @param classe le classe qui contient la methode
+     */
+    public VueMethode(VBox contenueMethode, Classe classe) {
         this.classe = classe;
         // on met l'icon poubelle dans le text du bouton
         this.supprimerAttribut.setText("\uf1f8");
@@ -30,7 +41,7 @@ public class VueMethode extends HBox {
         this.nomAttribut.setPrefHeight(5);
         this.nomAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
 
-        this.contenueAttribut = contenueAttribut;
+        this.contenueAttribut = contenueMethode;
         this.getChildren().add(nomAttribut);
         this.getChildren().add(supprimerAttribut);
 
@@ -57,15 +68,15 @@ public class VueMethode extends HBox {
     }
 
     /**
-     * setNom
-     * @param nom
+     * methode setNom qui permet de modifier le nom de la methode
+     * @param nom le nom de la methode
      */
     public void setNom(String nom) {
         this.nomAttribut.setText(nom);
     }
 
     /**
-     * supprimerAttribut
+     * methode supprimerAttribut qui permet de supprimer la methode
      */
     public void supprimerAttribut() {
         this.contenueAttribut.getChildren().remove(this);

@@ -23,14 +23,28 @@ import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
 
+/**
+ * classe VueClasse qui permet l'affichage d'une classe
+ */
 public class VueClasse extends VBox implements Observateur {
+
+    /**
+     * startX et startY sa position en X et Y
+     * classe, la classe à afficher
+     */
     private int startX = 0;
     private int startY = 0;
     private Classe classe;
+    /**
+     * attribut de l'affichage graphique
+     */
     private StackPane drag;
     private TextField title = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
+    /**
+     * sujet de la classe
+     */
     private Sujet sujet;
     public boolean visible = true;
     public Button boutonVisible = new Button();

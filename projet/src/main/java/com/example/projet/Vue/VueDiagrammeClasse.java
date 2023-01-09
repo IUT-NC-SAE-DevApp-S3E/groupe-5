@@ -13,8 +13,10 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * classe VueDiagrammeClasse qui permet l'affichage des diagrammes de classe que nous générons avec l'application
+ */
 public class VueDiagrammeClasse extends ScrollPane implements Observateur {
-
 
     private Pane pane = new Pane();
 
@@ -37,8 +39,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     private boolean fait = false;
 
-
-
+    /**
+     * constructeur de la classe VueDiagrammeClasse
+     * @param sujet le modele
+     */
     public VueDiagrammeClasse(Sujet sujet) {
         super();
         this.setContent(this.pane);
@@ -46,9 +50,13 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         this.sujet = sujet;
     }
 
+    /**
+     * methode actualiser qui permet d'actualiser l'interface graphique
+     * @param s le sujet
+     */
     @Override
     public void actualiser(Sujet s) {
-        /**
+        /*
          * Si il ne faut pas clear le diagramme de classe
          * on ajoute le visuel des classe qui sont dans le modèle
          */
@@ -70,7 +78,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawSuperClasse();
             //this.makeImplementsList();
             //this.drawImplementations();
-            /**
+            /*
              * si il faut clear le contenue du digramme de classe
              */
         } else {
@@ -133,7 +141,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
     }
 
-
+    /**
+     * methode drawImplementations qui permet de dessiner les implémentations
+     */
     public void drawImplementations() {
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {

@@ -15,12 +15,23 @@ import javafx.scene.text.Font;
 
 import java.io.File;
 
+/**
+ * classe VueDossier qui permet d'afficher les dossiers sur le cote de la page
+ */
 public class VueDossier extends VBox implements Observateur {
 
+    /**
+     * sujet, le sujet
+     * listeDossierFichier la liste des dossiers et fichiers
+     */
     private Sujet sujet;
-
     private ScrollPane listeDossierFichier = new ScrollPane();
 
+    /**
+     * constructeur de la classe VueDossier
+     * @param s le sujet
+     * @param chemin le chemin de la liste de dossier
+     */
     public VueDossier(Sujet s, String chemin) {
         super();
         this.sujet = s;
@@ -162,12 +173,19 @@ public class VueDossier extends VBox implements Observateur {
         this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);
     }
 
+    /**
+     * methode actualiser qui permet d'actualiser la liste de dossier lorsqu'une modifications a ete faites
+     * @param s le sujet
+     */
     @Override
     public void actualiser(Sujet s) {
         afficherDossier(s.getCheminArborescence());
-
     }
 
+    /**
+     * methode afficherDossier qui permet d'afficher la liste de fichier et dossier
+     * @param chemin le chemin ou l'on cherche les dossiers
+     */
     public void afficherDossier(String chemin)
     {
         VBox vBox = new VBox();
@@ -217,6 +235,5 @@ public class VueDossier extends VBox implements Observateur {
             }
         }
     }
-
 
 }
