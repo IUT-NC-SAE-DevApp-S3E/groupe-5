@@ -93,11 +93,9 @@ public class VueClasse extends VBox implements Observateur {
 
         switch (this.classe.getType().toLowerCase()) {
             case "interface":
-                this.classe.setNom(this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(39,98,7,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
             case "abstract":
-                this.classe.setNom(this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(58,61,232,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
         }
@@ -145,8 +143,11 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setStyle("-fx-background-color: none;");
         // Stylisation --------------------------------
 
-
-        this.title.setText((this.classe.getNom()).split("\\.")[0]);
+        String nomClasse = (this.classe.getNom()).split("\\.")[0];
+        if(!this.classe.getType().equals("class")){
+            nomClasse = "<<" + this.classe.getType() + ">> " + nomClasse;
+        }
+        this.title.setText(nomClasse);
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
@@ -163,7 +164,9 @@ public class VueClasse extends VBox implements Observateur {
                  */
                 VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
                 newAttribut.setNom(c.toString());
-                this.Attributs.getChildren().add(newAttribut);
+                if(!c.toString().contains("$")) {
+                    this.Attributs.getChildren().add(newAttribut);
+                }
             } else if (c instanceof Methodes || c instanceof Constructeur) {
                 /*
                 TextField newMethode = new TextField(c.toString());

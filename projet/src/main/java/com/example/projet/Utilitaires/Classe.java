@@ -79,7 +79,7 @@ public class Classe extends Fichier {
                 String[] tabType = type.split("\\.");
                 type = tabType[tabType.length - 1];
                 // on créer un Attribut
-                String access = "";
+                String access = "", definition = "";
                 if (Modifier.isPublic(f.getModifiers())) {
                     access = "+";
                 } else if (Modifier.isPrivate(f.getModifiers())) {
@@ -87,7 +87,13 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(f.getModifiers())) {
                     access = "=";
                 }
-                this.compositionClasses.add(new Attributs(access, f.getName(), type, null));
+                if(Modifier.isFinal(f.getModifiers())){
+                    definition += "final ";
+                }
+                if(Modifier.isStatic(f.getModifiers())){
+                    definition += "static ";
+                }
+                this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
             }
 
             // on recupere les constructeurs de la classe
