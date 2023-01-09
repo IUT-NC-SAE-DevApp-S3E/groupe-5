@@ -22,6 +22,10 @@ public class Constructeur extends CompositionClasse {
         super(acces, nom, type);
     }
 
+    /**
+     * methode toString de la classe Constructeur qui permet d'afficher un constructeur
+     * @return le constructeur
+     */
     public String toString(){
         return this.getAcces() + " " + this.getNom() + "()";
     }

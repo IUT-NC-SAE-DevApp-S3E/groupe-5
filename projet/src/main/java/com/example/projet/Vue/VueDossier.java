@@ -15,12 +15,23 @@ import javafx.scene.text.Font;
 
 import java.io.File;
 
+/**
+ * classe VueDossier qui permet d'afficher les dossiers sur le cote de la page
+ */
 public class VueDossier extends VBox implements Observateur {
 
+    /**
+     * sujet, le sujet
+     * listeDossierFichier la liste des dossiers et fichiers
+     */
     private Sujet sujet;
-
     private ScrollPane listeDossierFichier = new ScrollPane();
 
+    /**
+     * constructeur de la classe VueDossier
+     * @param s le sujet
+     * @param chemin le chemin de la liste de dossier
+     */
     public VueDossier(Sujet s, String chemin) {
         super();
         this.sujet = s;
@@ -68,7 +79,7 @@ public class VueDossier extends VBox implements Observateur {
                     break;
             }
             // on met la taille du bouton à 35
-            // on met la police du bouton à font awesome
+            // on met la police du bouton à fontawesome
             // on met que la souris est sur le bouton la font devient gris sinon elle reste en #3333
             button.setOnMouseEntered(e -> button.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
             button.setOnMouseExited(e -> button.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
@@ -90,7 +101,7 @@ public class VueDossier extends VBox implements Observateur {
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
-        // on enleve les bordure du scrollpane
+        // on enlève les bordures du scrollpane
         listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
         // on cache la scrollbar
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -119,7 +130,7 @@ public class VueDossier extends VBox implements Observateur {
 
                 // on met le controlleur sur le bouton
                 VBox bottomFile = new VBox();
-                // on met un spacing de 5
+                // on met un spacing de 3
                 bottomFile.setSpacing(3);
 
                 vBox.getChildren().add(bottomFile);
@@ -162,12 +173,19 @@ public class VueDossier extends VBox implements Observateur {
         this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);
     }
 
+    /**
+     * methode actualiser qui permet d'actualiser la liste de dossier lorsqu'une modifications a ete faites
+     * @param s le sujet
+     */
     @Override
     public void actualiser(Sujet s) {
         afficherDossier(s.getCheminArborescence());
-
     }
 
+    /**
+     * methode afficherDossier qui permet d'afficher la liste de fichier et dossier
+     * @param chemin le chemin ou l'on cherche les dossiers
+     */
     public void afficherDossier(String chemin)
     {
         VBox vBox = new VBox();
@@ -175,7 +193,7 @@ public class VueDossier extends VBox implements Observateur {
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
-        // on enleve les bordure du scrollpane
+        // on enlève les bordures du scrollpane
         listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
         // on cache la scrollbar
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -217,6 +235,5 @@ public class VueDossier extends VBox implements Observateur {
             }
         }
     }
-
 
 }

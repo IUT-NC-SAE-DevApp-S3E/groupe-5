@@ -21,6 +21,7 @@ public class Classe extends Fichier {
     private String type = "";
     private String superClasse;
     private ArrayList<String> interfaces;
+    private MoyValue moyValue = new MoyValue();
 
     /**
      * Constructeur de la classe Classe
@@ -223,5 +224,12 @@ public class Classe extends Fichier {
                 break;
             }
         }
+    }
+
+    /**
+     * méthode getMoyValue
+     */
+    public MoyValue getMoyValue() {
+        return this.moyValue;
     }
 }
