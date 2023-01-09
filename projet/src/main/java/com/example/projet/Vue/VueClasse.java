@@ -9,6 +9,7 @@ import com.example.projet.Modele.Modele;
 import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -106,6 +107,8 @@ public class VueClasse extends VBox implements Observateur {
         Drag.setOnMousePressed((MouseEvent event) -> {
             startX = (int) event.getSceneX();
             startY = (int) event.getSceneY();
+            // on passe l'element en premier plan
+            this.toFront();
         });
 
         // on déplace la classe
@@ -120,8 +123,10 @@ public class VueClasse extends VBox implements Observateur {
 
         Drag.setOnMouseReleased(mouseEvent -> {
             try {
-                this.coordX = (int) this.getLayoutX();
-                this.coordY = (int) this.getLayoutY();
+                Bounds boundsInScene = this.getBoundsInParent();
+                this.coordX = (int) boundsInScene.getMinX();
+                this.coordY = (int) boundsInScene.getMinY();
+                System.out.println("x: " + this.coordX + " y: " + this.coordY);
                 this.sujet.notifierObservateur();
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
@@ -246,6 +251,8 @@ public class VueClasse extends VBox implements Observateur {
      * @return coordX int la coordonnée X de la classe
      */
     public int getCoordX() {
+        Bounds boundsInScene = this.getBoundsInParent();
+        this.coordX = (int) boundsInScene.getMinX();
         return this.coordX;
     }
 
@@ -255,6 +262,8 @@ public class VueClasse extends VBox implements Observateur {
      * @return coordY int la coordonnée Y de la classe
      */
     public int getCoordY() {
+        Bounds boundsInScene = this.getBoundsInParent();
+        this.coordY = (int) boundsInScene.getMinY();
         return this.coordY;
     }
 

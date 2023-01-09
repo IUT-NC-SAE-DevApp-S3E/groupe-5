@@ -65,9 +65,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
+            this.supprimerFleches();
             this.makeSuperClassListe();
-            this.afficherSuperClasse();
-            // this.drawImplementations();
+            this.drawSuperClasse();
+            //this.makeImplementsList();
+            //this.drawImplementations();
             /**
              * si il faut clear le contenue du digramme de classe
              */
@@ -81,6 +83,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             // on remet les coordonnées de départ à 0 et 0
             this.startX = DECALAGEX;
             this.startY = DECALAGEY;
+
+            this.listeAssociationSuperClasse.clear();
+            this.listeAssociationInterfaces.clear();
+            this.listeAssociationDependances.clear();
+            this.listeFleches.clear();
+            this.listeVueClasse.clear();
         }
 
     }
@@ -109,34 +117,42 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     }
 
     /**
-     * méthode drawSuperClasse
-     * qui parcour la liste des classes et va trouver les super classe de chaque classe
-     * dessiner une ligne entre les classes
+     * méthode qui va créer la liste des associations entre les classes
      */
-    public void drawSuperClasse() {
-        // on supprime les flèches
-        for (int i = 0; i < this.listeFleches.size(); i++) {
-            this.pane.getChildren().remove(this.listeFleches.get(i));
-        }
+    public void makeImplementsList() {
+        this.listeAssociationInterfaces.clear();
+        for (VueClasse vueClasseInterface : this.listeVueClasse) {
+            for (VueClasse classe : this.listeVueClasse) {
+                for (String nomInterface : classe.getClasse().getInterfaces()) {
+                    if (nomInterface.equals(vueClasseInterface.getClasse().getNom())) {
+                        this.listeAssociationInterfaces.put(classe, vueClasseInterface);
+                    }
+                }
 
-        this.listeFleches.clear();
-        // Pour chaque association on dessine une ligne
-        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX() + 125;
-            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            int coordDepartX = (int) vueClasse.getLayoutX() + 125;
-            int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
-            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
-            this.pane.getChildren().add(fleche);
-            this.listeFleches.add(fleche);
+            }
         }
-        this.fait = true;
     }
+
+
+    public void drawImplementations() {
+        // Pour chaque association on dessine une ligne
+        for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
+            int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordX() + 125;
+            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
+            int coordDepartX = (int) vueClasse.getCoordX() + 125;
+            int coordDepartY = (int) vueClasse.getCoordY();
+            VueFlechePointille fleche = new VueFlechePointille(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
+            FinFlecheVide finFlecheVide = new FinFlecheVide(coordArriveeX, coordDepartY,coordDepartX, coordArriveeY);
+            this.pane.getChildren().addAll(fleche, finFlecheVide);
+        }
+    }
+
 
     /**
      * méthode qui permet de faire la liste des associations entre les classes
      */
     public void makeSuperClassListe() {
+        this.listeAssociationSuperClasse.clear();
         for (int i = 0; i < this.listeVueClasse.size() - 1; i++) {
             boolean trouver = false;
             String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
@@ -158,8 +174,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * qui va afficher les super classe de chaque classe
      */
     public void afficherSuperClasse() {
+        // on affiche le nombre de cle
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            System.out.println(vueClasse.getClasse().getNom() + " --> " + this.listeAssociationSuperClasse.get(vueClasse).getClasse().getNom());
+            System.out.println(vueClasse.getClasse().getNom() + " -> " + this.listeAssociationSuperClasse.get(vueClasse).getClasse().getNom());
         }
         // si la liste est vide on ecrit aucun
         if (this.listeAssociationSuperClasse.isEmpty()) {
@@ -167,28 +184,37 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
     }
 
-    public void drawImplementations() {
-        this.listeAssociationInterfaces.clear();
-        for (VueClasse vueClasseInterface : this.listeVueClasse) {
-            for (VueClasse classe : this.listeVueClasse) {
-                for (String nomInterface : classe.getClasse().getInterfaces()) {
-                    if (nomInterface.equals(vueClasseInterface.getClasse().getNom())) {
-                        this.listeAssociationInterfaces.put(classe, vueClasseInterface);
-                    }
-                }
-
-            }
-        }
+    /**
+     * méthode drawSuperClasse
+     * qui parcour la liste des classes et va trouver les super classe de chaque classe
+     * dessiner une ligne entre les classes
+     */
+    public void drawSuperClasse() {
         // Pour chaque association on dessine une ligne
-        for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getLayoutX() + 125;
-            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getLayoutY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
-            int coordDepartX = (int) vueClasse.getLayoutX() + 125;
-            int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
-            VueFlechePointille fleche = new VueFlechePointille(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            FinFlecheVide finFlecheVide = new FinFlecheVide(coordArriveeX, coordDepartY,coordDepartX, coordArriveeY);
-            this.pane.getChildren().addAll(fleche, finFlecheVide);
+        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordX() + 125;
+            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
+            int coordDepartX = (int) vueClasse.getCoordX() + 125;
+            int coordDepartY = (int) vueClasse.getCoordY();
+            System.out.println("coord class "+vueClasse.getClasse().getNom()+" : "+coordDepartX + " coord class Y : "+ coordDepartY);
+            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
+            this.pane.getChildren().add(fleche);
+            this.listeFleches.add(fleche);
         }
+        this.fait = true;
+    }
+
+
+    /**
+     * méthode
+     * supprimer les fleches
+     * qui va supprimer les fleches
+     */
+    public void supprimerFleches() {
+        for (VueFleche fleche : this.listeFleches) {
+            this.pane.getChildren().remove(fleche);
+        }
+        this.listeFleches.clear();
     }
 
 }
