@@ -1,0 +1,6 @@
+Les cas d'utilisations sont les mêmes que les fonctionnalités, soit les actions possible par l'utilisateur.
+Afficher les constructeurs de la classe : Enzo
+Afficher / Masquer une classe : Simon
+Afficher la définitions des classes, méthodes et des attributs, cacher les méthodes et les attributs qui ne font pas parties de la classe : Enzo
+Relier les classes implémentées : Arthur / Simon
+Ajout de la possibilités de supprimer des méthodes / attributs : Simon
