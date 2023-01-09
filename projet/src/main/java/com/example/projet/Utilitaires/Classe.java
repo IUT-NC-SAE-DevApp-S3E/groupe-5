@@ -73,7 +73,6 @@ public class Classe extends Fichier {
             } else {
                 this.type = "class";
             }
-            System.out.println("type: " + this.type);
 
             for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
@@ -102,7 +101,6 @@ public class Classe extends Fichier {
                     access = "=";
                 }
                 String[] nomMethode = constructor.getName().split("\\.");
-                System.out.println(nomMethode[nomMethode.length-1]);
                 this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length-1], ""));
             }
 

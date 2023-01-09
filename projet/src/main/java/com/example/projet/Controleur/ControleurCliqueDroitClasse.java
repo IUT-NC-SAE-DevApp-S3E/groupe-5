@@ -118,7 +118,6 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             this.pane.getChildren().add(menu);
             menu.setPrefSize(200, 100);
             // on met le menu a la position du clique
-            System.out.println("coordonnées du clique : " + event.getScreenX() + " " + event.getScreenY());
             // on place le menu a la position du clique
             menu.setLayoutX(this.sujet.getStartX() - 10);
             menu.setLayoutY(this.sujet.getStartY() - 10);

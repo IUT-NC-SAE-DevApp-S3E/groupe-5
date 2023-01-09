@@ -65,11 +65,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
-            this.listeAssociationSuperClasse.clear();
             this.makeSuperClassListe();
-            if (!fait) {
-                this.drawSuperClasse();
-            }
+            this.afficherSuperClasse();
             // this.drawImplementations();
             /**
              * si il faut clear le contenue du digramme de classe
@@ -122,13 +119,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.pane.getChildren().remove(this.listeFleches.get(i));
         }
 
-        System.out.println("nmobre flecfe :"+this.listeFleches.size());
         this.listeFleches.clear();
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
             int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX() + 125;
             int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
             int coordDepartX = (int) vueClasse.getLayoutX() + 125;
             int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
             VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
@@ -138,6 +133,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         this.fait = true;
     }
 
+    /**
+     * méthode qui permet de faire la liste des associations entre les classes
+     */
     public void makeSuperClassListe() {
         for (int i = 0; i < this.listeVueClasse.size() - 1; i++) {
             boolean trouver = false;
@@ -147,11 +145,25 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
-                    System.out.println("trouver : " + this.listeVueClasse.get(i).getClasse().getNom() + " " + this.listeVueClasse.get(j).getClasse().getNom());
+                    System.out.println("association entre " + this.listeVueClasse.get(i).getClasse().getNom() + " et " + this.listeVueClasse.get(j).getClasse().getNom());
                 } else {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
+        }
+    }
+
+    /**
+     * méthode afficher superClasse
+     * qui va afficher les super classe de chaque classe
+     */
+    public void afficherSuperClasse() {
+        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+            System.out.println(vueClasse.getClasse().getNom() + " --> " + this.listeAssociationSuperClasse.get(vueClasse).getClasse().getNom());
+        }
+        // si la liste est vide on ecrit aucun
+        if (this.listeAssociationSuperClasse.isEmpty()) {
+            System.out.println("Aucun");
         }
     }
 
@@ -168,15 +180,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             }
         }
         // Pour chaque association on dessine une ligne
-        System.out.println("listeAssociationInterfaces : " + this.listeAssociationInterfaces.size());
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
             int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getLayoutX() + 125;
-            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getLayoutY() +
-                    (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
-            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
+            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getLayoutY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
             int coordDepartX = (int) vueClasse.getLayoutX() + 125;
             int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
-            System.out.println("coordDepartX : " + coordDepartX + " coordDepartY : " + coordDepartY);
             VueFlechePointille fleche = new VueFlechePointille(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
             FinFlecheVide finFlecheVide = new FinFlecheVide(coordArriveeX, coordDepartY,coordDepartX, coordArriveeY);
             this.pane.getChildren().addAll(fleche, finFlecheVide);

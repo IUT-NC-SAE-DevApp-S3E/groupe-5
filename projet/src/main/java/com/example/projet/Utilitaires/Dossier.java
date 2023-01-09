@@ -30,7 +30,6 @@ public class Dossier extends Fichier {
                 if (f.getAbsolutePath().endsWith(".class") && !f.getName().contains("module-info")) {
                     // à chaque fois que l'on tombe sur un fichier en .class on crée un objet Classe
                     Classe c = new Classe(f.getAbsolutePath(), f.getName().replace(".class", ""));
-                    System.out.println("----" + f.getAbsolutePath());
                     c.lectureFichier();
                     // Puis on l'ajoute à la liste de fichier.
                     this.listeFichiers.add(c);
