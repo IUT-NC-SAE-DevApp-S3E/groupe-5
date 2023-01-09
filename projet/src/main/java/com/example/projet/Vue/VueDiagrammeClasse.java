@@ -81,21 +81,14 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                         Classe c = fichiers.get(i);
                         this.creerVisuelClasse(c, s);
                     }
+                    this.placerVue();
                 }
-                this.makeImplementsList();
-                this.makeSuperClassListe();
             }
 
             this.supprimerFleches();
             this.makeSuperClassListe();
             this.makeImplementsList();
             this.makeDependanceList();
-            //this.makeImplementsList();
-            //this.drawImplementations();
-            /**
-             * si il faut clear le contenue du digramme de classe
-             */
-            this.placerVue();
              // s'il faut clear le contenu du digramme de classe
         } else {
             // on clear le visuel
@@ -174,6 +167,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 VueFleche vueFleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 2);
                 this.listeFleches.add(vueFleche);
                 this.pane.getChildren().add(vueFleche);
+                vueFleche.toBack();
             }
         }
         this.fait = true;
@@ -230,6 +224,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             int coord[] = getCoord(vueClasse, this.listeAssociationSuperClasse.get(vueClasse));
             VueFleche fleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 1);
             this.pane.getChildren().add(fleche);
+            fleche.toBack();
             this.listeFleches.add(fleche);
         }
         this.fait = true;
@@ -273,6 +268,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 VueFleche vueFleche = new VueFleche(coord[2], coord[3], coord[0], coord[1], 3);
                 this.listeFleches.add(vueFleche);
                 this.pane.getChildren().add(vueFleche);
+                vueFleche.toBack();
             }
         }
         this.fait = true;
