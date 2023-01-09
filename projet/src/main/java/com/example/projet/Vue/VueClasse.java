@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -118,6 +119,7 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
             if (c instanceof Attributs) {
+                /*
                 TextField newAttribut = new TextField(c.toString());
                 newAttribut.setPrefHeight(5);
                 newAttribut.setStyle("-fx-background-color: none;");
@@ -126,11 +128,20 @@ public class VueClasse extends VBox implements Observateur {
                 // on enlève le menu contextuel du TextField
                 newAttribut.setContextMenu(null);
                 this.Attributs.getChildren().add(newAttribut);
+                 */
+                VueAttribut newAttribut = new VueAttribut(this.Attributs);
+                newAttribut.setNom(c.toString());
+                this.Attributs.getChildren().add(newAttribut);
             } else if (c instanceof Methodes) {
+                /*
                 TextField newMethode = new TextField(c.toString());
                 newMethode.setPrefHeight(5);
                 newMethode.setStyle("-fx-background-color: none;");
                 newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
+                this.Methodes.getChildren().add(newMethode);
+                 */
+                VueMethode newMethode = new VueMethode(this.Methodes);
+                newMethode.setNom(c.toString());
                 this.Methodes.getChildren().add(newMethode);
             }
         }
@@ -170,7 +181,7 @@ public class VueClasse extends VBox implements Observateur {
      *
      * @param attribut ajoute un attribut a la classe
      */
-    public void ajouterAttribut(TextField attribut) {
+    public void ajouterAttribut(HBox attribut) {
         this.Attributs.getChildren().add(attribut);
     }
 
@@ -179,7 +190,7 @@ public class VueClasse extends VBox implements Observateur {
      *
      * @param methode ajoute une methode a la classe
      */
-    public void ajouterMethode(TextField methode) {
+    public void ajouterMethode(HBox methode) {
         this.Methodes.getChildren().add(methode);
     }
 

@@ -1,7 +1,9 @@
 package com.example.projet.Controleur;
 
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Vue.VueAttribut;
 import com.example.projet.Vue.VueClasse;
+import com.example.projet.Vue.VueMethode;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -58,6 +60,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                 switch (i) {
                     case 0:
                         bouton.setOnAction(event1 -> {
+                            /*
                             // si on appuie sur le bouton ajouter un attribut dans le vbox des attributs
                             TextField newAttribut = new TextField(" new ");
                             newAttribut.setPrefHeight(5);
@@ -65,16 +68,25 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
                             // on ajoute aussi l'attribut dans la classe pour quelle soit dans le modèle
                             this.actualVBox.ajouterAttribut(newAttribut);
+                             */
+                            VueAttribut newAttribut = new VueAttribut(this.actualVBox.getAttributs());
+                            newAttribut.setNom("+ new");
+                            this.actualVBox.ajouterAttribut(newAttribut);
                         });
                         break;
                     case 1:
                         bouton.setOnAction(event1 -> {
+                            /*
                             // si on appuie sur le bouton ajouter une methode dans le vbox des methodes
                             TextField newMethode = new TextField(" new ");
                             newMethode.setPrefHeight(5);
                             newMethode.setStyle("-fx-background-color: none;");
                             newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
                             // on ajoute aussi la methode dans la classe pour quelle soit dans le modèle
+                            this.actualVBox.ajouterMethode(newMethode);
+                             */
+                            VueMethode newMethode = new VueMethode(this.actualVBox.getMethodes());
+                            newMethode.setNom("+ new");
                             this.actualVBox.ajouterMethode(newMethode);
                         });
                         break;
