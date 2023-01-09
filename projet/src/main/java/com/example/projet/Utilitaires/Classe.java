@@ -179,4 +179,18 @@ public class Classe extends Fichier {
     public String getType() {
         return this.type;
     }
+
+    /**
+     * méthode suppressionCompositionClasse
+     * cette méthode permet de supprimer une composition de classe à partir du nom de la composition
+     * @param nom String
+     */
+    public void suppressionCompositionClasse(String nom) {
+        for (CompositionClasse c : this.compositionClasses) {
+            if (c.getNom().equals(nom)) {
+                this.compositionClasses.remove(c);
+                break;
+            }
+        }
+    }
 }

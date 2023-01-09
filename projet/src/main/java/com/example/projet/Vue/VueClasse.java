@@ -129,7 +129,7 @@ public class VueClasse extends VBox implements Observateur {
                 newAttribut.setContextMenu(null);
                 this.Attributs.getChildren().add(newAttribut);
                  */
-                VueAttribut newAttribut = new VueAttribut(this.Attributs);
+                VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
                 newAttribut.setNom(c.toString());
                 this.Attributs.getChildren().add(newAttribut);
             } else if (c instanceof Methodes) {
@@ -140,7 +140,7 @@ public class VueClasse extends VBox implements Observateur {
                 newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
                 this.Methodes.getChildren().add(newMethode);
                  */
-                VueMethode newMethode = new VueMethode(this.Methodes);
+                VueMethode newMethode = new VueMethode(this.Methodes, this.classe);
                 newMethode.setNom(c.toString());
                 this.Methodes.getChildren().add(newMethode);
             }
@@ -305,4 +305,6 @@ public class VueClasse extends VBox implements Observateur {
     public StackPane getDrag() {
         return this.drag;
     }
+
+
 }

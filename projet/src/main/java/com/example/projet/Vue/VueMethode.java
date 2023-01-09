@@ -1,5 +1,6 @@
 package com.example.projet.Vue;
 
+import com.example.projet.Utilitaires.Classe;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -11,8 +12,10 @@ public class VueMethode extends HBox {
     private VBox contenueAttribut;
     private TextField nomAttribut = new TextField("");
     private Button supprimerAttribut = new Button("");
+    public Classe classe;
 
-    public VueMethode(VBox contenueAttribut) {
+    public VueMethode(VBox contenueAttribut, Classe classe) {
+        this.classe = classe;
         // on met l'icon poubelle dans le text du bouton
         this.supprimerAttribut.setText("\uf1f8");
         // on met un style pour le bouton
@@ -66,7 +69,10 @@ public class VueMethode extends HBox {
      */
     public void supprimerAttribut() {
         this.contenueAttribut.getChildren().remove(this);
+        this.classe.suppressionCompositionClasse(this.nomAttribut.getText());
     }
+
+
 
 
 }

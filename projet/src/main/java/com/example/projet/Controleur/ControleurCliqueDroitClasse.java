@@ -69,7 +69,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             // on ajoute aussi l'attribut dans la classe pour quelle soit dans le modèle
                             this.actualVBox.ajouterAttribut(newAttribut);
                              */
-                            VueAttribut newAttribut = new VueAttribut(this.actualVBox.getAttributs());
+                            VueAttribut newAttribut = new VueAttribut(this.actualVBox.getAttributs(),this.actualVBox.getClasse());
                             newAttribut.setNom("+ new");
                             this.actualVBox.ajouterAttribut(newAttribut);
                         });
@@ -85,7 +85,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             // on ajoute aussi la methode dans la classe pour quelle soit dans le modèle
                             this.actualVBox.ajouterMethode(newMethode);
                              */
-                            VueMethode newMethode = new VueMethode(this.actualVBox.getMethodes());
+                            VueMethode newMethode = new VueMethode(this.actualVBox.getMethodes(), this.actualVBox.getClasse());
                             newMethode.setNom("+ new");
                             this.actualVBox.ajouterMethode(newMethode);
                         });
