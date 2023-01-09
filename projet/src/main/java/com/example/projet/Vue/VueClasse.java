@@ -138,8 +138,11 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setStyle("-fx-background-color: none;");
         // Stylisation --------------------------------
 
-
-        this.title.setText((this.classe.getNom()).split("\\.")[0]);
+        String nomClasse = (this.classe.getNom()).split("\\.")[0];
+        if(!this.classe.getType().equals("class")){
+            nomClasse = "<<" + this.classe.getType() + ">> " + nomClasse;
+        }
+        this.title.setText(nomClasse);
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
