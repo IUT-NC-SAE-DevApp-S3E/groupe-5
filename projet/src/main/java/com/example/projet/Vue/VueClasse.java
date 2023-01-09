@@ -92,11 +92,9 @@ public class VueClasse extends VBox implements Observateur {
 
         switch (this.classe.getType().toLowerCase()) {
             case "interface":
-                this.classe.setNom(this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(39,98,7,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
             case "abstract":
-                this.classe.setNom(this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(58,61,232,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
         }
@@ -158,7 +156,9 @@ public class VueClasse extends VBox implements Observateur {
                  */
                 VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
                 newAttribut.setNom(c.toString());
-                this.Attributs.getChildren().add(newAttribut);
+                if(!c.toString().contains("$")) {
+                    this.Attributs.getChildren().add(newAttribut);
+                }
             } else if (c instanceof Methodes || c instanceof Constructeur) {
                 /*
                 TextField newMethode = new TextField(c.toString());
