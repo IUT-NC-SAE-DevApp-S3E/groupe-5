@@ -33,8 +33,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
 
     // liste des flèches
-    private HashMap<DecorateurFleche, DecorateurFinFleche> listeFleches = new HashMap<>();
+    private ArrayList<VueFleche> listeFleches = new ArrayList<>();
 
+    private boolean fait = false;
 
 
 
@@ -64,8 +65,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
-            this.drawSuperClasse();
-            this.drawImplementations();
+            this.listeAssociationSuperClasse.clear();
+            this.makeSuperClassListe();
+            if (!fait) {
+                this.drawSuperClasse();
+            }
+            // this.drawImplementations();
             /**
              * si il faut clear le contenue du digramme de classe
              */
@@ -113,10 +118,27 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     public void drawSuperClasse() {
         // on supprime les flèches
-        this.pane.getChildren().removeAll(this.listeFleches.keySet());
-        this.pane.getChildren().removeAll(this.listeFleches.values());
+        for (int i = 0; i < this.listeFleches.size(); i++) {
+            this.pane.getChildren().remove(this.listeFleches.get(i));
+        }
+
+        System.out.println("nmobre flecfe :"+this.listeFleches.size());
         this.listeFleches.clear();
-        this.listeAssociationSuperClasse.clear();
+        // Pour chaque association on dessine une ligne
+        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX() + 125;
+            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
+            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
+            int coordDepartX = (int) vueClasse.getLayoutX() + 125;
+            int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
+            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
+            this.pane.getChildren().add(fleche);
+            this.listeFleches.add(fleche);
+        }
+        this.fait = true;
+    }
+
+    public void makeSuperClassListe() {
         for (int i = 0; i < this.listeVueClasse.size() - 1; i++) {
             boolean trouver = false;
             String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
@@ -130,18 +152,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
-        }
-        // Pour chaque association on dessine une ligne
-        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutX() + 125;
-            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getLayoutY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            System.out.println("coordArriveeX : " + coordArriveeX + " coordArriveeY : " + coordArriveeY);
-            int coordDepartX = (int) vueClasse.getLayoutX() + 125;
-            int coordDepartY = (int) vueClasse.getLayoutY() + (int) vueClasse.getHeight();
-            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            FinFlecheVide finFlecheVide = new FinFlecheVide(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            this.pane.getChildren().addAll(fleche, finFlecheVide);
-            this.listeFleches.put(fleche, finFlecheVide);
         }
     }
 
@@ -170,7 +180,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             VueFlechePointille fleche = new VueFlechePointille(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
             FinFlecheVide finFlecheVide = new FinFlecheVide(coordArriveeX, coordDepartY,coordDepartX, coordArriveeY);
             this.pane.getChildren().addAll(fleche, finFlecheVide);
-            this.listeFleches.put(fleche, finFlecheVide);
         }
     }
 

@@ -119,6 +119,8 @@ public class VueClasse extends VBox implements Observateur {
 
         Drag.setOnMouseReleased(mouseEvent -> {
             try {
+                this.coordX = (int) this.getLayoutX();
+                this.coordY = (int) this.getLayoutY();
                 this.sujet.notifierObservateur();
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
