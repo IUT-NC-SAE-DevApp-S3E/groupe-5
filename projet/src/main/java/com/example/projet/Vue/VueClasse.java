@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
 
@@ -29,6 +30,8 @@ public class VueClasse extends VBox implements Observateur {
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
     private Sujet sujet;
+    public boolean visible = true;
+    public Button boutonVisible = new Button();
 
     private int coordX = 0;
     private int coordY = 0;
@@ -54,6 +57,25 @@ public class VueClasse extends VBox implements Observateur {
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
         this.drag = Drag;
+
+        // on créer le bouton qui permet d'afficher est de cacher la classe
+        // on créer un bouton avec l'icon oeil
+        Button button = new Button("\uf06e");
+        button.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 10));
+        button.setStyle("-fx-background-color: none");
+        button.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
+        this.boutonVisible = button;
+        // on setOnAction l'appel de la méthode affichage
+        this.boutonVisible.setOnAction(actionEvent -> {
+            this.visible = !this.visible;
+            this.affichage();
+        });
+
+        Drag.getChildren().add(button);
+        // on met le button en haut à droite
+        Drag.setAlignment(Pos.TOP_RIGHT);
+
+
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
@@ -304,6 +326,22 @@ public class VueClasse extends VBox implements Observateur {
      */
     public StackPane getDrag() {
         return this.drag;
+    }
+
+    /**
+     * méthode affichage
+     */
+    public void affichage() {
+        if (this.visible) {
+            this.Attributs.setVisible(true);
+            this.Methodes.setVisible(true);
+            // on met l'icon de l'oeil
+            this.boutonVisible.setText("\uf06e");
+        } else {
+            this.Attributs.setVisible(false);
+            this.Methodes.setVisible(false);
+            this.boutonVisible.setText("\uf070");
+        }
     }
 
 
