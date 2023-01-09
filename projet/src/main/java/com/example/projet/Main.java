@@ -33,5 +33,6 @@ public class Main extends Application {
         stage.setTitle("Diagramme de classe");
         stage.setScene(scene);
         stage.show();
+
     }
 }

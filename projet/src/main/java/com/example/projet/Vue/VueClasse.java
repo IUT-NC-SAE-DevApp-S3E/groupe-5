@@ -9,6 +9,8 @@ import com.example.projet.Modele.Modele;
 import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -83,8 +85,6 @@ public class VueClasse extends VBox implements Observateur {
         // on ajoute les éléments a la vue
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
         // stylisation --------------------------------
-        this.prefWidth(200);
-        this.prefHeight(400);
         // stylisation --------------------------------
 
         // stylisation --------------------------------
@@ -114,17 +114,17 @@ public class VueClasse extends VBox implements Observateur {
             int offsetX = (int) event.getSceneX() - startX;
             int offsetY = (int) event.getSceneY() - startY;
             this.setTranslateX(this.getTranslateX() + offsetX);
-            this.setTranslateY(this.getTranslateY() + offsetY);
             startX = (int) event.getSceneX();
+            this.setTranslateY(this.getTranslateY() + offsetY);
             startY = (int) event.getSceneY();
         });
 
         Drag.setOnMouseReleased(mouseEvent -> {
             try {
+                System.out.println("taille : "+this.getHeight() + " "+ this.getWidth());
                 Bounds boundsInScene = this.getBoundsInParent();
                 this.coordX = (int) boundsInScene.getMinX();
                 this.coordY = (int) boundsInScene.getMinY();
-                System.out.println("x: " + this.coordX + " y: " + this.coordY);
                 this.sujet.notifierObservateur();
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
@@ -182,10 +182,6 @@ public class VueClasse extends VBox implements Observateur {
                 }
             }
         }
-
-
-        this.setTaille();
-
     }
 
     @Override
@@ -240,12 +236,12 @@ public class VueClasse extends VBox implements Observateur {
         return this.classe;
     }
 
-    /**
-     * méthode setTaille
-     */
-    public void setTaille() {
-        this.width = (int) this.getWidth();
-        this.height = (int) this.getHeight();
+    public int getLargeur(){
+        return 200;
+    }
+
+    public int getHauteur(){
+        return 60 + (this.Attributs.getChildren().size() *20) + (this.Methodes.getChildren().size() * 20)+10;
     }
 
     /**
@@ -352,13 +348,11 @@ public class VueClasse extends VBox implements Observateur {
      */
     public void affichage() {
         if (this.visible) {
-            this.Attributs.setVisible(true);
-            this.Methodes.setVisible(true);
+            this.getChildren().addAll(this.Attributs, this.Methodes);
             // on met l'icon de l'oeil
             this.boutonVisible.setText("\uf06e");
         } else {
-            this.Attributs.setVisible(false);
-            this.Methodes.setVisible(false);
+            this.getChildren().removeAll(this.Attributs, this.Methodes);
             this.boutonVisible.setText("\uf070");
         }
     }

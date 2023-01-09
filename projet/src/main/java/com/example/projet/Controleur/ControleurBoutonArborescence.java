@@ -160,6 +160,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                                 }
                                             }
                                         }
+                                        System.out.println("Fichiers ajouter au modele");
                                         this.sujet.notifierObservateur();
                                     } catch (Exception e) {
                                         // TODO on ne fait rien car le fichier est mauvais, dommage
