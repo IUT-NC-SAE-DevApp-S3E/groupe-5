@@ -91,9 +91,11 @@ public class VueClasse extends VBox implements Observateur {
 
         switch (this.classe.getType().toLowerCase()) {
             case "interface":
+                this.classe.setNom("<<Interface>> " + this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(39,98,7,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
             case "abstract":
+                this.classe.setNom("<<Abstract>> " + this.classe.getNom());
                 Drag.setStyle("-fx-background-color: rgba(58,61,232,0.66);-fx-background-radius: 10 10 0 0;");
                 break;
         }
@@ -160,11 +162,13 @@ public class VueClasse extends VBox implements Observateur {
                 newMethode.setPrefHeight(5);
                 newMethode.setStyle("-fx-background-color: none;");
                 newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                this.Methodes.getChildren().add(newMethode);
                  */
                 VueMethode newMethode = new VueMethode(this.Methodes, this.classe);
                 newMethode.setNom(c.toString());
-                this.Methodes.getChildren().add(newMethode);
+                // permet de ne pas afficher la methode si ce n'est pas une méthode écrite dans la classe
+                if(!c.toString().contains("$")) {
+                    this.Methodes.getChildren().add(newMethode);
+                }
             }
         }
 
@@ -299,7 +303,7 @@ public class VueClasse extends VBox implements Observateur {
                 // on ajoute ajoute le bouton au menuContextuel
                 contentScroll.getChildren().add(bouton);
 
-                // pour chaque bouton onajouter un evenement qui va ajouter la dépandance à la classe correspondante
+                // pour chaque bouton on ajoute un evenement qui va ajouter la dépendance à la classe correspondante
                 bouton.setOnAction(actionEvent -> {
                     this.classe.ajouterCompositionClasse(new Attributs("private", c.getNom().toLowerCase(), c.getNom(), "none"));
                     // on créer un TextField pour l'attribut que l'on ajoute dans le diagramme de classe
