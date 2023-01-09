@@ -59,7 +59,7 @@ public class VueClasse extends VBox implements Observateur {
     /**
      * Constructeur de la classe VueClasse
      * une vueClasse représente une classe dans le diagramme de classe
-     * une VueClasse est un VBox qui contiert:
+     * une VueClasse est un VBox qui contient :
      * - un StackPane qui permet de déplacer (drag) la classe
      * - un TextField qui représente le nom de la classe
      * - un VBox qui représente les attributs de la classe
@@ -76,8 +76,8 @@ public class VueClasse extends VBox implements Observateur {
         StackPane Drag = new StackPane();
         this.drag = Drag;
 
-        // on créer le bouton qui permet d'afficher est de cacher la classe
-        // on créer un bouton avec l'icon oeil
+        // on crée le bouton qui permet d'afficher est de cacher la classe,
+        // on crée un bouton avec l'icône oeil
         Button button = new Button("\uf06e");
         button.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 10));
         button.setStyle("-fx-background-color: none");
@@ -98,8 +98,6 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
         this.getChildren().addAll(Drag, title, Attributs, Methodes);
-        // stylisation --------------------------------
-        // stylisation --------------------------------
 
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
@@ -133,6 +131,7 @@ public class VueClasse extends VBox implements Observateur {
             startY = (int) event.getSceneY();
         });
 
+        // lorsque le bouton de la souris est laché
         Drag.setOnMouseReleased(mouseEvent -> {
             try {
                 System.out.println("taille : "+this.getHeight() + " "+ this.getWidth());
@@ -146,12 +145,12 @@ public class VueClasse extends VBox implements Observateur {
         });
 
         // Stylisation --------------------------------
-        // on met une bordur de 1 px au top et au bottom du VBox Attribut
+        // on met une bordure de 1 px au top et au bottom du VBox Attribut
         this.Attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
         this.Methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
-        // on met la taille du titre a 20
+        // on met la taille du titre à 20
         this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);
         this.title.setStyle("-fx-background-color: none;");
@@ -166,28 +165,12 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
             if (c instanceof Attributs) {
-                /*
-                TextField newAttribut = new TextField(c.toString());
-                newAttribut.setPrefHeight(5);
-                newAttribut.setStyle("-fx-background-color: none;");
-                newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                newAttribut.setOnMouseClicked(new ControleurCliqueDroitElement(this.classe, c, newAttribut));
-                // on enlève le menu contextuel du TextField
-                newAttribut.setContextMenu(null);
-                this.Attributs.getChildren().add(newAttribut);
-                 */
                 VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
                 newAttribut.setNom(c.toString());
                 if(!c.toString().contains("$")) {
                     this.Attributs.getChildren().add(newAttribut);
                 }
             } else if (c instanceof Methodes || c instanceof Constructeur) {
-                /*
-                TextField newMethode = new TextField(c.toString());
-                newMethode.setPrefHeight(5);
-                newMethode.setStyle("-fx-background-color: none;");
-                newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                 */
                 VueMethode newMethode = new VueMethode(this.Methodes, this.classe);
                 newMethode.setNom(c.toString());
                 // permet de ne pas afficher la methode si ce n'est pas une méthode écrite dans la classe
@@ -199,13 +182,10 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     @Override
-    public void actualiser(Sujet s) {
-
-    }
+    public void actualiser(Sujet s) {}
 
     /**
-     * getVisuel
-     *
+     * getter de visuel, getVisuel
      * @return this
      */
     public VueClasse getVisuel() {
@@ -306,7 +286,7 @@ public class VueClasse extends VBox implements Observateur {
         contentScroll.setPrefWidth(200);
         // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
         for (Classe c : this.sujet.getListeFichiers()) {
-            // on ne met pas la classe correxpondante à la classe que l'on vient de cliquer
+            // on ne met pas la classe correspondent à la classe que l'on vient de cliquer
             if (!c.equals(this.classe)) {
                 // on met comme titre le nom de la classe
                 Button bouton = new Button(c.getNom());
@@ -325,10 +305,10 @@ public class VueClasse extends VBox implements Observateur {
                     bouton.setStyle("-fx-background-color: #f3f3f3;");
                 });
 
-                // on ajoute ajoute le bouton au menuContextuel
+                // on ajoute le bouton au menuContextuel
                 contentScroll.getChildren().add(bouton);
 
-                // pour chaque bouton on ajoute un evenement qui va ajouter la dépendance à la classe correspondante
+                // pour chaque bouton, on ajoute un vehement qui va ajouter la dépendance à la classe correspondante
                 bouton.setOnAction(actionEvent -> {
                     this.classe.ajouterCompositionClasse(new Attributs("private", c.getNom().toLowerCase(), c.getNom(), "none"));
                     // on créer un TextField pour l'attribut que l'on ajoute dans le diagramme de classe

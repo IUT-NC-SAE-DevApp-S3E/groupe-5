@@ -62,8 +62,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     @Override
     public void actualiser(Sujet s) {
         /*
-         * Si il ne faut pas clear le diagramme de classe
-         * on ajoute le visuel des classe qui sont dans le modèle
+         * S'il ne faut pas clear le diagramme de classe,
+         * on ajoute le visuel de la classe qui sont dans le modèle
          */
         if (!s.getClear()) {
             // on affiche vide si les listes sont vides
@@ -89,13 +89,13 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawSuperClasse();
             this.drawImplementations();
             this.placerVue();
-             // si il faut clear le contenue du digramme de classe
+             // s'il faut clear le contenu du digramme de classe
         } else {
             // on clear le visuel
             this.pane.getChildren().clear();
-            // on clear le contenue de la liste du modèle
+            // on clear le contenu de la liste du modèle
             s.clearFichier();
-            // on dit que le contenue n'est plus à clear
+            // on dit que le contenu n'est plus à clear
             s.setClear(false);
             // on remet les coordonnées de départ à 0 et 0
             this.startX = DECALAGEX;
@@ -120,7 +120,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void creerVisuelClasse(Classe classe, Sujet s) {
         VueClasse vueClasse = new VueClasse(classe, s);
         vueClasse.setOnMouseClicked(new ControleurCliqueDroitClasse(s, this.pane, vueClasse));
-        // on ajoute la VueClasse a la liste
+        // on ajoute la VueClasse à la liste
         this.listeVueClasse.add(vueClasse);
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);
@@ -153,7 +153,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * methode drawImplementations qui permet de dessiner les implémentations
      */
     public void drawImplementations() {
-        // Pour chaque association on dessine une ligne
+        // Pour chaque association, on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
             int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordX() + 125;
             int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
@@ -198,7 +198,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
             System.out.println(vueClasse.getClasse().getNom() + " -> " + this.listeAssociationSuperClasse.get(vueClasse).getClasse().getNom());
         }
-        // si la liste est vide on ecrit aucun
+        // si la liste est vide, on écrit "aucun"
         if (this.listeAssociationSuperClasse.isEmpty()) {
             System.out.println("Aucun");
         }
@@ -210,7 +210,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * dessiner une ligne entre les classes
      */
     public void drawSuperClasse() {
-        // Pour chaque association on dessine une ligne
+        // Pour chaque association, on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
             int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordX() + 125;
             int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();

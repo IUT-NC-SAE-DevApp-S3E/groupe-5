@@ -49,7 +49,7 @@ public class VueMethode extends HBox {
             this.contenueAttribut.getChildren().remove(this);
         });
 
-        // on affiche le bouton supprimer quand on passe la souris au dessus
+        // on affiche le bouton supprimer quand on passe la souris au-dessus
         this.setOnMouseEntered(mouseEvent -> {
             supprimerAttribut.setVisible(true);
         });

@@ -79,7 +79,7 @@ public class VueDossier extends VBox implements Observateur {
                     break;
             }
             // on met la taille du bouton à 35
-            // on met la police du bouton à font awesome
+            // on met la police du bouton à fontawesome
             // on met que la souris est sur le bouton la font devient gris sinon elle reste en #3333
             button.setOnMouseEntered(e -> button.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
             button.setOnMouseExited(e -> button.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
@@ -101,7 +101,7 @@ public class VueDossier extends VBox implements Observateur {
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
-        // on enleve les bordure du scrollpane
+        // on enlève les bordures du scrollpane
         listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
         // on cache la scrollbar
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -130,7 +130,7 @@ public class VueDossier extends VBox implements Observateur {
 
                 // on met le controlleur sur le bouton
                 VBox bottomFile = new VBox();
-                // on met un spacing de 5
+                // on met un spacing de 3
                 bottomFile.setSpacing(3);
 
                 vBox.getChildren().add(bottomFile);
@@ -193,7 +193,7 @@ public class VueDossier extends VBox implements Observateur {
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
         listeDossierFichier.setPrefSize(250, 510);
-        // on enleve les bordure du scrollpane
+        // on enlève les bordures du scrollpane
         listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
         // on cache la scrollbar
         listeDossierFichier.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
