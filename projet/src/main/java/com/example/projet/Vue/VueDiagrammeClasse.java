@@ -1,15 +1,15 @@
 package com.example.projet.Vue;
 
+import com.example.projet.CompositionClasse.Attributs;
+import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,8 +28,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     // HashMap qui comme clé prend une VueClasse et comme valeur un ArrayList de VueClasse
     HashMap<VueClasse, VueClasse> listeAssociationSuperClasse = new HashMap<>();
-    HashMap<VueClasse, VueClasse> listeAssociationInterfaces = new HashMap<>();
-    HashMap<VueClasse, VueClasse> listeAssociationDependances = new HashMap<>();
+    HashMap<VueClasse, ArrayList<VueClasse>> listeAssociationInterfaces = new HashMap<>();
+    HashMap<VueClasse, ArrayList<VueClasse>> listeAssociationDependances = new HashMap<>();
 
 
     // liste des flèches
@@ -67,7 +67,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             }
             this.supprimerFleches();
             this.makeSuperClassListe();
-            this.drawSuperClasse();
+            this.makeImplementsList();
+            this.makeDependanceList();
             //this.makeImplementsList();
             //this.drawImplementations();
             /**
@@ -125,26 +126,32 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             for (VueClasse classe : this.listeVueClasse) {
                 for (String nomInterface : classe.getClasse().getInterfaces()) {
                     if (nomInterface.equals(vueClasseInterface.getClasse().getNom())) {
-                        this.listeAssociationInterfaces.put(classe, vueClasseInterface);
+                        ArrayList<VueClasse> temp = this.listeAssociationInterfaces.get(classe);
+                        if (temp == null) {
+                            temp = new ArrayList<>();
+                        }
+                        temp.add(vueClasseInterface);
+                        this.listeAssociationInterfaces.put(classe, temp);
                     }
                 }
-
             }
         }
+        drawImplementations();
     }
 
 
     public void drawImplementations() {
         // Pour chaque association on dessine une ligne
+        System.out.println("fleches : " + this.listeFleches.size());
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordX() + 125;
-            int coordArriveeY = (int) this.listeAssociationInterfaces.get(vueClasse).getCoordY() + (int) this.listeAssociationInterfaces.get(vueClasse).getHeight();
-            int coordDepartX = (int) vueClasse.getCoordX() + 125;
-            int coordDepartY = (int) vueClasse.getCoordY();
-            VueFlechePointille fleche = new VueFlechePointille(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY);
-            FinFlecheVide finFlecheVide = new FinFlecheVide(coordArriveeX, coordDepartY,coordDepartX, coordArriveeY);
-            this.pane.getChildren().addAll(fleche, finFlecheVide);
+            for (VueClasse vueClasseInterface : this.listeAssociationInterfaces.get(vueClasse)) {
+                int[] coord = this.getCoord(vueClasse, vueClasseInterface);
+                VueFleche vueFleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 2);
+                this.listeFleches.add(vueFleche);
+                this.pane.getChildren().add(vueFleche);
+            }
         }
+        this.fait = true;
     }
 
 
@@ -161,12 +168,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
-                    System.out.println("association entre " + this.listeVueClasse.get(i).getClasse().getNom() + " et " + this.listeVueClasse.get(j).getClasse().getNom());
-                } else {
-                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
         }
+        drawSuperClasse();
     }
 
     /**
@@ -192,22 +197,75 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void drawSuperClasse() {
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            int coordArriveeX = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordX() + 125;
-            int coordArriveeY = (int) this.listeAssociationSuperClasse.get(vueClasse).getCoordY() + (int) this.listeAssociationSuperClasse.get(vueClasse).getHeight();
-            int coordDepartX = (int) vueClasse.getCoordX() + 125;
-            int coordDepartY = (int) vueClasse.getCoordY();
-            System.out.println("coord class "+vueClasse.getClasse().getNom()+" : "+coordDepartX + " coord class Y : "+ coordDepartY);
-            VueFleche fleche = new VueFleche(coordDepartX, coordDepartY, coordArriveeX, coordArriveeY, 1);
+            int coord[] = getCoord(vueClasse, this.listeAssociationSuperClasse.get(vueClasse));
+            VueFleche fleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 1);
             this.pane.getChildren().add(fleche);
             this.listeFleches.add(fleche);
         }
         this.fait = true;
     }
 
+    public void makeDependanceList() {
+        this.listeAssociationDependances.clear();
+        for (VueClasse vueClasseDependance : this.listeVueClasse) {
+            for (VueClasse classe : this.listeVueClasse) {
+                for (CompositionClasse nomDependance : classe.getClasse().getCompositionClasses())
+                {
+                    if(nomDependance instanceof Attributs) {
+                        String type = nomDependance.getType();
+                        if (type.equals(vueClasseDependance.getClasse().getNom())) {
+                            ArrayList<VueClasse> temp = this.listeAssociationDependances.get(classe);
+                            if (temp == null) {
+                                temp = new ArrayList<>();
+                            }
+                            temp.add(vueClasseDependance);
+                            this.listeAssociationDependances.put(classe, temp);
+                        }
+                    }
+                }
+            }
+        }
+        for (VueClasse liste : this.listeAssociationDependances.keySet()) {
+            System.out.println(liste.getClasse().getNom() + " -> ");
+            for (VueClasse vueClasse : this.listeAssociationDependances.get(liste)) {
+                System.out.println(vueClasse.getClasse().getNom());
+            }
+        }
+        drawDependance();
+    }
+
+    public void drawDependance()
+    {
+        System.out.println("taille association dependance : " + this.listeAssociationDependances.size());
+        for (VueClasse vueClasse : this.listeAssociationDependances.keySet()) {
+            for (VueClasse vueClasseDependance : this.listeAssociationDependances.get(vueClasse)) {
+                int[] coord = this.getCoord(vueClasse, vueClasseDependance);
+                VueFleche vueFleche = new VueFleche(coord[2], coord[3], coord[0], coord[1], 3);
+                this.listeFleches.add(vueFleche);
+                this.pane.getChildren().add(vueFleche);
+            }
+        }
+        this.fait = true;
+    }
 
     /**
-     * méthode
-     * supprimer les fleches
+     * Méthode permettant de récupérer les coordonnées d'une classe.
+     * @param vueClasseDepart
+     * @param vueClasseArrive
+     * @return
+     */
+    public int[] getCoord(VueClasse vueClasseDepart, VueClasse vueClasseArrive) {
+        int[] coord = new int[4];
+        coord[0] = vueClasseDepart.getCoordX() + 125;
+        coord[1] = vueClasseDepart.getCoordY();
+        coord[2] = vueClasseArrive.getCoordX() + 125;
+        coord[3] = vueClasseArrive.getCoordY() + (int) vueClasseArrive.getHeight();
+        return coord;
+    }
+
+
+    /**
+     * méthode supprimer les fleches
      * qui va supprimer les fleches
      */
     public void supprimerFleches() {

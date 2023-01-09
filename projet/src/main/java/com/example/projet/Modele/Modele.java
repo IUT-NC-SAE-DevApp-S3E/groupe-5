@@ -5,9 +5,11 @@ import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Utilitaires.TrouverCheminOS;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
+import com.example.projet.Vue.VueClasse;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Classe Modele qui permet de gerer le modele
