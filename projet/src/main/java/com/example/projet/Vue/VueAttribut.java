@@ -7,13 +7,28 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * Classe VueAttribut qui permet d'afficher les attributs d'une classe
+ */
 public class VueAttribut extends HBox {
 
+    /**
+     * attribut de la classe VueAttribut
+     * contenueAttribut une VBox
+     * nomAttribut qui représente le nom de l'attribut
+     * supprimerAttribut qui est un bouton permettant de supprimer un attribut
+     * et classe, la classe qui contient l'attribut
+     */
     private VBox contenueAttribut;
     private TextField nomAttribut = new TextField("");
     private Button supprimerAttribut = new Button("");
     public Classe classe;
 
+    /**
+     * constructeur de la classe VueAttribut
+     * @param contenueAttribut la VBox qui contient l'attribut
+     * @param classe la classe qui contient l'attribut
+     */
     public VueAttribut(VBox contenueAttribut, Classe classe) {
         this.classe = classe;
         // on met l'icon poubelle dans le text du bouton
@@ -57,15 +72,15 @@ public class VueAttribut extends HBox {
     }
 
     /**
-     * setNom
-     * @param nom
+     * methode setNom, qui permet de modifier le nom
+     * @param nom le nom de l'attribut
      */
     public void setNom(String nom) {
         this.nomAttribut.setText(nom);
     }
 
     /**
-     * supprimerAttribut
+     * methode supprimerAttribut qui permet de supprimer un attribut
      */
     public void supprimerAttribut() {
         this.contenueAttribut.getChildren().remove(this);
