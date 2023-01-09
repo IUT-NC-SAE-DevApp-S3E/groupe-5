@@ -1,9 +1,28 @@
 package com.example.projet.Vue.Fleches;
 
-public class VueFleche extends DecorateurFleche {
-    public VueFleche(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
-        super(coordXDepart, coordYDepart, coordXArrivee, coordYArrivee);
-        this.setStyle("-fx-stroke: black; -fx-stroke-width: 2;");
-    }
+import javafx.scene.Group;
 
+public class VueFleche extends Group
+{
+    public VueFleche(int xd, int yd, int xa, int ya, int type)
+    {
+        DecorateurFleche fleche = null;
+        DecorateurFinFleche finFleche = null;
+        if(type == 1)
+        {
+            fleche = new VueFlechePleine(xd, yd, xa, ya);
+            finFleche = new FinFlecheVide(xd, yd, xa, ya);
+        }
+        else if (type == 2)
+        {
+            fleche = new VueFlechePointille(xd, yd, xa, ya);
+            finFleche = new FinFlecheVide(xd, yd, xa, ya);
+        }
+        else if (type == 3)
+        {
+            fleche = new VueFlechePleine(xd, yd, xa, ya);
+            finFleche = new FinFlecheRempli(xd, yd, xa, ya);
+        }
+        this.getChildren().addAll(fleche, finFleche);
+    }
 }

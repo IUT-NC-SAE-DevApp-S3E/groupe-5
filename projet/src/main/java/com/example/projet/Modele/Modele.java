@@ -139,6 +139,7 @@ public class Modele implements Sujet {
         this.startY = y;
     }
 
+
     public void chercherParentsEtInterface() {
         for (Classe c : this.listeFichiers) {
             if (c.getSuperClasse() != null) {
