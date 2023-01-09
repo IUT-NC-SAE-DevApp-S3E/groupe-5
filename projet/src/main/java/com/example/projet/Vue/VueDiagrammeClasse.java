@@ -89,8 +89,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawSuperClasse();
             this.drawImplementations();
             this.placerVue();
-             * si il faut clear le contenue du digramme de classe
-             */
+             // si il faut clear le contenue du digramme de classe
         } else {
             // on clear le visuel
             this.pane.getChildren().clear();
