@@ -69,7 +69,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         if (!s.getClear()) {
             // on affiche vide si les listes sont vides
             if (this.listeAssociationSuperClasse.isEmpty() && this.listeAssociationInterfaces.isEmpty()) {
-                System.out.println("videvidevide");
             }
             //this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
@@ -88,7 +87,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.supprimerFleches();
             this.makeSuperClassListe();
             this.makeImplementsList();
-            this.makeDependanceList();
+            if(!this.sujet.getTypeMasque("D")) {
+                this.makeDependanceList();
+            }
+            for (VueClasse v : this.listeVueClasse) {
+                v.actualiser(this.sujet);
+            }
              // s'il faut clear le contenu du digramme de classe
         } else {
             // on clear le visuel
@@ -160,7 +164,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     public void drawImplementations() {
         // Pour chaque association on dessine une ligne
-        System.out.println("fleches : " + this.listeFleches.size());
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
             for (VueClasse vueClasseInterface : this.listeAssociationInterfaces.get(vueClasse)) {
                 int[] coord = this.getCoord(vueClasse, vueClasseInterface);
@@ -187,11 +190,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
-                    System.out.println("association entre " + this.listeVueClasse.get(i).getClasse().getNom() + " et " + this.listeVueClasse.get(j).getClasse().getNom());
                     this.listeVueClasse.get(j).getClasse().getMoyValue().ajouterFilsSuper();
-                    System.out.println(this.listeVueClasse.get(j).getClasse().getNom()+" a "+this.listeVueClasse.get(j).getClasse().getMoyValue().getValue()+" fils");
-                } else {
-                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
         }
@@ -205,11 +204,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void afficherSuperClasse() {
         // on affiche le nombre de cle
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            System.out.println(vueClasse.getClasse().getNom() + " -> " + this.listeAssociationSuperClasse.get(vueClasse).getClasse().getNom());
-        }
-        // si la liste est vide, on écrit "aucun"
-        if (this.listeAssociationSuperClasse.isEmpty()) {
-            System.out.println("Aucun");
         }
     }
 
@@ -250,18 +244,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 }
             }
         }
-        for (VueClasse liste : this.listeAssociationDependances.keySet()) {
-            System.out.println(liste.getClasse().getNom() + " -> ");
-            for (VueClasse vueClasse : this.listeAssociationDependances.get(liste)) {
-                System.out.println(vueClasse.getClasse().getNom());
-            }
-        }
         drawDependance();
     }
 
     public void drawDependance()
     {
-        System.out.println("taille association dependance : " + this.listeAssociationDependances.size());
         for (VueClasse vueClasse : this.listeAssociationDependances.keySet()) {
             for (VueClasse vueClasseDependance : this.listeAssociationDependances.get(vueClasse)) {
                 int[] coord = this.getCoord(vueClasse, vueClasseDependance);
@@ -311,10 +298,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
         for (VueClasse vueClasse : this.listeVueClasse) {
             double value = vueClasse.getClasse().getMoyValue().getValue();
-            System.out.println("value classe "+ vueClasse.getClasse().getNom()+" : "+value);
             // on arrondi value
             int valueArrondi = (int) Math.round(value);
-            System.out.println("value arrondi : "+valueArrondi);
             switch (valueArrondi) {
                 case 0:
                     this.hauteurLigne.get(0).add(vueClasse);

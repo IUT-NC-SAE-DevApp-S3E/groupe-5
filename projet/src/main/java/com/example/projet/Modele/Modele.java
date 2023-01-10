@@ -38,6 +38,12 @@ public class Modele implements Sujet {
      */
     private String cheminArborescence = TrouverCheminOS.getChemin();
 
+    private boolean masquerAttributs = false;
+    private boolean masquerMethodes = false;
+    private boolean masquerDependance = false;
+
+    private boolean masquerPackage = false;
+
     /**
      * position en X et Y pour placer les classes sur l'inferface graphique
      */
@@ -111,8 +117,7 @@ public class Modele implements Sujet {
     }
 
     /**
-     * @param clear
-     * pour définir si le diagramme doit etre efface
+     * @param clear pour définir si le diagramme doit etre efface
      */
     public void setClear(boolean clear) {
         this.clear = clear;
@@ -170,6 +175,57 @@ public class Modele implements Sujet {
      */
     public void supprimerFichier(Fichier f) {
         this.listeFichiers.remove(f);
+    }
+
+    public void changerAffichage(String type) {
+        switch (type) {
+            case "A":
+                this.masquerAttributs = !this.masquerAttributs;
+                break;
+            case "M":
+                this.masquerMethodes = !this.masquerMethodes;
+                break;
+            case "D":
+                this.masquerDependance = !this.masquerDependance;
+                break;
+            case "P":
+                this.masquerPackage = !this.masquerPackage;
+                break;
+        }
+    }
+    public void inverserAffichage() {
+        if (this.masquerAttributs && this.masquerMethodes && this.masquerDependance && this.masquerPackage) {
+            this.masquerAttributs = false;
+            this.masquerMethodes = false;
+            this.masquerDependance = false;
+            this.masquerPackage = false;
+        } else {
+            this.masquerAttributs = true;
+            this.masquerMethodes = true;
+            this.masquerDependance = true;
+            this.masquerPackage = true;
+        }
+    }
+
+    public boolean getTypeMasque(String type) {
+        boolean res = false;
+        switch (type)
+        {
+            case "M":
+                res = this.masquerMethodes;
+                break;
+            case "P":
+                res = this.masquerPackage;
+                break;
+            case "D":
+                res = this.masquerDependance;
+                break;
+            case "A":
+                res = this.masquerAttributs;
+                break;
+
+        }
+        return res;
     }
 
 }

@@ -5,22 +5,15 @@ import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Constructeur;
 import com.example.projet.CompositionClasse.Methodes;
-import com.example.projet.Modele.Modele;
-import com.example.projet.Controleur.ControleurCliqueDroitElement;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
@@ -43,8 +36,8 @@ public class VueClasse extends VBox implements Observateur {
     private StackPane drag;
     private TextField title = new TextField();
     private TextField packageClasse = new TextField();
-    private VBox Attributs = new VBox();
-    private VBox Methodes = new VBox();
+    private VBox attributs = new VBox();
+    private VBox methodes = new VBox();
     /**
      * sujet de la classe
      */
@@ -85,10 +78,12 @@ public class VueClasse extends VBox implements Observateur {
         button.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
         this.boutonVisible = button;
         // on setOnAction l'appel de la méthode affichage
+
         this.boutonVisible.setOnAction(actionEvent -> {
             this.visible = !this.visible;
             this.affichage();
         });
+
 
         Drag.getChildren().add(button);
         // on met le button en haut à droite
@@ -98,7 +93,8 @@ public class VueClasse extends VBox implements Observateur {
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
-        this.getChildren().addAll(Drag, title, packageClasse, Attributs, Methodes);
+        System.out.println("Classe :" + classe.getNom() + " Package : " + packageClasse.getText());
+
 
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
@@ -135,7 +131,6 @@ public class VueClasse extends VBox implements Observateur {
         // lorsque le bouton de la souris est laché
         Drag.setOnMouseReleased(mouseEvent -> {
             try {
-                System.out.println("taille : "+this.getHeight() + " "+ this.getWidth());
                 Bounds boundsInScene = this.getBoundsInParent();
                 this.coordX = (int) boundsInScene.getMinX();
                 this.coordY = (int) boundsInScene.getMinY();
@@ -147,8 +142,8 @@ public class VueClasse extends VBox implements Observateur {
 
         // Stylisation --------------------------------
         // on met une bordure de 1 px au top et au bottom du VBox Attribut
-        this.Attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
-        this.Methodes.setStyle("-fx-min-height: 8px;");
+        this.attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
+        this.methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
         // on met la taille du titre à 20
@@ -170,24 +165,34 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
             if (c instanceof Attributs) {
-                VueAttribut newAttribut = new VueAttribut(this.Attributs, this.classe);
+                VueAttribut newAttribut = new VueAttribut(this.attributs, this.classe);
                 newAttribut.setNom(c.toString());
                 if(!c.toString().contains("$")) {
-                    this.Attributs.getChildren().add(newAttribut);
+                    this.attributs.getChildren().add(newAttribut);
                 }
             } else if (c instanceof Methodes || c instanceof Constructeur) {
-                VueMethode newMethode = new VueMethode(this.Methodes, this.classe);
+                VueMethode newMethode = new VueMethode(this.methodes, this.classe);
                 newMethode.setNom(c.toString());
                 // permet de ne pas afficher la methode si ce n'est pas une méthode écrite dans la classe
                 if(!c.toString().contains("$")) {
-                    this.Methodes.getChildren().add(newMethode);
+                    this.methodes.getChildren().add(newMethode);
                 }
             }
+        }
+        if(packageClasse.getText().equals(" ")){
+            this.getChildren().addAll(Drag, title, attributs, methodes);
+        }
+        else {
+            this.getChildren().addAll(Drag, title, packageClasse, attributs, methodes);
         }
     }
 
     @Override
-    public void actualiser(Sujet s) {}
+    public void actualiser(Sujet s) {
+        this.attributs.setVisible(!s.getTypeMasque("A"));
+        this.methodes.setVisible(!s.getTypeMasque("M"));
+
+    }
 
     /**
      * getter de visuel, getVisuel
@@ -201,11 +206,11 @@ public class VueClasse extends VBox implements Observateur {
      * getter des vbox
      */
     public VBox getAttributs() {
-        return this.Attributs;
+        return this.attributs;
     }
 
     public VBox getMethodes() {
-        return this.Methodes;
+        return this.methodes;
     }
 
     /**
@@ -214,7 +219,7 @@ public class VueClasse extends VBox implements Observateur {
      * @param attribut ajoute un attribut a la classe
      */
     public void ajouterAttribut(HBox attribut) {
-        this.Attributs.getChildren().add(attribut);
+        this.attributs.getChildren().add(attribut);
     }
 
     /**
@@ -223,7 +228,7 @@ public class VueClasse extends VBox implements Observateur {
      * @param methode ajoute une methode a la classe
      */
     public void ajouterMethode(HBox methode) {
-        this.Methodes.getChildren().add(methode);
+        this.methodes.getChildren().add(methode);
     }
 
     /**
@@ -240,7 +245,7 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     public int getHauteur(){
-        return 60 + (this.Attributs.getChildren().size() *20) + (this.Methodes.getChildren().size() * 20)+10;
+        return 60 + (this.attributs.getChildren().size() *20) + (this.methodes.getChildren().size() * 20)+10;
     }
 
     /**
@@ -326,7 +331,7 @@ public class VueClasse extends VBox implements Observateur {
                     //Stylisation --------------------------------
 
                     // on ajoute le TextField dans la vue
-                    this.Attributs.getChildren().add(newAttribut);
+                    this.attributs.getChildren().add(newAttribut);
                 });
             }
         }
@@ -347,11 +352,11 @@ public class VueClasse extends VBox implements Observateur {
      */
     public void affichage() {
         if (this.visible) {
-            this.getChildren().addAll(this.Attributs, this.Methodes);
+            this.getChildren().addAll(this.attributs, this.methodes);
             // on met l'icon de l'oeil
             this.boutonVisible.setText("\uf06e");
         } else {
-            this.getChildren().removeAll(this.Attributs, this.Methodes);
+            this.getChildren().removeAll(this.attributs, this.methodes);
             this.boutonVisible.setText("\uf070");
         }
     }

@@ -148,6 +148,7 @@ public class VueDossier extends VBox implements Observateur {
         boutonafficherCacher.setSpacing(2);
         Button bouton = new Button();
         bouton.setText("\uf06e");
+        bouton.setOnAction(new ControleurBoutonAffichage(this.sujet));
         bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
         bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
         bouton.setOnMouseExited(e -> bouton.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
@@ -168,6 +169,8 @@ public class VueDossier extends VBox implements Observateur {
             boutonafficherCacher.getChildren().add(boutonTxt);
             // on enlève les padding du bouton
             boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
+            // On ajoute l'action du bouton
+            boutonTxt.setOnAction(new ControleurBoutonAffichage(this.sujet));
         }
 
         this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);

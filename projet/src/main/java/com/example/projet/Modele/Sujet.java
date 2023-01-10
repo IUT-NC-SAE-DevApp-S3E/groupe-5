@@ -88,5 +88,11 @@ public interface Sujet {
 
     public void setStartY(int y);
 
+    public void changerAffichage(String type);
+
+    public void inverserAffichage();
+
+    public boolean getTypeMasque(String type);
+
 
 }
