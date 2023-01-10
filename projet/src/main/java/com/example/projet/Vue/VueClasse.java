@@ -84,11 +84,11 @@ public class VueClasse extends VBox implements Observateur {
             this.visible = !this.visible;
             this.affichage();
         });
-
-
         Drag.getChildren().add(button);
-        // on met le button en haut à droite
-        Drag.setAlignment(Pos.TOP_RIGHT);
+        // on centre verticalement le button
+        Drag.setAlignment(button, Pos.TOP_RIGHT);
+        Drag.setPadding(new javafx.geometry.Insets(2, 2, 2, 2));
+
 
 
         // on dit qu'on peut éditer le titre de la classe
@@ -142,7 +142,7 @@ public class VueClasse extends VBox implements Observateur {
 
         // Stylisation --------------------------------
         // on met une bordure de 1 px au top et au bottom du VBox Attribut
-        this.attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
+        this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
         this.methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
@@ -152,7 +152,7 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setStyle("-fx-background-color: none;");
         // ajout du package
         this.packageClasse.setAlignment(Pos.CENTER);
-        this.packageClasse.setStyle("-fx-background-color: none;");
+        this.packageClasse.setStyle("-fx-background-color: none;-fx-border-width: 0 0 1 0; -fx-border-color: grey;");
         // Stylisation --------------------------------
 
         String nomClasse = (this.classe.getNom()).split("\\.")[0];
@@ -161,6 +161,7 @@ public class VueClasse extends VBox implements Observateur {
         }
         this.title.setText(nomClasse);
         this.packageClasse.setText(this.classe.getPackageClasse());
+        // on met une bordure de 1px au botton du package
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
@@ -180,19 +181,38 @@ public class VueClasse extends VBox implements Observateur {
             }
         }
         if(packageClasse.getText().isBlank()){
-            this.getChildren().addAll(Drag, title, attributs, methodes);
+            this.getChildren().addAll(Drag, title);
         }
         else {
-            this.getChildren().addAll(Drag, title, packageClasse, attributs, methodes);
+            this.getChildren().addAll(Drag, title, packageClasse);
         }
 
+        if (!this.visible) {
+            this.getChildren().addAll(attributs, methodes);
+        }
     }
 
     @Override
     public void actualiser(Sujet s) {
-        this.attributs.setVisible(!s.getTypeMasque("A"));
-        this.methodes.setVisible(!s.getTypeMasque("M"));
-        this.packageClasse.setVisible(!s.getTypeMasque("P"));
+        /**
+         * on enlève tout pour pas qu'il n'y ai pas de problème de position
+         * si on supprime et remet juste les VBox
+         * il se peut que les Attributs soient en dessous des méthodes
+         * mais en supprimant tout avant ce n'est plus le cas
+         */
+        this.getChildren().remove(this.attributs);
+        this.getChildren().remove(this.methodes);
+        this.getChildren().remove(this.packageClasse);
+
+        if (!s.getTypeMasque("P") && this.visible) {
+            this.getChildren().add(this.packageClasse);
+        }
+        if (!s.getTypeMasque("A") && this.visible) {
+            this.getChildren().add(this.attributs);
+        }
+        if (!s.getTypeMasque("M") && this.visible) {
+            this.getChildren().add(this.methodes);
+        }
     }
 
     /**
@@ -246,7 +266,8 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     public int getHauteur(){
-        return 60 + (this.attributs.getChildren().size() *20) + (this.methodes.getChildren().size() * 20)+10;
+        Bounds boundsInScene = this.getBoundsInParent();
+        return (int) boundsInScene.getHeight();
     }
 
     /**
@@ -357,7 +378,7 @@ public class VueClasse extends VBox implements Observateur {
             // on met l'icon de l'oeil
             this.boutonVisible.setText("\uf06e");
         } else {
-            this.getChildren().removeAll(this.attributs, this.methodes);
+            this.getChildren().removeAll(this.attributs, this.methodes, this.packageClasse);
             this.boutonVisible.setText("\uf070");
         }
     }
