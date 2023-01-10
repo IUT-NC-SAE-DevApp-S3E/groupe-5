@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * classe VueDossier qui permet d'afficher les dossiers sur le cote de la page
@@ -52,6 +53,7 @@ public class VueDossier extends VBox implements Observateur {
                 case 1:
                     // ajout de fichier
                     button.setText("\uf0c7");
+                    button.setOnAction(new ControleurBoutonEnregistrer(this.sujet));
                     break;
                 case 2:
                     // enregistrement

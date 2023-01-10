@@ -1,6 +1,8 @@
 package com.example.projet.Utilitaires;
 
-public abstract class Fichier {
+import java.io.Serializable;
+
+public abstract class Fichier implements Serializable {
     private String nom, chemin;
 
 

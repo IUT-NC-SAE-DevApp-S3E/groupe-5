@@ -7,6 +7,10 @@ import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 import com.example.projet.Vue.VueClasse;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +18,7 @@ import java.util.HashMap;
 /**
  * Classe Modele qui permet de gerer le modele
  */
-public class Modele implements Sujet {
+public class Modele implements Sujet, Serializable {
 
     /**
      * Le boolean clear permet de savoir si il faut effacer le contenu du diagramme
@@ -26,7 +30,7 @@ public class Modele implements Sujet {
     /**
      * liste des observateurs
      */
-    private ArrayList<Observateur> listeObservateurs = new ArrayList<>();
+    private final ArrayList<Observateur> listeObservateurs = new ArrayList<>();
 
     /**
      * liste des fichiers
@@ -227,5 +231,7 @@ public class Modele implements Sujet {
         }
         return res;
     }
+
+
 
 }

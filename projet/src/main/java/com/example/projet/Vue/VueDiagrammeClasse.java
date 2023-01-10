@@ -7,15 +7,12 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 /**
  * classe VueDiagrammeClasse qui permet l'affichage des diagrammes de classe que nous générons avec l'application

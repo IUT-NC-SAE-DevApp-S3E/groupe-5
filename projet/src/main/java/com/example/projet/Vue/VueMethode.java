@@ -1,5 +1,6 @@
 package com.example.projet.Vue;
 
+import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -7,10 +8,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.Serializable;
+
 /**
  * Classe VueMethode qui permet d'afficher une méthode
  */
-public class VueMethode extends HBox {
+public class VueMethode extends HBox implements Observateur {
 
     /**
      * attribut de la classe VueMethode
@@ -83,7 +86,10 @@ public class VueMethode extends HBox {
         this.classe.suppressionCompositionClasse(this.nomAttribut.getText());
     }
 
+        @Override
+        public void actualiser(Sujet s) {
 
+        }
 
 
 }

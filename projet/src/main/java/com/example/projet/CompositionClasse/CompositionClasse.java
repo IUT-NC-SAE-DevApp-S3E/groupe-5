@@ -1,9 +1,11 @@
 package com.example.projet.CompositionClasse;
 
+import java.io.Serializable;
+
 /**
  * Classe abstraite CompositionClasse qui permet de gerer les attributs, constructeurs et methodes d'une classe
  */
-public abstract class CompositionClasse {
+public abstract class CompositionClasse implements Serializable {
 
     /**
      * accès de l'attribut, son nom et son type
