@@ -29,7 +29,9 @@ public class Main extends Application {
 
 
         hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);
-        Scene scene = new Scene(hbox);
+        // la vueDiagrammeDeClasse s'adapte a la fentre
+        vueDiagrammeClasse.prefWidthProperty().bind(hbox.widthProperty());
+        Scene scene = new Scene(hbox, 1000, 600);
         stage.setTitle("Diagramme de classe");
         stage.setScene(scene);
         stage.show();
