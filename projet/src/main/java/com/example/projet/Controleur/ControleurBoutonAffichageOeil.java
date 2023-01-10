@@ -4,19 +4,17 @@ import com.example.projet.Modele.Sujet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
 
-/**
- * Classe qui permet de gerer les boutons d'affichages
- */
-public class ControleurBoutonAffichage implements EventHandler<ActionEvent> {
+public class ControleurBoutonAffichageOeil implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
     private Button btn;
     private boolean pressed = false;
 
-    public ControleurBoutonAffichage(Sujet s, Button btn)
+    public ControleurBoutonAffichageOeil(Sujet s, Button btn)
     {
         this.sujet = s;
         this.btn = btn;
@@ -29,10 +27,15 @@ public class ControleurBoutonAffichage implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         this.pressed = !this.pressed;
+        this.btn.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
         if (this.pressed) {
-            this.btn.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;");
+            // this.btn.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;");
+            // on met l'icon de l'oeil barré
+            this.btn.setText("\uf06e");
         } else {
-            this.btn.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
+            // this.btn.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
+            // on met l'icon de l'oeil
+            this.btn.setText("\uf06e");
         }
         String id = actionEvent.getSource().toString().split("'")[1];
         switch (id)
