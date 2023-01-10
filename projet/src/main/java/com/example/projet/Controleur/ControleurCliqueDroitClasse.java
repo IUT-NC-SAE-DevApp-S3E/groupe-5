@@ -43,7 +43,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             VBox menu = new VBox();
             this.menu = menu;
 
-            String[] titreBoutons = {"+ Ajouter un attribut", "+ Ajouter une méthode", "+ Ajouter une dépendance", "- Supprimer"};
+            String[] titreBoutons = {"+ Ajouter un attribut", "+ Ajouter une méthode", "+ Ajouter une dépendance", "+ ajouter un héritage", "+ ajouter une implémentation", "- Supprimer"};
             for (int i = 0; i < titreBoutons.length; i++) {
                 Button bouton = new Button(titreBoutons[i]);
                 bouton.setStyle("-fx-background-color: #f3f3f3;");
@@ -103,6 +103,12 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                         });
                         break;
                     case 3:
+                        // ajouter un héritage
+                        break;
+                    case 4:
+                        // ajouter une implémentation
+                        break;
+                    case 5:
                         bouton.setOnAction(event2 -> {
                             // on supprime la classe
                             this.pane.getChildren().remove(this.actualVBox);
