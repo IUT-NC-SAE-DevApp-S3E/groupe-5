@@ -113,6 +113,30 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.listeVueClasse.clear();
         }
 
+        // on fait en sorte de pouvoir zoomer dans le pane
+        this.pane.setOnScroll(event -> {
+            // si la touche controle est appuyer
+            if (event.isControlDown()) {
+                // on récupère la valeur du zoom
+                double zoom = event.getDeltaY();
+                // si la valeur du zoom est supérieur à 0
+
+                if (event.getDeltaY() > 0) {
+                    if (this.pane.getScaleX() < 2) {
+                        this.pane.setScaleX(this.pane.getScaleX() + 0.1);
+                        this.pane.setScaleY(this.pane.getScaleY() + 0.1);
+                    }
+                } else {
+                    // si le scroll est vers le bas
+                    // on dézoom
+                    if (this.pane.getScaleX() > 0.5) {
+                        this.pane.setScaleX(this.pane.getScaleX() - 0.1);
+                        this.pane.setScaleY(this.pane.getScaleY() - 0.1);
+                    }
+                }
+
+            }
+        });
 
     }
 
