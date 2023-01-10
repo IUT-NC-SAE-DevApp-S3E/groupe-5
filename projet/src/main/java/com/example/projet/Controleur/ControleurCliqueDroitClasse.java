@@ -18,7 +18,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
     private final Sujet sujet;
     private final Pane pane;
     private VBox menu;
-    private ScrollPane menuDependance = new ScrollPane();
+    private ScrollPane menuContextuel = new ScrollPane();
 
     private final VueClasse actualVBox;
     private boolean clicked = false;
@@ -39,6 +39,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
         if(event.getButton().toString().equals("SECONDARY") && !this.clicked) {
+            this.pane.getChildren().remove(this.menuContextuel);
             this.clicked = true;
             VBox menu = new VBox();
             this.menu = menu;
@@ -60,53 +61,82 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                 switch (i) {
                     case 0:
                         bouton.setOnAction(event1 -> {
-                            /*
-                            // si on appuie sur le bouton ajouter un attribut dans le vbox des attributs
-                            TextField newAttribut = new TextField(" new ");
-                            newAttribut.setPrefHeight(5);
-                            newAttribut.setStyle("-fx-background-color: none;");
-                            newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                            // on ajoute aussi l'attribut dans la classe pour quelle soit dans le modèle
-                            this.actualVBox.ajouterAttribut(newAttribut);
-                             */
                             VueAttribut newAttribut = new VueAttribut(this.actualVBox.getAttributs(),this.actualVBox.getClasse());
                             newAttribut.setNom("+ new");
                             this.actualVBox.ajouterAttribut(newAttribut);
+                            try {
+                                this.sujet.notifierObservateur();
+                            } catch (Exception e) {
+                                // TODO
+                            }
                         });
                         break;
                     case 1:
                         bouton.setOnAction(event1 -> {
-                            /*
-                            // si on appuie sur le bouton ajouter une methode dans le vbox des methodes
-                            TextField newMethode = new TextField(" new ");
-                            newMethode.setPrefHeight(5);
-                            newMethode.setStyle("-fx-background-color: none;");
-                            newMethode.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                            // on ajoute aussi la methode dans la classe pour quelle soit dans le modèle
-                            this.actualVBox.ajouterMethode(newMethode);
-                             */
                             VueMethode newMethode = new VueMethode(this.actualVBox.getMethodes(), this.actualVBox.getClasse());
                             newMethode.setNom("+ new");
                             this.actualVBox.ajouterMethode(newMethode);
+                            try {
+                                this.sujet.notifierObservateur();
+                            } catch (Exception e) {
+                                // TODO
+                            }
                         });
                         break;
                     case 2:
                         bouton.setOnAction(event1 -> {
-                            ScrollPane menuListeDépendance = this.actualVBox.afficherMenuDependance();
-                            menuListeDépendance.setPrefWidth(200);
-                            menuListeDépendance.setPrefHeight(300);
+                            ScrollPane newMenuListeDependance = this.actualVBox.afficherMenuDependance();
+                            newMenuListeDependance.setPrefWidth(200);
+                            newMenuListeDependance.setPrefHeight(300);
                             // on rend le menu non scrollable sur les y
-                            menuListeDépendance.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                            this.pane.getChildren().add(menuListeDépendance);
-                            menuListeDépendance.setLayoutX(menu.getLayoutX()+menu.getWidth());
-                            this.menuDependance = menuListeDépendance;
+                            newMenuListeDependance.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                            this.pane.getChildren().add(newMenuListeDependance);
+                            newMenuListeDependance.setLayoutX(menu.getLayoutX()+menu.getWidth());
+                            newMenuListeDependance.setLayoutY(menu.getLayoutY());
+                            this.menuContextuel = newMenuListeDependance;
+                            try {
+                                this.sujet.notifierObservateur();
+                            } catch (Exception e) {
+                                // TODO
+                            }
                         });
                         break;
                     case 3:
-                        // ajouter un héritage
+                        bouton.setOnAction(event1 -> {
+                            ScrollPane newMenuListeHeritage = this.actualVBox.afficherMenuHeritage();
+                            newMenuListeHeritage.setPrefWidth(200);
+                            newMenuListeHeritage.setPrefHeight(300);
+                            // on rend le menu non scrollable sur les y
+                            newMenuListeHeritage.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                            this.pane.getChildren().add(newMenuListeHeritage);
+                            newMenuListeHeritage.setLayoutX(menu.getLayoutX()+menu.getWidth());
+                            newMenuListeHeritage.setLayoutY(menu.getLayoutY());
+                            this.menuContextuel = newMenuListeHeritage;
+                            try {
+                                this.sujet.notifierObservateur();
+                            } catch (Exception e) {
+                                // TODO
+                            }
+                        });
                         break;
                     case 4:
                         // ajouter une implémentation
+                        bouton.setOnAction(event1 -> {
+                            ScrollPane newMenuImplementation = this.actualVBox.afficherMenuImplementation();
+                            newMenuImplementation.setPrefWidth(200);
+                            newMenuImplementation.setPrefHeight(300);
+                            // on rend le menu non scrollable sur les y
+                            newMenuImplementation.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                            this.pane.getChildren().add(newMenuImplementation);
+                            newMenuImplementation.setLayoutX(menu.getLayoutX()+menu.getWidth());
+                            newMenuImplementation.setLayoutY(menu.getLayoutY());
+                            this.menuContextuel = newMenuImplementation;
+                            try {
+                                this.sujet.notifierObservateur();
+                            } catch (Exception e) {
+                                // TODO
+                            }
+                        });
                         break;
                     case 5:
                         bouton.setOnAction(event2 -> {
@@ -115,7 +145,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
                             // on remove aussi la classe du modèle
                             this.sujet.supprimerFichier(this.actualVBox.getClasse());
                             this.pane.getChildren().remove(this.menu);
-                            this.pane.getChildren().remove(this.menuDependance);
+                            this.pane.getChildren().remove(this.menuContextuel);
                         });
                         break;
                 }
@@ -140,7 +170,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             // on met le boolean cliquer a false pour pouvoir refaire un clique droit
             this.clicked = false;
             this.pane.getChildren().remove(this.menu);
-            this.pane.getChildren().remove(this.menuDependance);
+            this.pane.getChildren().remove(this.menuContextuel);
         }
     }
 

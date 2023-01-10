@@ -97,7 +97,6 @@ public class VueClasse extends VBox implements Observateur {
         Drag.setPadding(new javafx.geometry.Insets(2, 2, 2, 2));
 
 
-
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
@@ -164,7 +163,7 @@ public class VueClasse extends VBox implements Observateur {
 
 
         String nomClasse = (this.classe.getNom()).split("\\.")[0];
-        if(!this.classe.getType().equals("class")){
+        if (!this.classe.getType().equals("class")) {
             nomClasse = "<<" + this.classe.getType() + ">> " + nomClasse;
         }
         this.title.setText(nomClasse);
@@ -176,14 +175,14 @@ public class VueClasse extends VBox implements Observateur {
             if (c instanceof Attributs) {
                 VueAttribut newAttribut = new VueAttribut(this.attributs, this.classe);
                 newAttribut.setNom(c.toString());
-                if(!c.toString().contains("$")) {
+                if (!c.toString().contains("$")) {
                     this.attributs.getChildren().add(newAttribut);
                 }
             } else if (c instanceof Methodes || c instanceof Constructeur) {
                 VueMethode newMethode = new VueMethode(this.methodes, this.classe);
                 newMethode.setNom(c.toString());
                 // permet de ne pas afficher la methode si ce n'est pas une méthode écrite dans la classe
-                if(!c.toString().contains("$")) {
+                if (!c.toString().contains("$")) {
                     this.methodes.getChildren().add(newMethode);
                 }
             }
@@ -226,6 +225,7 @@ public class VueClasse extends VBox implements Observateur {
 
     /**
      * getter de visuel, getVisuel
+     *
      * @return this
      */
     public VueClasse getVisuel() {
@@ -248,8 +248,10 @@ public class VueClasse extends VBox implements Observateur {
      *
      * @param attribut ajoute un attribut a la classe
      */
-    public void ajouterAttribut(HBox attribut) {
+    public void ajouterAttribut(VueAttribut attribut) {
         this.attributs.getChildren().add(attribut);
+        // on ajoute l'attribut a la classe
+        this.classe.ajouterCompositionClasse(new Attributs("public",attribut.getTextField().getText(),"None","normal"));
     }
 
     /**
@@ -270,11 +272,11 @@ public class VueClasse extends VBox implements Observateur {
         return this.classe;
     }
 
-    public int getLargeur(){
+    public int getLargeur() {
         return this.width;
     }
 
-    public int getHauteur(){
+    public int getHauteur() {
         double hauteur = 63.3;
         if (!this.sujet.getTypeMasque("P") && this.visible) {
             hauteur += 26.4;
@@ -384,6 +386,94 @@ public class VueClasse extends VBox implements Observateur {
             }
         }
         return menu;
+    }
+
+    /**
+     * méthode afficherMenuHeritage
+     */
+    public ScrollPane afficherMenuHeritage() {
+        ScrollPane menu = new ScrollPane();
+        // on initialise le VBox
+        VBox contentScroll = new VBox();
+        menu.setContent(contentScroll);
+        // stylisation
+        contentScroll.setPrefWidth(200);
+        // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
+        for (Classe c : this.sujet.getListeFichiers()) {
+            // on ne met pas la classe correspondent à la classe que l'on vient de cliquer
+            if (!c.equals(this.classe)) {
+                // on met comme titre le nom de la classe
+                Button bouton = new Button(c.getNom());
+
+                //Stylisation --------------------------------
+                bouton.setStyle("-fx-background-color: #f3f3f3;");
+                bouton.setPrefWidth(200);
+                bouton.setPrefHeight(25);
+                //Stylisation --------------------------------
+
+                // on met un hover aux boutons pour qu'ils soient plus visibles lorsqu'on passe la souris dessus
+                bouton.setOnMouseEntered(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #ababab;");
+                });
+                bouton.setOnMouseExited(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #f3f3f3;");
+                });
+
+                // on ajoute le bouton au menuContextuel
+                contentScroll.getChildren().add(bouton);
+
+                // pour chaque bouton, on ajoute un vehement qui va ajouter la dépendance à la classe correspondante
+                bouton.setOnAction(actionEvent -> {
+                    // on ajoute un heritage dans la class
+                    this.classe.setSuperClasse(bouton.getText());
+                });
+            }
+        }
+        return menu;
+    }
+
+    /**
+     * méthode afficherMenuImplementation
+     */
+    public ScrollPane afficherMenuImplementation() {
+        ScrollPane menu = new ScrollPane();
+        // on initialise le VBox
+        VBox contentScroll = new VBox();
+            menu.setContent(contentScroll);
+        // stylisation
+            contentScroll.setPrefWidth(200);
+        // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
+            for (Classe c : this.sujet.getListeFichiers()) {
+            // on ne met pas la classe correspondent à la classe que l'on vient de cliquer
+            if (!c.equals(this.classe)) {
+                // on met comme titre le nom de la classe
+                Button bouton = new Button(c.getNom());
+
+                //Stylisation --------------------------------
+                bouton.setStyle("-fx-background-color: #f3f3f3;");
+                bouton.setPrefWidth(200);
+                bouton.setPrefHeight(25);
+                //Stylisation --------------------------------
+
+                // on met un hover aux boutons pour qu'ils soient plus visibles lorsqu'on passe la souris dessus
+                bouton.setOnMouseEntered(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #ababab;");
+                });
+                bouton.setOnMouseExited(mouseEvent -> {
+                    bouton.setStyle("-fx-background-color: #f3f3f3;");
+                });
+
+                // on ajoute le bouton au menuContextuel
+                contentScroll.getChildren().add(bouton);
+
+                // pour chaque bouton, on ajoute un vehement qui va ajouter la dépendance à la classe correspondante
+                bouton.setOnAction(actionEvent -> {
+                    // on ajoute un heritage dans la class
+                    this.classe.ajouterInterface(bouton.getText());
+                });
+            }
+        }
+            return menu;
     }
 
     /**

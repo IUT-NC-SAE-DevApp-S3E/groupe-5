@@ -96,4 +96,11 @@ public class VueAttribut extends HBox implements Observateur
     public void actualiser(Sujet s) {
 
     }
+
+    /**
+     * getTextField
+     */
+    public TextField getTextField() {
+        return this.nomAttribut;
+    }
 }

@@ -86,13 +86,13 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawImplementations();
             this.makeSuperClassListe();
             this.makeImplementsList();
-            if(!this.sujet.getTypeMasque("D")) {
+            if (!this.sujet.getTypeMasque("D")) {
                 this.makeDependanceList();
             }
             for (VueClasse v : this.listeVueClasse) {
                 v.actualiser(this.sujet);
             }
-             // s'il faut clear le contenu du digramme de classe
+            // s'il faut clear le contenu du digramme de classe
         } else {
             // on clear le visuel
             this.pane.getChildren().clear();
@@ -195,7 +195,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         // Pour chaque association on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationInterfaces.keySet()) {
             for (VueClasse vueClasseInterface : this.listeAssociationInterfaces.get(vueClasse)) {
-                int[] coord = this.getCoord(vueClasse, vueClasseInterface);
+                int[] coord = this.getClosestCoord(vueClasse, vueClasseInterface);
                 VueFleche vueFleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 2);
                 this.listeFleches.add(vueFleche);
                 this.pane.getChildren().add(vueFleche);
@@ -257,9 +257,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         this.listeAssociationDependances.clear();
         for (VueClasse vueClasseDependance : this.listeVueClasse) {
             for (VueClasse classe : this.listeVueClasse) {
-                for (CompositionClasse nomDependance : classe.getClasse().getCompositionClasses())
-                {
-                    if(nomDependance instanceof Attributs) {
+                for (CompositionClasse nomDependance : classe.getClasse().getCompositionClasses()) {
+                    if (nomDependance instanceof Attributs) {
                         String type = nomDependance.getType();
                         if (type.equals(vueClasseDependance.getClasse().getNom())) {
                             ArrayList<VueClasse> temp = this.listeAssociationDependances.get(classe);
@@ -276,8 +275,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         drawDependance();
     }
 
-    public void drawDependance()
-    {
+    public void drawDependance() {
         for (VueClasse vueClasse : this.listeAssociationDependances.keySet()) {
             for (VueClasse vueClasseDependance : this.listeAssociationDependances.get(vueClasse)) {
                 int[] coord = this.getClosestCoord(vueClasse, vueClasseDependance);
@@ -291,6 +289,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     /**
      * Méthode permettant de récupérer les coordonnées d'une classe.
+     *
      * @param vueClasseDepart
      * @param vueClasseArrive
      * @return
@@ -307,14 +306,15 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     /**
      * méthode getClosestCoord
      * qui va calculer les deux points les plus proches pour chacune des deux VueClasse
+     *
      * @param vueClasseDepart
      * @param vueClasseArrive
      */
     public int[] getClosestCoord(VueClasse vueClasseDepart, VueClasse vueClasseArrive) {
         int x1 = vueClasseDepart.getCoordX(), y1 = vueClasseDepart.getCoordY(), w1 = 250, h1 = vueClasseDepart.getHauteur();
         int x2 = vueClasseArrive.getCoordX(), y2 = vueClasseArrive.getCoordY(), w2 = 250, h2 = vueClasseArrive.getHauteur();
-        int[][] points1 = {{x1 + w1/2, y1}, {x1 + w1, y1 + h1/2}, {x1 + w1/2, y1 + h1}, {x1, y1 + h1/2}};
-        int[][] points2 = {{x2 + w2/2, y2}, {x2 + w2, y2 + h2/2}, {x2 + w2/2, y2 + h2}, {x2, y2 + h2/2}};
+        int[][] points1 = {{x1 + w1 / 2, y1}, {x1 + w1, y1 + h1 / 2}, {x1 + w1 / 2, y1 + h1}, {x1, y1 + h1 / 2}};
+        int[][] points2 = {{x2 + w2 / 2, y2}, {x2 + w2, y2 + h2 / 2}, {x2 + w2 / 2, y2 + h2}, {x2, y2 + h2 / 2}};
         double closestDistance = Double.POSITIVE_INFINITY;
         int[] closestPoints = new int[4];
         for (int[] p1 : points1) {
@@ -343,6 +343,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
         this.listeFleches.clear();
     }
+
     /**
      * méthode placerVue
      */
