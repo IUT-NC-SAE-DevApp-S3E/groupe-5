@@ -22,9 +22,10 @@ public class Methodes extends CompositionClasse {
      * @param nom le nom de la methode
      * @param type le type de la methode
      */
-    public Methodes(String acces, String nom, String type, String definition) {
+    public Methodes(String acces, String nom, String type, String definition, ArrayList<String> parametres) {
         super(acces, nom, type);
         this.definition = definition;
+        this.parametres = parametres;
     }
 
     /**
@@ -58,6 +59,15 @@ public class Methodes extends CompositionClasse {
      */
     @Override
     public String toString() {
-        return this.getAcces() + " " + this.getDefinition() + " " + this.getType() + " " + this.getNom() + "()";
+        String res = this.getAcces() + " " + this.getDefinition() + " " + this.getType() + " " + this.getNom() + "(";
+        for (int i = 0; i < this.parametres.size(); i++) {
+            res += this.parametres.get(i);
+            if (i != this.parametres.size() - 1) {
+                res += ", ";
+            }
         }
+        res += ")";
+        return res;
+    }
+
 }
