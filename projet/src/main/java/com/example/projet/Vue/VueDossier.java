@@ -148,11 +148,8 @@ public class VueDossier extends VBox implements Observateur {
         boutonafficherCacher.setSpacing(2);
         Button bouton = new Button();
         bouton.setText("\uf06e");
-        bouton.setOnAction(new ControleurBoutonAffichage(this.sujet));
+        bouton.setOnAction(new ControleurBoutonAffichageOeil(this.sujet, bouton));
         bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
-        bouton.setOnMouseEntered(e -> bouton.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
-        bouton.setOnMouseExited(e -> bouton.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
-        // on met la police du bouton en font awesome
 
         // on met le background du bouton en transparent
         bouton.setStyle("-fx-background-color: transparent;");
@@ -163,14 +160,13 @@ public class VueDossier extends VBox implements Observateur {
             boutonTxt.setPrefSize(45, 45);
             // on met le background du bouton en transparent
             boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
-            boutonTxt.setOnMouseEntered(e -> boutonTxt.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;"));
-            boutonTxt.setOnMouseExited(e -> boutonTxt.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;"));
             // on met la taille du texte du bouton à 20
             boutonafficherCacher.getChildren().add(boutonTxt);
             // on enlève les padding du bouton
             boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
             // On ajoute l'action du bouton
-            boutonTxt.setOnAction(new ControleurBoutonAffichage(this.sujet));
+            boutonTxt.setOnAction(new ControleurBoutonAffichage(this.sujet, boutonTxt));
+
         }
 
         this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);

@@ -6,6 +6,7 @@ import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -47,6 +48,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     /**
      * constructeur de la classe VueDiagrammeClasse
+     *
      * @param sujet le modele
      */
     public VueDiagrammeClasse(Sujet sujet) {
@@ -58,6 +60,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     /**
      * methode actualiser qui permet d'actualiser l'interface graphique
+     *
      * @param s le sujet
      */
     @Override
@@ -67,26 +70,26 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
          * on ajoute le visuel de la classe qui sont dans le modèle
          */
         if (!s.getClear()) {
-            // on affiche vide si les listes sont vides
-            if (this.listeAssociationSuperClasse.isEmpty() && this.listeAssociationInterfaces.isEmpty()) {
-            }
             //this.listeVueClasse.clear();
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
-            if (this.pane.getChildren().size() < fichiers.size()) {
+            if (this.pane.getChildren().size() < fichiers.size() || !this.fait) {
                 for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
                     if (fichiers.get(i) instanceof Classe) {
                         Classe c = fichiers.get(i);
                         this.creerVisuelClasse(c, s);
                     }
-                    this.placerVue();
+
                 }
             }
-
+            //this.placerVue();
             this.supprimerFleches();
+            this.drawSuperClasse();
+            this.drawImplementations();
             this.makeSuperClassListe();
             this.makeImplementsList();
+            this.makeDependanceList();
             if(!this.sujet.getTypeMasque("D")) {
                 this.makeDependanceList();
             }
@@ -112,6 +115,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.listeVueClasse.clear();
         }
 
+
     }
 
     /**
@@ -129,6 +133,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         this.pane.getChildren().add(vueClasse);
         vueClasse.setLayoutX(this.startX);
         vueClasse.setLayoutY(this.startY);
+        // on récupère la taille de la vueClasse
         this.startY += 210;
         if (this.startY > 1000) {
             this.startY = DECALAGEY;
@@ -191,6 +196,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
                     this.listeVueClasse.get(j).getClasse().getMoyValue().ajouterFilsSuper();
+                } else {
+                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
         }
@@ -298,7 +305,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
         for (VueClasse vueClasse : this.listeVueClasse) {
             double value = vueClasse.getClasse().getMoyValue().getValue();
-            // on arrondi value
             int valueArrondi = (int) Math.round(value);
             switch (valueArrondi) {
                 case 0:
@@ -337,8 +343,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 // this.startX += this.hauteurLigne.get(i).get(j).getWidth() + 25;
                 this.startX += 275;
                 // on récupère la largeur de la Vue
-                double hauteur = this.hauteurLigne.get(i).get(j).getHauteur();
-                if ( hauteur > plusGrand) {
+                Bounds bounds = this.hauteurLigne.get(i).get(j).getLayoutBounds();
+                double hauteur = bounds.getHeight();
+                if (hauteur > plusGrand) {
                     plusGrand = (int) this.hauteurLigne.get(i).get(j).getHauteur();
                 }
             }
