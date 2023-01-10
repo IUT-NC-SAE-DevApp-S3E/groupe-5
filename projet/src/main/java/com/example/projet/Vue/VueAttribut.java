@@ -31,7 +31,7 @@ public class VueAttribut extends HBox {
      */
     public VueAttribut(VBox contenueAttribut, Classe classe) {
         this.classe = classe;
-        // on met l'icon poubelle dans le text du bouton
+        // on met l'icône poubelle dans le text du bouton
         this.supprimerAttribut.setText("\uf1f8");
         // on met un style pour le bouton
         this.supprimerAttribut.setStyle("-fx-background-color: none;");
@@ -53,12 +53,12 @@ public class VueAttribut extends HBox {
             this.contenueAttribut.getChildren().remove(this);
         });
 
-        // on affiche le bouton supprimer quand on passe la souris au dessus
+        // on affiche le bouton supprimé quand on passe la souris au-dessus
         this.setOnMouseEntered(mouseEvent -> {
             supprimerAttribut.setVisible(true);
         });
 
-        // on cache le bouton supprimer quand on sort la souris du bouton
+        // on cache le bouton supprimé quand on sort la souris du bouton
         this.setOnMouseExited(mouseEvent -> {
             supprimerAttribut.setVisible(false);
         });

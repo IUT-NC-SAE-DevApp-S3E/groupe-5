@@ -92,7 +92,7 @@ public class Classe extends Fichier {
                     definition += "final ";
                 }
                 if(Modifier.isStatic(f.getModifiers())){
-                    definition += "static ";
+                    definition += "static";
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
             }
@@ -130,11 +130,11 @@ public class Classe extends Fichier {
                 if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
                     definition += "abstract ";
                 }
-                if(Modifier.isStatic(m.getModifiers())){
-                    definition += "static ";
-                }
                 if(Modifier.isFinal(m.getModifiers())){
                     definition += "final ";
+                }
+                if(Modifier.isStatic(m.getModifiers())){
+                    definition += "static";
                 }
                 this.compositionClasses.add(new Methodes(access, m.getName(), type, definition));
             }
