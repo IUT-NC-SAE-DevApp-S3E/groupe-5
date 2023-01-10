@@ -7,10 +7,7 @@ import com.example.projet.CompositionClasse.Methodes;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -22,6 +19,7 @@ public class Classe extends Fichier {
     private String superClasse;
     private ArrayList<String> interfaces;
     private MoyValue moyValue = new MoyValue();
+    private String packageClasse;
 
     /**
      * Constructeur de la classe Classe
@@ -56,6 +54,8 @@ public class Classe extends Fichier {
     public void lectureFichier() {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
+            this.packageClasse = c.getPackageName();
+
             if (c.getSuperclass() != null) {
                 String[] tab = c.getSuperclass().getName().split("\\.");
                 this.superClasse = tab[tab.length - 1];
@@ -107,8 +107,17 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(constructor.getModifiers())) {
                     access = "=";
                 }
+                // lecture et ajout des paramètres des constructeurs
+                ArrayList<String> parametres = new ArrayList<>();
+                for(Parameter parametre : constructor.getParameters()){
+                    String type = parametre.getType().toString();
+                    String[] tabType = type.split("\\.");
+                    type = tabType[tabType.length - 1];
+                    System.out.println(c.getName() + " " + type + " " );
+                    parametres.add(type);
+                }
                 String[] nomMethode = constructor.getName().split("\\.");
-                this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length-1], ""));
+                this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length-1], "", parametres));
             }
 
             // on récupère les méthodes de la classe
@@ -136,7 +145,15 @@ public class Classe extends Fichier {
                 if(Modifier.isStatic(m.getModifiers())){
                     definition += "static";
                 }
-                this.compositionClasses.add(new Methodes(access, m.getName(), type, definition));
+                // lecture et ajout des paramètres des méthodes
+                ArrayList<String> parametres = new ArrayList<>();
+                for(Parameter parametre : m.getParameters()){
+                    String typeParametre = parametre.getType().toString();
+                    String[] tabTypeParametre = typeParametre.split("\\.");
+                    typeParametre = tabTypeParametre[tabTypeParametre.length - 1];
+                    parametres.add(typeParametre);
+                }
+                this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
             }
         } catch (NoClassDefFoundError e) {
             System.out.println("Message erreur : " + e.getMessage());
@@ -192,6 +209,10 @@ public class Classe extends Fichier {
 
     public String getSuperClasse() {
         return this.superClasse;
+    }
+
+    public String getPackageClasse(){
+        return this.packageClasse;
     }
 
     /**

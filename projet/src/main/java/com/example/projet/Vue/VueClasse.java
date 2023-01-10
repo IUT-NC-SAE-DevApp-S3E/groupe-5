@@ -42,6 +42,7 @@ public class VueClasse extends VBox implements Observateur {
      */
     private StackPane drag;
     private TextField title = new TextField();
+    private TextField packageClasse = new TextField();
     private VBox Attributs = new VBox();
     private VBox Methodes = new VBox();
     /**
@@ -97,7 +98,7 @@ public class VueClasse extends VBox implements Observateur {
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
-        this.getChildren().addAll(Drag, title, Attributs, Methodes);
+        this.getChildren().addAll(Drag, title, packageClasse, Attributs, Methodes);
 
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
@@ -154,6 +155,9 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);
         this.title.setStyle("-fx-background-color: none;");
+        // ajout du package
+        this.packageClasse.setAlignment(Pos.CENTER);
+        this.packageClasse.setStyle("-fx-background-color: none;");
         // Stylisation --------------------------------
 
         String nomClasse = (this.classe.getNom()).split("\\.")[0];
@@ -161,6 +165,7 @@ public class VueClasse extends VBox implements Observateur {
             nomClasse = "<<" + this.classe.getType() + ">> " + nomClasse;
         }
         this.title.setText(nomClasse);
+        this.packageClasse.setText(this.classe.getPackageClasse());
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {

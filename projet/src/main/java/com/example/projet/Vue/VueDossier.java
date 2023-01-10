@@ -192,7 +192,7 @@ public class VueDossier extends VBox implements Observateur {
         listeDossierFichier.setContent(vBox);
         // le vbox prend la taille du scrollpane
         vBox.setPrefWidth(listeDossierFichier.getPrefWidth());
-        listeDossierFichier.setPrefSize(250, 510);
+        listeDossierFichier.setPrefSize(250, 600);
         // on enlève les bordures du scrollpane
         listeDossierFichier.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;");
         // on cache la scrollbar

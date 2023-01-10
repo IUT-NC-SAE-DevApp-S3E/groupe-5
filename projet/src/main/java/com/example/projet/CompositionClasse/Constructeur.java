@@ -18,8 +18,9 @@ public class Constructeur extends CompositionClasse {
      * @param nom le nom du constructeur
      * @param type le type du constructeur
      */
-    public Constructeur(String acces, String nom, String type) {
+    public Constructeur(String acces, String nom, String type, ArrayList<String> parametres) {
         super(acces, nom, type);
+        this.parametres = parametres;
     }
 
     /**
@@ -27,7 +28,15 @@ public class Constructeur extends CompositionClasse {
      * @return le constructeur
      */
     public String toString(){
-        return this.getAcces() + " " + this.getNom() + "()";
+        String res = this.getAcces() + " " + this.getNom() + "(";
+        for (int i = 0; i < this.parametres.size(); i++) {
+            res += this.parametres.get(i);
+            if (i != this.parametres.size() - 1) {
+                res += ", ";
+            }
+        }
+        res += ")";
+        return res;
     }
 
 }
