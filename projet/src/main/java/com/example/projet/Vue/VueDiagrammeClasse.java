@@ -8,15 +8,12 @@ import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
 import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 /**
  * classe VueDiagrammeClasse qui permet l'affichage des diagrammes de classe que nous générons avec l'application
@@ -143,13 +140,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.syncro = true;
             this.actualiser(s);
         }
-
-        for (VueClasse v : this.listeVueClasse) {
-            Bounds b = v.getBoundsInLocal();
-            System.out.println(v.getHauteur());
-        }
-
-
     }
 
     /**
@@ -255,7 +245,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void drawSuperClasse() {
         // Pour chaque association, on dessine une ligne
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-            int coord[] = getCoord(vueClasse, this.listeAssociationSuperClasse.get(vueClasse));
+            int coord[] = getClosestCoord(vueClasse, this.listeAssociationSuperClasse.get(vueClasse));
             VueFleche fleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 1);
             this.pane.getChildren().add(fleche);
             fleche.toBack();
@@ -290,7 +280,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     {
         for (VueClasse vueClasse : this.listeAssociationDependances.keySet()) {
             for (VueClasse vueClasseDependance : this.listeAssociationDependances.get(vueClasse)) {
-                int[] coord = this.getCoord(vueClasse, vueClasseDependance);
+                int[] coord = this.getClosestCoord(vueClasse, vueClasseDependance);
                 VueFleche vueFleche = new VueFleche(coord[2], coord[3], coord[0], coord[1], 3);
                 this.listeFleches.add(vueFleche);
                 this.pane.getChildren().add(vueFleche);
@@ -312,6 +302,34 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         coord[2] = vueClasseArrive.getCoordX() + 125;
         coord[3] = vueClasseArrive.getCoordY() + (int) vueClasseArrive.getHauteur();
         return coord;
+    }
+
+    /**
+     * méthode getClosestCoord
+     * qui va calculer les deux points les plus proches pour chacune des deux VueClasse
+     * @param vueClasseDepart
+     * @param vueClasseArrive
+     */
+    public int[] getClosestCoord(VueClasse vueClasseDepart, VueClasse vueClasseArrive) {
+        int x1 = vueClasseDepart.getCoordX(), y1 = vueClasseDepart.getCoordY(), w1 = 250, h1 = vueClasseDepart.getHauteur();
+        int x2 = vueClasseArrive.getCoordX(), y2 = vueClasseArrive.getCoordY(), w2 = 250, h2 = vueClasseArrive.getHauteur();
+        int[][] points1 = {{x1 + w1/2, y1}, {x1 + w1, y1 + h1/2}, {x1 + w1/2, y1 + h1}, {x1, y1 + h1/2}};
+        int[][] points2 = {{x2 + w2/2, y2}, {x2 + w2, y2 + h2/2}, {x2 + w2/2, y2 + h2}, {x2, y2 + h2/2}};
+        double closestDistance = Double.POSITIVE_INFINITY;
+        int[] closestPoints = new int[4];
+        for (int[] p1 : points1) {
+            for (int[] p2 : points2) {
+                double distance = Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2));
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestPoints[0] = p1[0];
+                    closestPoints[1] = p1[1];
+                    closestPoints[2] = p2[0];
+                    closestPoints[3] = p2[1];
+                }
+            }
+        }
+        return closestPoints;
     }
 
 

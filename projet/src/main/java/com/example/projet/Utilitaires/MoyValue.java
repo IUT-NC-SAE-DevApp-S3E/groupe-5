@@ -1,6 +1,8 @@
 package com.example.projet.Utilitaires;
 
-public class MoyValue {
+import java.io.Serializable;
+
+public class MoyValue implements Serializable {
 
     private int nbFilsSuper = 0;
     private int nbFilsImplements = 0;

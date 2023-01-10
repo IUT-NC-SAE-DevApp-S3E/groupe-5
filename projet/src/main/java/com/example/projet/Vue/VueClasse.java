@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 
 /**
@@ -48,7 +49,7 @@ public class VueClasse extends VBox implements Observateur {
 
     private int coordX = 0;
     private int coordY = 0;
-    private int width = 0;
+    private int width = 200;
     private int height = 0;
 
     /**
@@ -84,6 +85,11 @@ public class VueClasse extends VBox implements Observateur {
         this.boutonVisible.setOnAction(actionEvent -> {
             this.visible = !this.visible;
             this.affichage();
+            try {
+                this.sujet.notifierObservateur();
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+            }
         });
         Drag.getChildren().add(button);
         // on centre verticalement le button
@@ -265,16 +271,29 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     public int getLargeur(){
-        return 200;
+        return this.width;
     }
 
-    public double getHauteur(){
-        double hauteur = 89.6;
-        for (int i = 0; i < this.attributs.getChildren().size()+this.methodes.getChildren().size(); i++) {
-            hauteur += 17.6;
+    public int getHauteur(){
+        double hauteur = 63.3;
+        if (!this.sujet.getTypeMasque("P") && this.visible) {
+            hauteur += 26.4;
         }
-        hauteur += 2.4;
-        return 1;
+        if (!this.sujet.getTypeMasque("A") && this.visible) {
+            for (int i = 0; i < this.attributs.getChildren().size(); i++) {
+                hauteur += 17.6;
+            }
+            hauteur += 0.8;
+        }
+        hauteur += 1.6;
+        if (!this.sujet.getTypeMasque("M") && this.visible) {
+            for (int i = 0; i < this.methodes.getChildren().size(); i++) {
+                hauteur += 17.6;
+            }
+            hauteur += 0.8;
+        }
+        // on renvoie une valeur arrondie à l'entier supérieur
+        return (int) Math.ceil(hauteur);
     }
 
     /**

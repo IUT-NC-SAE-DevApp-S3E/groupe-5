@@ -4,13 +4,16 @@ import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
  * interface Sujet
  */
-public interface Sujet {
+public interface Sujet extends Serializable {
 
     /**
      * methode enregistrerObservateur qui permet d'enregistrer un observateur

@@ -1,5 +1,6 @@
 package com.example.projet.Vue;
 
+import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -7,10 +8,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.Serializable;
+
 /**
  * Classe VueAttribut qui permet d'afficher les attributs d'une classe
  */
-public class VueAttribut extends HBox {
+public class VueAttribut extends HBox implements Observateur
+{
 
     /**
      * attribut de la classe VueAttribut
@@ -88,4 +92,8 @@ public class VueAttribut extends HBox {
     }
 
 
+    @Override
+    public void actualiser(Sujet s) {
+
+    }
 }
