@@ -113,7 +113,6 @@ public class Classe extends Fichier {
                     String type = parametre.getType().toString();
                     String[] tabType = type.split("\\.");
                     type = tabType[tabType.length - 1];
-                    System.out.println(c.getName() + " " + type + " " );
                     parametres.add(type);
                 }
                 String[] nomMethode = constructor.getName().split("\\.");
@@ -124,8 +123,14 @@ public class Classe extends Fichier {
             for (Method m : c.getDeclaredMethods()) {
                 // on récupère le type de retour de la méthode
                 String type = m.getReturnType().toString();
-                String[] tabType = type.split("\\.");
-                type = tabType[tabType.length - 1];
+                if(type.contains("[")){
+                    String[] tabType = m.toString().split(" ");
+                    type = tabType[1];
+                }else{
+                    String[] tabType = type.split("\\.");
+                    type = tabType[tabType.length - 1];
+                }
+
                 // on créer une méthode
                 String access = "", definition = "";
                 if (Modifier.isPublic(m.getModifiers())) {
