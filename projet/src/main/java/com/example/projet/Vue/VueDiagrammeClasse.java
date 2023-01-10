@@ -80,7 +80,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                         Classe c = fichiers.get(i);
                         this.creerVisuelClasse(c, s);
                     }
-
                 }
             }
             //this.placerVue();
@@ -89,7 +88,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.drawImplementations();
             this.makeSuperClassListe();
             this.makeImplementsList();
-            this.makeDependanceList();
             if(!this.sujet.getTypeMasque("D")) {
                 this.makeDependanceList();
             }
@@ -294,8 +292,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
         this.listeFleches.clear();
     }
-
-
     /**
      * méthode placerVue
      */

@@ -31,7 +31,7 @@ public class ControleurBoutonAffichageOeil implements EventHandler<ActionEvent> 
         if (this.pressed) {
             // this.btn.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;");
             // on met l'icon de l'oeil barré
-            this.btn.setText("\uf06e");
+            this.btn.setText("\uf070");
         } else {
             // this.btn.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
             // on met l'icon de l'oeil
