@@ -27,7 +27,6 @@ public class Main extends Application {
         modele.enregistrerObservateur(vueDiagrammeClasse);
         modele.notifierObservateur();
 
-
         hbox.getChildren().addAll(vueDossier, vueDiagrammeClasse);
         // la vueDiagrammeDeClasse s'adapte a la fentre
         vueDiagrammeClasse.prefWidthProperty().bind(hbox.widthProperty());

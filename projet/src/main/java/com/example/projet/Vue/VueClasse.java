@@ -9,6 +9,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -35,7 +36,7 @@ public class VueClasse extends VBox implements Observateur {
      */
     private StackPane drag;
     private TextField title = new TextField();
-    private TextField packageClasse = new TextField();
+    private TextField packageClasse = new TextField("package");
     private VBox attributs = new VBox();
     private VBox methodes = new VBox();
     /**
@@ -65,6 +66,7 @@ public class VueClasse extends VBox implements Observateur {
         super();
         this.sujet = sujet;
         this.classe = classe;
+
 
         // stackPane permet de déplacer la classe
         StackPane Drag = new StackPane();
@@ -108,7 +110,6 @@ public class VueClasse extends VBox implements Observateur {
                 break;
         }
         // stylisation --------------------------------
-
         // on rend drag draggable
         Drag.setOnMousePressed((MouseEvent event) -> {
             startX = (int) event.getSceneX();
@@ -139,6 +140,7 @@ public class VueClasse extends VBox implements Observateur {
             }
         });
 
+
         // Stylisation --------------------------------
         // on met une bordure de 1 px au top et au bottom du VBox Attribut
         this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
@@ -153,6 +155,7 @@ public class VueClasse extends VBox implements Observateur {
         this.packageClasse.setAlignment(Pos.CENTER);
         this.packageClasse.setStyle("-fx-background-color: none;-fx-border-width: 0 0 1 0; -fx-border-color: grey;");
         // Stylisation --------------------------------
+
 
         String nomClasse = (this.classe.getNom()).split("\\.")[0];
         if(!this.classe.getType().equals("class")){
@@ -179,12 +182,13 @@ public class VueClasse extends VBox implements Observateur {
                 }
             }
         }
-        if(packageClasse.getText().isBlank()){
-            this.getChildren().addAll(Drag, title);
+
+        this.getChildren().addAll(Drag, title);
+
+        if (!this.packageClasse.getText().equals("")) {
+            this.getChildren().add(packageClasse);
         }
-        else {
-            this.getChildren().addAll(Drag, title, packageClasse);
-        }
+
 
         if (!this.visible) {
             this.getChildren().addAll(attributs, methodes);
@@ -264,9 +268,13 @@ public class VueClasse extends VBox implements Observateur {
         return 200;
     }
 
-    public int getHauteur(){
-        Bounds boundsInScene = this.getBoundsInParent();
-        return (int) boundsInScene.getHeight();
+    public double getHauteur(){
+        double hauteur = 89.6;
+        for (int i = 0; i < this.attributs.getChildren().size()+this.methodes.getChildren().size(); i++) {
+            hauteur += 17.6;
+        }
+        hauteur += 2.4;
+        return 1;
     }
 
     /**
@@ -373,7 +381,7 @@ public class VueClasse extends VBox implements Observateur {
      */
     public void affichage() {
         if (this.visible) {
-            this.getChildren().addAll(this.attributs, this.methodes);
+            this.getChildren().addAll(this.attributs, this.methodes, this.packageClasse);
             // on met l'icon de l'oeil
             this.boutonVisible.setText("\uf06e");
         } else {

@@ -28,6 +28,7 @@ public class ControleurNewClasse implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         // On cree un nouveau objet de type Classe qu'on donn comme nom "new"
         Classe c = new Classe("new");
+
         // on ajoute la classe a la liste des classes du sujet
         this.sujet.ajouterFichier(c);
         try {

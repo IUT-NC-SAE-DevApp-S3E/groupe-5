@@ -44,7 +44,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     // liste des flèches
     private ArrayList<VueFleche> listeFleches = new ArrayList<>();
 
-    private boolean fait = false;
+    private boolean syncro = false;
+
 
     /**
      * constructeur de la classe VueDiagrammeClasse
@@ -74,8 +75,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             // on récupère la liste des fichiers du modèle
             ArrayList<Classe> fichiers = s.getListeFichiers();
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
-            if (this.pane.getChildren().size() < fichiers.size() || !this.fait) {
-                for (int i = this.pane.getChildren().size(); i < fichiers.size(); i++) {
+            if (this.listeVueClasse.size() < fichiers.size()) {
+                for (int i = this.listeVueClasse.size(); i < fichiers.size(); i++) {
                     if (fichiers.get(i) instanceof Classe) {
                         Classe c = fichiers.get(i);
                         this.creerVisuelClasse(c, s);
@@ -137,6 +138,17 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
             }
         });
+
+        if (!this.syncro) {
+            this.syncro = true;
+            this.actualiser(s);
+        }
+
+        for (VueClasse v : this.listeVueClasse) {
+            Bounds b = v.getBoundsInLocal();
+            System.out.println(v.getHauteur());
+        }
+
 
     }
 
@@ -200,7 +212,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 vueFleche.toBack();
             }
         }
-        this.fait = true;
     }
 
 
@@ -250,7 +261,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             fleche.toBack();
             this.listeFleches.add(fleche);
         }
-        this.fait = true;
     }
 
     public void makeDependanceList() {
@@ -287,7 +297,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 vueFleche.toBack();
             }
         }
-        this.fait = true;
     }
 
     /**
@@ -301,7 +310,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         coord[0] = vueClasseDepart.getCoordX() + 125;
         coord[1] = vueClasseDepart.getCoordY();
         coord[2] = vueClasseArrive.getCoordX() + 125;
-        coord[3] = vueClasseArrive.getCoordY() + (int) vueClasseArrive.getHeight();
+        coord[3] = vueClasseArrive.getCoordY() + (int) vueClasseArrive.getHauteur();
         return coord;
     }
 

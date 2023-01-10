@@ -17,7 +17,7 @@ public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
     private String type = "";
     private String superClasse;
-    private ArrayList<String> interfaces;
+    private ArrayList<String> interfaces = new ArrayList<>();
     private MoyValue moyValue = new MoyValue();
     private String packageClasse;
 
@@ -44,6 +44,8 @@ public class Classe extends Fichier {
     public Classe(String nom) {
         super(nom);
         this.compositionClasses = new ArrayList<>();
+        this.type = "class";
+        this.packageClasse= "";
     }
 
     /**
