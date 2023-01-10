@@ -22,6 +22,7 @@ public class Classe extends Fichier {
     private String superClasse;
     private ArrayList<String> interfaces;
     private MoyValue moyValue = new MoyValue();
+    private String packageClasse;
 
     /**
      * Constructeur de la classe Classe
@@ -56,6 +57,8 @@ public class Classe extends Fichier {
     public void lectureFichier() {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
         try {
+            this.packageClasse = c.getPackageName();
+
             if (c.getSuperclass() != null) {
                 String[] tab = c.getSuperclass().getName().split("\\.");
                 this.superClasse = tab[tab.length - 1];
@@ -192,6 +195,10 @@ public class Classe extends Fichier {
 
     public String getSuperClasse() {
         return this.superClasse;
+    }
+
+    public String getPackageClasse(){
+        return this.packageClasse;
     }
 
     /**
