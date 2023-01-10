@@ -93,7 +93,6 @@ public class VueClasse extends VBox implements Observateur {
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
-        System.out.println("Classe :" + classe.getNom() + " Package : " + packageClasse.getText());
 
 
         // stylisation --------------------------------
@@ -142,7 +141,7 @@ public class VueClasse extends VBox implements Observateur {
 
         // Stylisation --------------------------------
         // on met une bordure de 1 px au top et au bottom du VBox Attribut
-        this.attributs.setStyle("-fx-border-width: 1 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
+        this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
         this.methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
         this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
@@ -152,7 +151,7 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setStyle("-fx-background-color: none;");
         // ajout du package
         this.packageClasse.setAlignment(Pos.CENTER);
-        this.packageClasse.setStyle("-fx-background-color: none;");
+        this.packageClasse.setStyle("-fx-background-color: none;-fx-border-width: 0 0 1 0; -fx-border-color: grey;");
         // Stylisation --------------------------------
 
         String nomClasse = (this.classe.getNom()).split("\\.")[0];
@@ -161,6 +160,7 @@ public class VueClasse extends VBox implements Observateur {
         }
         this.title.setText(nomClasse);
         this.packageClasse.setText(this.classe.getPackageClasse());
+        // on met une bordure de 1px au botton du package
         // on met le titre en gras
         this.title.setFont(javafx.scene.text.Font.font("System", 20));
         for (CompositionClasse c : this.classe.getCompositionClasses()) {
@@ -179,12 +179,13 @@ public class VueClasse extends VBox implements Observateur {
                 }
             }
         }
-        if(packageClasse.getText().equals(" ")){
+        if(packageClasse.getText().isBlank()){
             this.getChildren().addAll(Drag, title, attributs, methodes);
         }
         else {
             this.getChildren().addAll(Drag, title, packageClasse, attributs, methodes);
         }
+
     }
 
     @Override
@@ -197,13 +198,17 @@ public class VueClasse extends VBox implements Observateur {
          */
         this.getChildren().remove(this.attributs);
         this.getChildren().remove(this.methodes);
+        this.getChildren().remove(this.packageClasse);
+
+        if (!s.getTypeMasque("P")) {
+            this.getChildren().add(this.packageClasse);
+        }
         if (!s.getTypeMasque("A")) {
             this.getChildren().add(this.attributs);
         }
         if (!s.getTypeMasque("M")) {
             this.getChildren().add(this.methodes);
         }
-
     }
 
     /**
