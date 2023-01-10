@@ -93,7 +93,6 @@ public class VueClasse extends VBox implements Observateur {
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
-        System.out.println("Classe :" + classe.getNom() + " Package : " + packageClasse.getText());
 
 
         // stylisation --------------------------------
@@ -179,19 +178,20 @@ public class VueClasse extends VBox implements Observateur {
                 }
             }
         }
-        if(packageClasse.getText().equals(" ")){
+        if(packageClasse.getText().isBlank()){
             this.getChildren().addAll(Drag, title, attributs, methodes);
         }
         else {
             this.getChildren().addAll(Drag, title, packageClasse, attributs, methodes);
         }
+
     }
 
     @Override
     public void actualiser(Sujet s) {
         this.attributs.setVisible(!s.getTypeMasque("A"));
         this.methodes.setVisible(!s.getTypeMasque("M"));
-
+        this.packageClasse.setVisible(!s.getTypeMasque("P"));
     }
 
     /**
