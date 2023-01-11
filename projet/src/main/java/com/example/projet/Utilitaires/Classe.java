@@ -90,6 +90,9 @@ public class Classe extends Fichier {
                 } else if (Modifier.isProtected(f.getModifiers())) {
                     access = "=";
                 }
+                else {
+                    access = "+";
+                }
                 if(Modifier.isFinal(f.getModifiers())){
                     definition += "final ";
                 }
@@ -260,13 +263,26 @@ public class Classe extends Fichier {
      * @return la classe en code plantUML
      */
     public String toPlantUML(){
-        String res = "class " + this.getNom() + "{\n";
+        String res = "class " + this.getNom() + " {\n";
+        String fleches = "";
         for(CompositionClasse c : this.compositionClasses){
-            if(!c.getNom().contains("$")){
-                res += c + "\n";
+            if(!c.getNom().contains("$")) {
+                if(c.getAcces().equals("=")) {
+                    res += "# " + c.getNom() + " : " + c.getType() + "\n";
+                }
+                else {
+                    res += c.getAcces() + " " + c.getNom() + " : " + c.getType() + "\n";
+                }
+
+                if (c instanceof Attributs) {
+                    if(!fleches.contains(this.getNom())) {
+                        fleches += this.getNom() + "->" + c.getType() + "\n";
+                    }
+                }
             }
         }
-        return res += "}";
+        res += "}\n" + fleches;
+        return res;
     }
 
     /**

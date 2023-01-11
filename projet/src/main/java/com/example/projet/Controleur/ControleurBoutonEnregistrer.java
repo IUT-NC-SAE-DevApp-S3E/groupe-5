@@ -1,28 +1,27 @@
 package com.example.projet.Controleur;
 
-import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
-import com.example.projet.Utilitaires.Classe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
+import net.sourceforge.plantuml.SourceStringReader;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.io.OutputStream;
 
 public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
 
-    public ControleurBoutonEnregistrer(Sujet s)
-    {
+    public ControleurBoutonEnregistrer(Sujet s) {
         this.sujet = s;
     }
 
     /**
      * methode handle qui permet de gerer le bouton enregistrer
+     *
      * @param actionEvent l'evenement
      */
     @Override
@@ -32,53 +31,44 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Enregistrer le diagramme");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Diagramme UML", "*.diagramme"));
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Source plantUML", "*.txt"));
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Capture d'écran JPG", "*.jpg"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Capture d'écran PNG", "*.png"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG PlantUML", "*.png"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Source plantUML", "*.txt"));
             fileChooser.setInitialFileName("diagramme");
             fileChooser.setInitialDirectory((new File(sujet.getCheminArborescence())));
             File file = fileChooser.showSaveDialog(null);
+            FileOutputStream fileOut = null;
 
-            if(file.getName().endsWith(".diagramme")) {
-                FileOutputStream fileOut = new FileOutputStream(file.getAbsoluteFile());
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(this.sujet.getListeFichiers());
-                out.close();
-                fileOut.close();
-                System.out.printf("Serialized data is saved");
-            } else if(file.getName().endsWith(".jpg")) {
-                this.sujet.capturerPane(file);
-            } else if(file.getName().endsWith(".png"))
-            {
+            if (file != null) {
+                switch (fileChooser.getSelectedExtensionFilter().getDescription()) {
+                    case "Diagramme UML":
+                        fileOut = new FileOutputStream(file.getAbsoluteFile());
+                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                        out.writeObject(this.sujet.getListeFichiers());
+                        out.close();
+                        fileOut.close();
+                        System.out.printf("Serialized data is saved");
+                        break;
 
-            } else if(file.getName().endsWith(".txt")) {
-                ArrayList<Classe> listeClasses = this.sujet.getListeFichiers();
-                String res = "@startuml\n";
-                for(Classe c : listeClasses) {
-                    res += c.toPlantUML() + "\n";
+                    case "Capture d'écran PNG":
+                        this.sujet.capturerPane(file);
+                        break;
+
+                    case "PNG PlantUML":
+                        fileOut = new FileOutputStream(file.getAbsolutePath());
+
+                        SourceStringReader reader = new SourceStringReader(this.sujet.genererPlantUML().toString());
+                        String desc = reader.outputImage(fileOut).getDescription();
+                        System.out.println(desc);
+                        // Return a null string if no generation
+                        break;
+
+                    case "Source plantUML":
+                        StringBuilder res = this.sujet.genererPlantUML();
+                        fileOut = new FileOutputStream(file.getAbsoluteFile());
+                        fileOut.write(res.toString().getBytes());
+                        break;
                 }
-                for(Classe c : listeClasses) {
-                    String parent = c.depExtend();
-                    // on ajoute la dépendance uniquement si la classe existe dans la liste des classes
-                    for(Classe c2 : listeClasses) {
-                        if(c2.getNom().equals(parent)) {
-                            res += c.getNom() + " --|> " + parent + "\n";
-                        }
-                    }
-                    ArrayList<String> dependances = c.depImplement();
-                    for(String s : dependances) {
-                        // on ajoute la dépendance uniquement si la classe existe dans la liste des classes
-                        for(Classe c2 : listeClasses) {
-                            if(c2.getNom().equals(s)) {
-                                res += c.getNom() + " ..|> " + s + "\n";
-                            }
-                        }
-                    }
-                }
-
-                res+="@enduml";
-                FileOutputStream fileOut = new FileOutputStream(file.getAbsoluteFile());
-                fileOut.write(res.getBytes());
             }
 
         } catch (Exception e) {

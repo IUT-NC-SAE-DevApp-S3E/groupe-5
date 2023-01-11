@@ -3,6 +3,7 @@ module com.example.projet {
     requires javafx.fxml;
     requires java.desktop;
     requires javafx.swing;
+    requires plantuml;
 
 
     opens com.example.projet to javafx.fxml;

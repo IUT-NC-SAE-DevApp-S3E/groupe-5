@@ -6,11 +6,19 @@ import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Bounds;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -392,6 +400,19 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             }
             vc.setLayoutX(maxX + DECALAGEX);
             vc.setLayoutY(startY);
+        }
+    }
+
+    public void capturerPane(File f) {
+        System.out.println("capture");
+        // Fais une capture d'écran de l'objet drag
+        WritableImage image = this.pane.snapshot(new SnapshotParameters(), null);
+        // Sauvegarde l'image dans le fichier f
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", fos);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

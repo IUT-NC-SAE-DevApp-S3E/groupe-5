@@ -6,6 +6,8 @@ import com.example.projet.Utilitaires.TrouverCheminOS;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 import com.example.projet.Vue.VueClasse;
+import com.example.projet.Vue.VueDiagrammeClasse;
+import javafx.beans.binding.StringBinding;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -178,6 +180,10 @@ public class Modele implements Sujet, Serializable {
         this.listeFichiers.remove(f);
     }
 
+    /**
+     * Méthode permettant d'inverser le booléent d'un type à masquer.
+     * @param type
+     */
     public void changerAffichage(String type) {
         switch (type) {
             case "A":
@@ -194,6 +200,10 @@ public class Modele implements Sujet, Serializable {
                 break;
         }
     }
+
+    /**
+     * Méthode inversant l'affichage des booléans afin de masque toute les informations
+     */
     public void inverserAffichage() {
         if (this.masquerAttributs && this.masquerMethodes && this.masquerDependance && this.masquerPackage) {
             this.masquerAttributs = false;
@@ -208,6 +218,11 @@ public class Modele implements Sujet, Serializable {
         }
     }
 
+    /**
+     * Méthode permettant de récupérer le type masqué.
+     * @param type
+     * @return
+     */
     public boolean getTypeMasque(String type) {
         boolean res = false;
         switch (type)
@@ -229,15 +244,56 @@ public class Modele implements Sujet, Serializable {
         return res;
     }
 
+    /**
+     * Méthode permettant de trouver la vue du diagramme de classe dans le but d'en faire une capture d'écran.
+     * @param f
+     */
     public void capturerPane(File f)
     {
         for (int i = 0; i < this.listeObservateurs.size(); i++) {
-            if(this.listeObservateurs.get(i) instanceof VueClasse)
+            if(this.listeObservateurs.get(i) instanceof VueDiagrammeClasse)
             {
-                ((VueClasse) this.listeObservateurs.get(i)).capturerPane(f);
+                ((VueDiagrammeClasse) this.listeObservateurs.get(i)).capturerPane(f);
                 break;
             }
         }
+    }
+
+
+    /**
+     * Méthode général le texte afin de la convertir en plantuml
+     * @return
+     */
+    public StringBuilder genererPlantUML()
+    {
+        ArrayList<Classe> listeClasses = this.getListeFichiers();
+        StringBuilder res = new StringBuilder();
+        res.append("@startuml\n");
+        for (Classe c : listeClasses) {
+            res.append(c.toPlantUML() + "\n");
+        }
+        for (Classe c : listeClasses) {
+            String parent = c.depExtend();
+            // on ajoute la dépendance uniquement si la classe existe dans la liste des classes
+            for (Classe c2 : listeClasses) {
+                if (c2.getNom().equals(parent)) {
+                    res.append(c.getNom() + " --|> " + parent + "\n");
+                }
+            }
+            ArrayList<String> dependances = c.depImplement();
+            for (String s : dependances) {
+                // on ajoute la dépendance uniquement si la classe existe dans la liste des classes
+                for (Classe c2 : listeClasses) {
+                    if (c2.getNom().equals(s)) {
+                        res.append(c.getNom() + " ..|> " + s + "\n");
+                    }
+                }
+            }
+        }
+
+        res.append("@enduml");
+
+        return res;
     }
 
 }
