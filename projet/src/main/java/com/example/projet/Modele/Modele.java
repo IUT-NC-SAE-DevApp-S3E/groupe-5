@@ -7,10 +7,7 @@ import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 import com.example.projet.Vue.VueClasse;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -230,6 +227,17 @@ public class Modele implements Sujet, Serializable {
 
         }
         return res;
+    }
+
+    public void capturerPane(File f)
+    {
+        for (int i = 0; i < this.listeObservateurs.size(); i++) {
+            if(this.listeObservateurs.get(i) instanceof VueClasse)
+            {
+                ((VueClasse) this.listeObservateurs.get(i)).capturerPane(f);
+                break;
+            }
+        }
     }
 
 }

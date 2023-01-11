@@ -4,6 +4,7 @@ import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Observateur;
 import com.example.projet.Utilitaires.Fichier;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -97,5 +98,5 @@ public interface Sujet extends Serializable {
 
     public boolean getTypeMasque(String type);
 
-
+    public void capturerPane(File f);
 }
