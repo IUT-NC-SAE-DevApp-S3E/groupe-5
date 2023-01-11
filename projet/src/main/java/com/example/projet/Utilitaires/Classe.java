@@ -46,6 +46,8 @@ public class Classe extends Fichier {
         this.compositionClasses = new ArrayList<>();
         this.type = "class";
         this.packageClasse= "";
+        this.superClasse = "";
+        this.interfaces = new ArrayList<>();
     }
 
     /**

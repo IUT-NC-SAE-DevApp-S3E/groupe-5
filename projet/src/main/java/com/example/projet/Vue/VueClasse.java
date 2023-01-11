@@ -112,6 +112,10 @@ public class VueClasse extends VBox implements Observateur {
         this.title.setEditable(true);
         // on ajoute les éléments a la vue
 
+        this.title.setOnAction(actionEvent -> {
+            this.classe.setNom(this.title.getText());
+        });
+
 
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
@@ -132,6 +136,7 @@ public class VueClasse extends VBox implements Observateur {
             startY = (int) event.getSceneY();
             // on passe l'element en premier plan
             this.toFront();
+            this.classe.afficher();
         });
 
         // on déplace la classe

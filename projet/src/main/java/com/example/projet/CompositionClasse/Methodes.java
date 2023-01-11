@@ -81,7 +81,11 @@ public class Methodes extends CompositionClasse {
         } else if (this.getAcces().equals("#")){
             acces = "protected";
         }
-        String res = acces  + " " + this.getRetour() + " " + this.getNom() + "(";
+        String retour = "void";
+        if (!this.getType().equals("void")) {
+            retour = this.getType();
+        }
+        String res = acces  + " " + retour + " " + this.getNom() + "(";
         for (int i = 0; i < this.parametres.size(); i++) {
             res += this.parametres.get(i);
             if (i != this.parametres.size() - 1) {

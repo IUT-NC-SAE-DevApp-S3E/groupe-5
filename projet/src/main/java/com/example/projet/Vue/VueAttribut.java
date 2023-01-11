@@ -1,5 +1,6 @@
 package com.example.projet.Vue;
 
+import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ public class VueAttribut extends HBox implements Observateur
     private TextField nomAttribut = new TextField("");
     private Button supprimerAttribut = new Button("");
     public Classe classe;
+    private boolean create = false;
 
     /**
      * constructeur de la classe VueAttribut
@@ -73,6 +75,29 @@ public class VueAttribut extends HBox implements Observateur
         this.setHeight(5);
         // on centre verticalement le contenu de la HBox
         this.setAlignment(javafx.geometry.Pos.CENTER);
+
+
+        // on met un controleur sur le nom de l'attribut quand on appuie sur entrer
+        this.nomAttribut.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER") && !this.create) {
+                String[] attribut = { " ", " ", " ", " " };
+                String[] contenue = nomAttribut.getText().split(" ");
+                for (int i = 0; i < contenue.length; i++) {
+                    attribut[i] = contenue[i];
+                }
+                String acces = "public";
+                // si le nom de l'attribut commence par un _, alors l'attribut est privé
+                if (attribut[0].equals("-")) {
+                    acces = "private";
+                } else if (attribut[0].equals("#")) {
+                    acces = "protected";
+                }
+                String nom = attribut[2];
+                String type = attribut[1];
+                this.classe.ajouterCompositionClasse(new Attributs(acces, type, nom, " "));
+                this.create = true;
+            }
+        });
     }
 
     /**
