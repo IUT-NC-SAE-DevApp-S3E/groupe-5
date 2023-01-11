@@ -253,6 +253,11 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         }
     }
 
+    /**
+     * Cette méthode fauit la liste des Dependances
+     * entre les VueCLasses
+     * pour
+     */
     public void makeDependanceList() {
         this.listeAssociationDependances.clear();
         for (VueClasse vueClasseDependance : this.listeVueClasse) {

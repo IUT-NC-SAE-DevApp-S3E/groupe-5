@@ -232,6 +232,4 @@ public class Modele implements Sujet, Serializable {
         return res;
     }
 
-
-
 }
