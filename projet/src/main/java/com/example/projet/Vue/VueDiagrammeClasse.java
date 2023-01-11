@@ -6,12 +6,20 @@ import com.example.projet.Controleur.ControleurCliqueDroitClasse;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +71,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     @Override
     public void actualiser(Sujet s) {
+        this.pane.setMaxWidth(2000);
+        this.pane.setMaxHeight(2000);
         /*
          * S'il ne faut pas clear le diagramme de classe,
          * on ajoute le visuel de la classe qui sont dans le modèle
@@ -80,18 +90,18 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
-            if (this.listeVueClasse.size() > 0) {
-                this.smartPlacementClasse();
-            }
             //this.placerVue();
             this.supprimerFleches();
-            this.drawSuperClasse();
-            this.drawImplementations();
             this.makeSuperClassListe();
             this.makeImplementsList();
             if (!this.sujet.getTypeMasque("D")) {
                 this.makeDependanceList();
             }
+            if (this.listeVueClasse.size() > 0) {
+                this.smartPlacementClasse();
+            }
+            this.drawSuperClasse();
+            this.drawImplementations();
             for (VueClasse v : this.listeVueClasse) {
                 v.actualiser(this.sujet);
             }
@@ -183,6 +193,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                         }
                         temp.add(vueClasseInterface);
                         this.listeAssociationInterfaces.put(classe, temp);
+                        classe.getClasse().getMoyValue().setValue(classe.getClasse().getMoyValue().getValue() + 1);
                     }
                 }
             }
@@ -220,6 +231,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
+                    this.listeVueClasse.get(i).getClasse().getMoyValue().setValue(this.listeVueClasse.get(i).getClasse().getMoyValue().getValue() + 1);
                 } else {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
@@ -357,68 +369,89 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * si une classe est le fils d'une des class déjà présente
      * on la place en dessous de la classe mère
      */
-    public void smartPlacementClasse() {
-
-        // pour chaque cle dans la liste d'implémentation
-        for (VueClasse cleListeVue : this.listeAssociationInterfaces.keySet()) {
-            ArrayList<VueClasse> listeVue = this.listeAssociationInterfaces.get(cleListeVue);
-            // on parcours la liste des classes implémentées
-            for (VueClasse vueClasse : listeVue) {
-                vueClasse.getClasse().getMoyValue().setValue(cleListeVue.getClasse().getMoyValue().getValue()+1);
+    private void smartPlacementClasse() {
+        this.startX = 200;
+        this.startY = 200;
+        int plusGrand = 0;
+        int nbClasse = this.listeVueClasse.size();
+        HashMap<VueClasse, Boolean> visited = new HashMap<>();
+        for (VueClasse vc : listeVueClasse) {
+            visited.put(vc, false);
+        }
+        for (VueClasse vc : this.listeAssociationInterfaces.keySet()) {
+            if (!visited.get(vc)) {
+                placeClasse(vc, visited,plusGrand);
             }
         }
-
-        // on fait une HashMap qui va contenir les classes et leur valeur moyenne
-        HashMap<Integer, ArrayList<VueClasse>> listeMoyenne = new HashMap<>();
-        int valMax = 0;
-
-        // on parcours la liste des classes
-        for (VueClasse vue : this.listeVueClasse) {
-            int valeur = vue.getClasse().getMoyValue().getValue();
-            // si la liste dans le hashmap est vide
-            if (!listeMoyenne.containsKey(valeur)) {
-                // on crée une nouvelle liste
-                ArrayList<VueClasse> liste = new ArrayList<>();
-                // on ajoute la classe dans la liste
-                liste.add(vue);
-                // on ajoute la liste dans le hashmap
-                listeMoyenne.put(valeur, liste);
-            } else {
-                // on ajoute la classe dans la liste
-                listeMoyenne.get(valeur).add(vue);
-            }
-            if (valeur > valMax) {
-                valMax = valeur;
+        for (VueClasse vc : this.listeAssociationSuperClasse.keySet()) {
+            if (!visited.get(vc)) {
+                placeClasse(vc, visited,plusGrand);
             }
         }
+        for (VueClasse vc : this.listeVueClasse) {
+            if (!visited.get(vc)) {
+                placeClasse(vc, visited,plusGrand);
+            }
+        }
+    }
 
-        int poseY = 25;
-        int MilieuX = (int) this.pane.getWidth() / 2;
+    private void placeClasse(VueClasse vc, HashMap<VueClasse, Boolean> visited, int plusGrand) {
+        visited.put(vc, true);
 
-        for (int i = valMax; i >= 0; i--) {
-            int taillePlusgrande = 0;
-            int poseDroite = MilieuX;
-            int poseGauche = MilieuX;
-            int j = 0;
-            for (VueClasse vueClasse : listeMoyenne.get(i)) {
-                if (vueClasse.getHauteur() > taillePlusgrande) {
-                    taillePlusgrande = vueClasse.getHauteur();
-                }
+        // Place the current class
+        vc.setLayoutX(startX);
+        vc.setLayoutY(startY);
 
-                j++;
-                if (j % 2 == 0) {
-                    vueClasse.setLayoutX(poseDroite);
-                    poseDroite += 215;
-                } else {
-                    vueClasse.setLayoutX(poseGauche);
-                    poseGauche -= 215;
+        if (vc.getHauteur() > plusGrand) {
+            plusGrand = vc.getHauteur();
+        }
+
+        // Update the starting coordinates for the next class
+        this.startX += 350;
+        if (this.startX > 2000) {
+            this.startX = 200;
+            this.startY += plusGrand + 100;
+        }
+
+
+
+        int nbMere = 0;
+
+        // Place the superclass of the current class
+        VueClasse superClasse = listeAssociationSuperClasse.get(vc);
+        if (superClasse != null && !visited.get(superClasse)) {
+            superClasse.setLayoutX(vc.getLayoutX());
+            superClasse.setLayoutY(vc.getLayoutY() - superClasse.getHauteur() - 100);
+            visited.put(superClasse, true);
+            nbMere++;
+        }
+
+        // Place the interfaces of the current class
+        ArrayList<VueClasse> interfaces = listeAssociationInterfaces.get(vc);
+        if (interfaces != null) {
+            for (VueClasse inter : interfaces) {
+                if (!visited.get(inter)) {
+                    inter.setLayoutX(vc.getLayoutX() + nbMere*200 + 150);
+                    inter.setLayoutY(vc.getLayoutY() - vc.getHauteur() + 100);
+                    visited.put(inter, true);
+                    nbMere++;
                 }
             }
-
-            poseY += taillePlusgrande + 25;
         }
     }
 
 
 
+    public void capturerPane(File f) {
+        System.out.println("capture");
+        // Fais une capture d'écran de l'objet drag
+        WritableImage image = this.pane.snapshot(new SnapshotParameters(), null);
+        // Sauvegarde l'image dans le fichier f
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", fos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

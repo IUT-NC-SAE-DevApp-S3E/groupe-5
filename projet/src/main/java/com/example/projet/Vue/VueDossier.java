@@ -39,6 +39,10 @@ public class VueDossier extends VBox implements Observateur {
         this.setPrefSize(250, 700);
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #f3f3f3");
+        // sa hauteur fait toute la fenêtre
+        this.setAlignment(Pos.TOP_CENTER);
+        this.setPadding(new javafx.geometry.Insets(5, 5, 5, 5));
+
 
 
         HBox boutonHaut = new HBox();
@@ -146,6 +150,8 @@ public class VueDossier extends VBox implements Observateur {
         boutonafficherCacher.setSpacing(2);
         Button bouton = new Button();
         bouton.setText("\uf06e");
+        // on colle le HBox en bas
+        boutonafficherCacher.setAlignment(Pos.BOTTOM_CENTER);
         bouton.setOnAction(new ControleurBoutonAffichageOeil(this.sujet, bouton));
         bouton.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
 

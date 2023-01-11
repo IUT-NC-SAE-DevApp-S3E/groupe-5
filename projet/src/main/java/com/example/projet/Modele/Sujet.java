@@ -99,4 +99,6 @@ public interface Sujet extends Serializable {
     public boolean getTypeMasque(String type);
 
     public void capturerPane(File f);
+
+    public StringBuilder genererPlantUML();
 }

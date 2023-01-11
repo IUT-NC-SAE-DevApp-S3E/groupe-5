@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -44,6 +45,8 @@ public class VueClasse extends VBox implements Observateur {
      * attribut de l'affichage graphique
      */
     private StackPane drag;
+
+    private Pane pane;
     private TextField title = new TextField();
     private TextField packageClasse = new TextField("package");
     private VBox attributs = new VBox();
@@ -129,7 +132,6 @@ public class VueClasse extends VBox implements Observateur {
             startY = (int) event.getSceneY();
             // on passe l'element en premier plan
             this.toFront();
-            System.out.println(this.classe.getSqueletteJava());
         });
 
         // on déplace la classe
@@ -505,17 +507,6 @@ public class VueClasse extends VBox implements Observateur {
         } else {
             this.getChildren().removeAll(this.attributs, this.methodes, this.packageClasse);
             this.boutonVisible.setText("\uf070");
-        }
-    }
-
-    public void capturerPane(File f) {
-        // Fais une capture d'écran de l'objet drag
-        WritableImage image = this.drag.snapshot(new SnapshotParameters(), null);
-        // Sauvegarde l'image dans le fichier f
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "jpg", f);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
