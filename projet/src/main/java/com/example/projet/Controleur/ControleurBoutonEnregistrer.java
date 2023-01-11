@@ -1,6 +1,7 @@
 package com.example.projet.Controleur;
 
 import com.example.projet.Modele.Sujet;
+import com.example.projet.Utilitaires.Classe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
@@ -34,6 +35,7 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Capture d'écran PNG", "*.png"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG PlantUML", "*.png"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Source plantUML", "*.txt"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Créer Squelette", "*.java"));
             fileChooser.setInitialFileName("diagramme");
             fileChooser.setInitialDirectory((new File(sujet.getCheminArborescence())));
             File file = fileChooser.showSaveDialog(null);
@@ -67,6 +69,18 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                         StringBuilder res = this.sujet.genererPlantUML();
                         fileOut = new FileOutputStream(file.getAbsoluteFile());
                         fileOut.write(res.toString().getBytes());
+                        break;
+                    case "Créer Squelette":
+                        // dans le dossier selectionné, créer un dossier avec le nom du fichier
+                        for (Classe c : this.sujet.getListeFichiers()) {
+                            // on créer un fichier avec comme nom le nom du fichier
+                            File f = new File(file.getParent() + "/" + c.getNom() + ".java");
+                            f.createNewFile();
+                            // on écrit dans le fichier
+                            fileOut = new FileOutputStream(f.getAbsoluteFile());
+                            fileOut.write(c.getSqueletteJava().toString().getBytes());
+
+                        }
                         break;
                 }
             }
