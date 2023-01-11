@@ -300,4 +300,47 @@ public class Classe extends Fichier {
         return res;
     }
 
+
+    /**
+     * méthode getSqueletteJava
+     * @return le squelette java de la classe
+     */
+    public String getSqueletteJava(){
+        String res = "";
+        if(this.type.equals("interface")){
+            res += "public interface " + this.getNom() ;
+        }else{
+            res += "public class " + this.getNom() ;
+        }
+        // ajout de la super classe et les implémentation
+        if (!this.superClasse.equals("Object") && !this.type.equals("interface")) {
+            res += " extends " + this.superClasse;
+        }
+        if(this.interfaces.size() > 0){
+            res += " implements ";
+            for(int i = 0; i < this.interfaces.size(); i++){
+                if(i == this.interfaces.size() - 1){
+                    res += this.interfaces.get(i);
+                }else{
+                    res += this.interfaces.get(i) + ", ";
+                }
+            }
+        }
+        res += " {\n";
+
+        for(CompositionClasse c : this.compositionClasses){
+            if(!c.getNom().contains("$")){
+                if (c instanceof Attributs) {
+                    res += "\t" + ((Attributs) c).getSqueletteJava() + "\n";
+                } else if (c instanceof Methodes) {
+                    res += "\t" + ((Methodes) c).getSqueletteJava() + "\n";
+                    res += "\t\t // TODO\n\t}\n";
+                } else if (c instanceof Constructeur) {
+                    res += "\t" + ((Constructeur) c).getSqueletteJava() + "\n";
+                    res += "\t\t // TODO\n\t}\n";
+                }
+            }
+        }
+        return res += "}";
+    }
 }

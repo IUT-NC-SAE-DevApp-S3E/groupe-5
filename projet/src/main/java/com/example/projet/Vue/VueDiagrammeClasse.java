@@ -7,6 +7,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
@@ -78,6 +79,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                         this.creerVisuelClasse(c, s);
                     }
                 }
+            }
+            if (this.listeVueClasse.size() > 0) {
+                this.smartPlacementClasse();
             }
             //this.placerVue();
             this.supprimerFleches();
@@ -179,7 +183,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                         }
                         temp.add(vueClasseInterface);
                         this.listeAssociationInterfaces.put(classe, temp);
-                        vueClasseInterface.getClasse().getMoyValue().ajouterFilsImplements();
                     }
                 }
             }
@@ -217,7 +220,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
-                    this.listeVueClasse.get(j).getClasse().getMoyValue().ajouterFilsSuper();
                 } else {
                     //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
@@ -355,44 +357,68 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * si une classe est le fils d'une des class déjà présente
      * on la place en dessous de la classe mère
      */
-    private void smartPlacementClasse() {
-        // Créer une map pour stocker les limites de chaque classe
-        HashMap<VueClasse, Bounds> classBounds = new HashMap<>();
+    public void smartPlacementClasse() {
 
-        // Parcourir chaque vue de classe et obtenir ses limites
-        for (VueClasse vc : listeVueClasse) {
-            Bounds b = vc.getBoundsInParent();
-            classBounds.put(vc, b);
+        // pour chaque cle dans la liste d'implémentation
+        for (VueClasse cleListeVue : this.listeAssociationInterfaces.keySet()) {
+            ArrayList<VueClasse> listeVue = this.listeAssociationInterfaces.get(cleListeVue);
+            // on parcours la liste des classes implémentées
+            for (VueClasse vueClasse : listeVue) {
+                vueClasse.getClasse().getMoyValue().setValue(cleListeVue.getClasse().getMoyValue().getValue()+1);
+            }
         }
 
-        // Parcourir à nouveau chaque vue de classe
-        for (VueClasse vc : listeVueClasse) {
-            // Obtenir les limites de la classe courante
-            Bounds currentBounds = classBounds.get(vc);
-            // Obtenir la super-classe de la classe courante
-            VueClasse superClasse = listeAssociationSuperClasse.get(vc);
-            // Obtenir les implémentations de la classe courante
-            ArrayList<VueClasse> implementations = listeAssociationInterfaces.get(vc);
-            // Obtenir les dépendances de la classe courante
-            ArrayList<VueClasse> dependances = listeAssociationDependances.get(vc);
-            // Utiliser la position la plus à droite des éléments liés (super-classe, implémentations, dépendances) pour placer la classe courante
-            double maxX = currentBounds.getMaxX();
-            if (superClasse != null) {
-                maxX = Math.max(maxX, classBounds.get(superClasse).getMaxX());
+        // on fait une HashMap qui va contenir les classes et leur valeur moyenne
+        HashMap<Integer, ArrayList<VueClasse>> listeMoyenne = new HashMap<>();
+        int valMax = 0;
+
+        // on parcours la liste des classes
+        for (VueClasse vue : this.listeVueClasse) {
+            int valeur = vue.getClasse().getMoyValue().getValue();
+            // si la liste dans le hashmap est vide
+            if (!listeMoyenne.containsKey(valeur)) {
+                // on crée une nouvelle liste
+                ArrayList<VueClasse> liste = new ArrayList<>();
+                // on ajoute la classe dans la liste
+                liste.add(vue);
+                // on ajoute la liste dans le hashmap
+                listeMoyenne.put(valeur, liste);
+            } else {
+                // on ajoute la classe dans la liste
+                listeMoyenne.get(valeur).add(vue);
             }
-            if (implementations != null) {
-                for (VueClasse v : implementations) {
-                    maxX = Math.max(maxX, classBounds.get(v).getMaxX());
+            if (valeur > valMax) {
+                valMax = valeur;
+            }
+        }
+
+        int poseY = 25;
+        int MilieuX = (int) this.pane.getWidth() / 2;
+
+        for (int i = valMax; i >= 0; i--) {
+            int taillePlusgrande = 0;
+            int poseDroite = MilieuX;
+            int poseGauche = MilieuX;
+            int j = 0;
+            for (VueClasse vueClasse : listeMoyenne.get(i)) {
+                if (vueClasse.getHauteur() > taillePlusgrande) {
+                    taillePlusgrande = vueClasse.getHauteur();
+                }
+
+                j++;
+                if (j % 2 == 0) {
+                    vueClasse.setLayoutX(poseDroite);
+                    poseDroite += 215;
+                } else {
+                    vueClasse.setLayoutX(poseGauche);
+                    poseGauche -= 215;
                 }
             }
-            if (dependances != null) {
-                for (VueClasse v : dependances) {
-                    maxX = Math.max(maxX, classBounds.get(v).getMaxX());
-                }
-            }
-            vc.setLayoutX(maxX + DECALAGEX);
-            vc.setLayoutY(startY);
+
+            poseY += taillePlusgrande + 25;
         }
     }
+
+
 
 }

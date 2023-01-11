@@ -4,24 +4,21 @@ import java.io.Serializable;
 
 public class MoyValue implements Serializable {
 
-    private int nbFilsSuper = 0;
-    private int nbFilsImplements = 0;
+    private int value = 0;
 
     /**
-     * méthode ajouterFilsSuper
+     * méthode addValue
      */
-    public void ajouterFilsSuper() {
-        this.nbFilsSuper++;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     /**
-     * méthode ajouterFilsImplements
+     * méthode getValue
      */
-    public void ajouterFilsImplements() {
-        this.nbFilsImplements++;
+    public int getValue() {
+        return this.value;
     }
 
-    public double getValue() {
-        return (this.nbFilsSuper + this.nbFilsImplements);
-    }
+
 }

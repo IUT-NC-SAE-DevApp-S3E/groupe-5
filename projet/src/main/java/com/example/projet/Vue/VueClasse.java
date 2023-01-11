@@ -129,6 +129,7 @@ public class VueClasse extends VBox implements Observateur {
             startY = (int) event.getSceneY();
             // on passe l'element en premier plan
             this.toFront();
+            System.out.println(this.classe.getSqueletteJava());
         });
 
         // on déplace la classe
@@ -159,7 +160,7 @@ public class VueClasse extends VBox implements Observateur {
         this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
         this.methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
-        this.setStyle("-fx-background-color: #FCF8A7;-fx-border-color: grey;-fx-border-radius: 10;");
+        this.setStyle("-fx-background-color: #fcea4a;-fx-border-color: grey;-fx-border-radius: 10;");
         // on met la taille du titre à 20
         this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);

@@ -70,4 +70,26 @@ public class Methodes extends CompositionClasse {
         return res;
     }
 
+    /**
+     * méthode getSquelette java qui
+     * retourne un String comme la méthode serait écrit en java
+     */
+    public String getSqueletteJava() {
+        String acces = "public";
+        if (this.getAcces().equals("-")) {
+            acces = "private";
+        } else if (this.getAcces().equals("#")){
+            acces = "protected";
+        }
+        String res = acces  + " " + this.getRetour() + " " + this.getNom() + "(";
+        for (int i = 0; i < this.parametres.size(); i++) {
+            res += this.parametres.get(i);
+            if (i != this.parametres.size() - 1) {
+                res += ", ";
+            }
+        }
+        res += ") {";
+        return res;
+    }
+
 }

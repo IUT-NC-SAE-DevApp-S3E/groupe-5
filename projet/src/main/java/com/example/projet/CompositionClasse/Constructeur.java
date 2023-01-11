@@ -39,4 +39,26 @@ public class Constructeur extends CompositionClasse {
         return res;
     }
 
+    /**
+     * méthode getSqueletteJava
+     * qui retourne sous forme de String le constructeur en java
+     */
+    public String getSqueletteJava() {
+        String acces = "public";
+        if (this.getAcces().equals("-")) {
+            acces = "private";
+        } else if (this.getAcces().equals("#")){
+            acces = "protected";
+        }
+        String res = acces + " " + this.getNom() + "(";
+        for (int i = 0; i < this.parametres.size(); i++) {
+            res += this.parametres.get(i);
+            if (i != this.parametres.size() - 1) {
+                res += ", ";
+            }
+        }
+        res += ") {";
+        return res;
+    }
+
 }

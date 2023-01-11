@@ -67,6 +67,21 @@ public class Attributs extends CompositionClasse {
         return res;
     }
 
+    /**
+     * méthode getSqueletteJava
+     * retourne sous forme de text l'attribut comme il serait écrit en java
+     */
+    public String getSqueletteJava() {
+        String acces = "public";
+        if (this.getAcces().equals("-")) {
+            acces = "private";
+        } else if (this.getAcces().equals("#")){
+            acces = "protected";
+        }
+        String res = acces + " " + this.getType() + " " + this.getNom() + ";";
+        return res;
+    }
+
 
 }
 
