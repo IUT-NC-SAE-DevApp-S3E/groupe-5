@@ -276,7 +276,7 @@ public class Classe extends Fichier {
     public ArrayList<String> depToPlantUML(){
         ArrayList<String> res = new ArrayList<>();
         if(!this.type.equals("interface") && !this.superClasse.contains("Object")){
-            res.add(this.getNom() + " -> " + this.superClasse);
+            res.add(this.getNom() + " --|> " + this.superClasse);
         }
         for(String inter : this.interfaces){
             res.add(this.getNom() + " ..|> " + inter);
