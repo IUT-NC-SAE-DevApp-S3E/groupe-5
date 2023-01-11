@@ -45,7 +45,7 @@ public class VueDossier extends VBox implements Observateur {
         boutonHaut.setSpacing(10);
         // on met un marginTop de 10px
         boutonHaut.setStyle("-fx-padding: 10 0 0 0");
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= 5; i++) {
             // on créer un bouton avec l'icon folder de font awesome
             Button button = new Button();
             // on met dans le bouton l'icon folder
@@ -56,25 +56,21 @@ public class VueDossier extends VBox implements Observateur {
                     button.setOnAction(new ControleurBoutonEnregistrer(this.sujet));
                     break;
                 case 2:
-                    // enregistrement
-                    button.setText("\uF093");
-                    break;
-                case 3:
                     // folder open
                     button.setText("\uf07c");
                     button.setOnAction(new ControleurBoutonOuvrirDossier(this.sujet));
                     break;
-                case 4:
+                case 3:
                     // export icon
                     button.setText("\uf15b");
                     button.setOnAction(new ControleurBoutonOpenFile(this.sujet));
                     break;
-                case 5:
+                case 4:
                     // icon fichier
                     button.setText("\uf0fe");
                     button.setOnAction(new ControleurNewClasse(this.sujet));
                     break;
-                case 6:
+                case 5:
                     // icon poubelle
                     button.setText("\uf1f8");
                     button.setOnAction(new ControleurBoutonClear(this.sujet));

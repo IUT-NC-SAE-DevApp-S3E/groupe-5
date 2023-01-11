@@ -16,6 +16,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
@@ -41,12 +44,26 @@ public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir un fichier");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier Java", "*.class"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier Diagramme", "*.diagramme"));
         fileChooser.setInitialDirectory(new File(TrouverCheminOS.getChemin()));
         File file = fileChooser.showOpenDialog(choixDeFichier);
 
-        Classe c = new Classe(file.getPath(), file.getName());
+        if(file.getName().endsWith(".class")) {
+            Classe c = new Classe(file.getPath(), file.getName());
+            c.lectureFichier();
+            this.sujet.ajouterFichier(c);
+        } else if(file.getName().endsWith(".diagramme")) {
+            ObjectInputStream in = null;
+            try {
+                in = new ObjectInputStream(new FileInputStream(file));
+                this.sujet.setListeFichiers((ArrayList<Classe>) in.readObject());
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        this.sujet.ajouterFichier(c);
         try {
             this.sujet.notifierObservateur();
         } catch (Exception e) {

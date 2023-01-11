@@ -30,15 +30,26 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Enregistrer le diagramme");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Diagramme UML", "*.diagramme"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Capture d'écran JPG", "*.jpg"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG PlantUML", "*.png"));
             fileChooser.setInitialFileName("diagramme");
             fileChooser.setInitialDirectory((new File(sujet.getCheminArborescence())));
+            File file = fileChooser.showSaveDialog(null);
 
-            FileOutputStream fileOut = new FileOutputStream("/Users/arthur/Desktop/sauvegarde.diagramme");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this.sujet.getListeFichiers());
-            out.close();
-            fileOut.close();
-            System.out.printf("Serialized data is saved");
+            if(file.getName().endsWith(".diagramme")) {
+                FileOutputStream fileOut = new FileOutputStream(file.getAbsoluteFile());
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(this.sujet.getListeFichiers());
+                out.close();
+                fileOut.close();
+                System.out.printf("Serialized data is saved");
+            } else if(file.getName().endsWith(".jpg")) {
+
+            } else if(file.getName().endsWith(".png"))
+            {
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

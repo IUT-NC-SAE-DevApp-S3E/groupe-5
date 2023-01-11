@@ -9,15 +9,17 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.Serializable;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -496,6 +498,16 @@ public class VueClasse extends VBox implements Observateur {
         } else {
             this.getChildren().removeAll(this.attributs, this.methodes, this.packageClasse);
             this.boutonVisible.setText("\uf070");
+        }
+    }
+
+    public void capturerPane(File f) {
+        WritableImage image = this.drag.snapshot(new SnapshotParameters(), null);
+        try {
+
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
