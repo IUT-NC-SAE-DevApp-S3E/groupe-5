@@ -44,7 +44,7 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                 fileOut.close();
                 System.out.printf("Serialized data is saved");
             } else if(file.getName().endsWith(".jpg")) {
-
+                this.sujet.capturerPane(file);
             } else if(file.getName().endsWith(".png"))
             {
 

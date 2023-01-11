@@ -9,6 +9,7 @@ import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
@@ -18,6 +19,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -253,7 +259,7 @@ public class VueClasse extends VBox implements Observateur {
     public void ajouterAttribut(VueAttribut attribut) {
         this.attributs.getChildren().add(attribut);
         // on ajoute l'attribut a la classe
-        this.classe.ajouterCompositionClasse(new Attributs("public",attribut.getTextField().getText(),"None","normal"));
+        this.classe.ajouterCompositionClasse(new Attributs("public", attribut.getTextField().getText(), "None", "normal"));
     }
 
     /**
@@ -441,11 +447,11 @@ public class VueClasse extends VBox implements Observateur {
         ScrollPane menu = new ScrollPane();
         // on initialise le VBox
         VBox contentScroll = new VBox();
-            menu.setContent(contentScroll);
+        menu.setContent(contentScroll);
         // stylisation
-            contentScroll.setPrefWidth(200);
+        contentScroll.setPrefWidth(200);
         // on va mettre un bouton dans le VBox pour chaque classe dans le sujet
-            for (Classe c : this.sujet.getListeFichiers()) {
+        for (Classe c : this.sujet.getListeFichiers()) {
             // on ne met pas la classe correspondent à la classe que l'on vient de cliquer
             if (!c.equals(this.classe)) {
                 // on met comme titre le nom de la classe
@@ -475,7 +481,7 @@ public class VueClasse extends VBox implements Observateur {
                 });
             }
         }
-            return menu;
+        return menu;
     }
 
     /**
@@ -502,10 +508,11 @@ public class VueClasse extends VBox implements Observateur {
     }
 
     public void capturerPane(File f) {
+        // Fais une capture d'écran de l'objet drag
         WritableImage image = this.drag.snapshot(new SnapshotParameters(), null);
+        // Sauvegarde l'image dans le fichier f
         try {
-
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "jpg", f);
         } catch (IOException e) {
             e.printStackTrace();
         }
