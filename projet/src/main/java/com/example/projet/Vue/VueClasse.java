@@ -371,17 +371,17 @@ public class VueClasse extends VBox implements Observateur {
                 // pour chaque bouton, on ajoute un vehement qui va ajouter la dépendance à la classe correspondante
                 bouton.setOnAction(actionEvent -> {
                     this.classe.ajouterCompositionClasse(new Attributs("private", c.getNom().toLowerCase(), c.getNom(), "none"));
-                    // on créer un TextField pour l'attribut que l'on ajoute dans le diagramme de classe
-                    TextField newAttribut = new TextField("- " + c.getNom().toLowerCase() + " " + c.getNom());
 
-                    //Stylisation --------------------------------
-                    newAttribut.setPrefHeight(5);
-                    newAttribut.setStyle("-fx-background-color: none;");
-                    newAttribut.setPadding(new javafx.geometry.Insets(0, 0, 0, 5));
-                    //Stylisation --------------------------------
+                    VueAttribut newAttribut = new VueAttribut(this.attributs, c);
+                    this.ajouterAttribut(newAttribut);
+                    newAttribut.setNom("+ "+c.getNom() + " "+ c.getNom().toLowerCase());
+                    try {
+                        this.sujet.notifierObservateur();
+                    } catch (Exception e) {
+                        // TODO
+                    }
 
                     // on ajoute le TextField dans la vue
-                    this.attributs.getChildren().add(newAttribut);
                 });
             }
         }

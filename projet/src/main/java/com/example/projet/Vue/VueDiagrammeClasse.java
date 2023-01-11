@@ -27,7 +27,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
     private int startX = 25;
     private int startY = 25;
-    private HashMap<Integer, ArrayList<VueClasse>> hauteurLigne = new HashMap<>();
     private Sujet sujet;
 
     private ArrayList<VueClasse> listeVueClasse = new ArrayList<>();
@@ -234,6 +233,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     public void afficherSuperClasse() {
         // on affiche le nombre de cle
         for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
+
         }
     }
 
@@ -350,62 +350,49 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     }
 
     /**
-     * méthode placerVue
+     * méthode qui permet de placer intelligemment les classes
+     * on place les classe l'un a côyté de l'autre
+     * si une classe est le fils d'une des class déjà présente
+     * on la place en dessous de la classe mère
      */
-    public void placerVue() {
-        for (int i = 0; i < 5; i++) {
-            this.hauteurLigne.put(i, new ArrayList<>());
+    private void smartPlacementClasse() {
+        // Créer une map pour stocker les limites de chaque classe
+        HashMap<VueClasse, Bounds> classBounds = new HashMap<>();
+
+        // Parcourir chaque vue de classe et obtenir ses limites
+        for (VueClasse vc : listeVueClasse) {
+            Bounds b = vc.getBoundsInParent();
+            classBounds.put(vc, b);
         }
-        for (VueClasse vueClasse : this.listeVueClasse) {
-            double value = vueClasse.getClasse().getMoyValue().getValue();
-            int valueArrondi = (int) Math.round(value);
-            switch (valueArrondi) {
-                case 0:
-                    this.hauteurLigne.get(0).add(vueClasse);
-                    break;
-                case 1:
-                    this.hauteurLigne.get(1).add(vueClasse);
-                    break;
-                case 2:
-                    this.hauteurLigne.get(2).add(vueClasse);
-                    break;
-                case 3:
-                    this.hauteurLigne.get(3).add(vueClasse);
-                    break;
-                default:
-                    this.hauteurLigne.get(4).add(vueClasse);
-                    break;
+
+        // Parcourir à nouveau chaque vue de classe
+        for (VueClasse vc : listeVueClasse) {
+            // Obtenir les limites de la classe courante
+            Bounds currentBounds = classBounds.get(vc);
+            // Obtenir la super-classe de la classe courante
+            VueClasse superClasse = listeAssociationSuperClasse.get(vc);
+            // Obtenir les implémentations de la classe courante
+            ArrayList<VueClasse> implementations = listeAssociationInterfaces.get(vc);
+            // Obtenir les dépendances de la classe courante
+            ArrayList<VueClasse> dependances = listeAssociationDependances.get(vc);
+            // Utiliser la position la plus à droite des éléments liés (super-classe, implémentations, dépendances) pour placer la classe courante
+            double maxX = currentBounds.getMaxX();
+            if (superClasse != null) {
+                maxX = Math.max(maxX, classBounds.get(superClasse).getMaxX());
             }
-
-        }
-
-
-        this.startX = 25;
-        this.startY = 25;
-
-        for (int i = 4; i >= 0; i--) {
-            int plusGrand = 0;
-            for (int j = 0; j < this.hauteurLigne.get(i).size(); j++) {
-                if (this.startX > 1000) {
-                    this.startX = 25;
-                    this.startY += plusGrand;
-                    plusGrand = 0;
-                }
-                this.hauteurLigne.get(i).get(j).setLayoutX(this.startX);
-                this.hauteurLigne.get(i).get(j).setLayoutY(this.startY);
-                // this.startX += this.hauteurLigne.get(i).get(j).getWidth() + 25;
-                this.startX += 275;
-                // on récupère la largeur de la Vue
-                Bounds bounds = this.hauteurLigne.get(i).get(j).getLayoutBounds();
-                double hauteur = bounds.getHeight();
-                if (hauteur > plusGrand) {
-                    plusGrand = (int) this.hauteurLigne.get(i).get(j).getHauteur();
+            if (implementations != null) {
+                for (VueClasse v : implementations) {
+                    maxX = Math.max(maxX, classBounds.get(v).getMaxX());
                 }
             }
-            this.startX = 25;
-            this.startY += plusGrand + 10;
+            if (dependances != null) {
+                for (VueClasse v : dependances) {
+                    maxX = Math.max(maxX, classBounds.get(v).getMaxX());
+                }
+            }
+            vc.setLayoutX(maxX + DECALAGEX);
+            vc.setLayoutY(startY);
         }
-
     }
 
 }
