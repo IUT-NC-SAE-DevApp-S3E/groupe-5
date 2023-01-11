@@ -165,10 +165,6 @@ public class Classe extends Fichier {
         } catch (NoClassDefFoundError e) {
             System.out.println("Message erreur : " + e.getMessage());
         }
-
-
-        //afficher();
-
     }
 
 
@@ -258,4 +254,34 @@ public class Classe extends Fichier {
     public MoyValue getMoyValue() {
         return this.moyValue;
     }
+
+    /**
+     * methode toPlantUML permet de générer le code plantUML de la classe
+     * @return la classe en code plantUML
+     */
+    public String toPlantUML(){
+        String res = "class " + this.getNom() + "{\n";
+        for(CompositionClasse c : this.compositionClasses){
+            if(!c.getNom().contains("$")){
+                res += c + "\n";
+            }
+        }
+        return res += "}";
+    }
+
+    /**
+     * méthode depToPlantUML permet de générer le code plantUML des dépendances de la classe
+     * @return les dépendances de la classe en code plantUML
+     */
+    public ArrayList<String> depToPlantUML(){
+        ArrayList<String> res = new ArrayList<>();
+        if(!this.type.equals("interface") && !this.superClasse.contains("Object")){
+            res.add(this.getNom() + " -> " + this.superClasse);
+        }
+        for(String inter : this.interfaces){
+            res.add(this.getNom() + " ..|> " + inter);
+        }
+        return res;
+    }
+
 }
