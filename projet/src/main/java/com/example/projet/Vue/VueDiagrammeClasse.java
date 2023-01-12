@@ -222,10 +222,10 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      */
     public void makeSuperClassListe() {
         this.listeAssociationSuperClasse.clear();
-        for (int i = 0; i < this.listeVueClasse.size() - 1; i++) {
+        for (int i = 0; i < this.listeVueClasse.size(); i++) {
             boolean trouver = false;
             String nomSuperClasse = this.listeVueClasse.get(i).getClasse().getSuperClasse();
-            for (int j = i + 1; j < this.listeVueClasse.size() && !trouver; j++) {
+            for (int j = 0; j < this.listeVueClasse.size() && !trouver; j++) {
                 String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom();
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
