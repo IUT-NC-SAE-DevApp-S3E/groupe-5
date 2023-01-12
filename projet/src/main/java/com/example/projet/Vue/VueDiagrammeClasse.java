@@ -85,15 +85,13 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             // si le nombre d'éléments dans la liste est supérieur au nombre de class dans le visuel
             if (this.listeVueClasse.size() < fichiers.size()) {
                 for (int i = this.listeVueClasse.size(); i < fichiers.size(); i++) {
-                    if (fichiers.get(i) instanceof Classe) {
+                    if (fichiers.get(i) != null) {
                         Classe c = fichiers.get(i);
                         this.creerVisuelClasse(c, s);
                     }
                 }
             }
-            if (!this.sujet.getTypeMasque("D")) {
-                this.makeDependanceList();
-            }
+
             if (this.listeVueClasse.size() > 0 && this.sujet.getReplacer()) {
                 this.trierListeVueClasse();
                 this.smartPlacementClasse();
@@ -102,9 +100,9 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             this.supprimerFleches();
             this.makeSuperClassListe();
             this.makeImplementsList();
-            this.drawSuperClasse();
-            this.drawImplementations();
-            this.drawDependance();
+            if (!this.sujet.getTypeMasque("D")) {
+                this.makeDependanceList();
+            }
             for (VueClasse v : this.listeVueClasse) {
                 v.actualiser(this.sujet);
             }
@@ -241,16 +239,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         drawSuperClasse();
     }
 
-    /**
-     * méthode afficher superClasse
-     * qui va afficher les super classe de chaque classe
-     */
-    public void afficherSuperClasse() {
-        // on affiche le nombre de cle
-        for (VueClasse vueClasse : this.listeAssociationSuperClasse.keySet()) {
-
-        }
-    }
 
     /**
      * méthode drawSuperClasse
