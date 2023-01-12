@@ -19,11 +19,10 @@ public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
     private String type = "";
     private String superClasse;
-    private ArrayList<String> interfaces = new ArrayList<>();
+    private ArrayList<String> interfaces;
     private MoyValue moyValue = new MoyValue();
     private String packageClasse;
 
-    private int erreur;
 
     /**
      * Constructeur de la classe Classe
