@@ -11,17 +11,23 @@ public class VuePaletteCouleur extends VBox {
 
     private Sujet sujet;
     private Pane choixCouleur = new Pane();
+    private Button bouton1 = new Button();
+    private Button bouton2 = new Button();
+    private Button bouton3 = new Button();
+    private Button bouton4 = new Button();
 
     private int valueAChanger = 0;
 
     public VuePaletteCouleur(Sujet s) {
         this.sujet = s;
 
-        String[] color = {"#000000", "#ffffff", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#00ffff", "#ff00ff"};
+        String[] color = {"#000000", "#f3f3f3f3", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#00ffff", "#ff00ff"};
         HBox choixCouleur = new HBox();
+        choixCouleur.setAlignment(javafx.geometry.Pos.CENTER);
+        choixCouleur.setPadding(new javafx.geometry.Insets(5, 5, 5, 5));
         for (String c : color) {
             Button button = new Button("");
-            button.setStyle("-fx-background-color: " + c + ";");
+            button.setStyle("-fx-background-color: " + c + ";-fx-border-color: black;-fx-border-width: 1px;");
             button.setPrefWidth(50);
             button.setPrefHeight(50);
             button.setOnAction(actionEvent -> {
@@ -44,6 +50,7 @@ public class VuePaletteCouleur extends VBox {
 
 
         HBox menu = new HBox();
+        menu.setAlignment(javafx.geometry.Pos.CENTER);
         // on met une bordure grise de 1px en bas du menu
         menu.setStyle("-fx-border-color: #ababab; -fx-border-width: 0 0 1px 0;");
         this.getChildren().addAll(menu, choixCouleur);
@@ -55,38 +62,47 @@ public class VuePaletteCouleur extends VBox {
             bouton.setPrefHeight(50);
             bouton.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
             menu.getChildren().add(bouton);
-            bouton.setOnMouseEntered(mouseEvent -> {
-                bouton.setStyle("-fx-background-color: #ababab;");
-            });
-            bouton.setOnMouseExited(mouseEvent -> {
-                bouton.setStyle("-fx-background-color: none;");
-            });
             switch (i) {
                 case 0:
                     bouton.setOnAction(actionEvent -> {
                         this.valueAChanger = 0;
-                        bouton.setStyle("-fx-background-color: #ababab;");
+                        this.mettreEnBlanc();
+                        bouton.setStyle("-fx-background-color: darkgrey;");
                     });
+                    this.bouton1 = bouton;
                     break;
                 case 1:
                     bouton.setOnAction(actionEvent -> {
                         this.valueAChanger = 1;
-                        bouton.setStyle("-fx-background-color: #ababab;");
+                        this.mettreEnBlanc();
+                        bouton.setStyle("-fx-background-color: darkgrey;");
                     });
+                    this.bouton2 = bouton;
                     break;
                 case 2:
                     bouton.setOnAction(actionEvent -> {
                         this.valueAChanger = 2;
-                        bouton.setStyle("-fx-background-color: #ababab;");
+                        this.mettreEnBlanc();
+                        bouton.setStyle("-fx-background-color: darkgrey;");
                     });
+                    this.bouton3 = bouton;
                     break;
                 case 3:
                     bouton.setOnAction(actionEvent -> {
                         this.valueAChanger = 3;
-                        bouton.setStyle("-fx-background-color: #ababab;");
+                        this.mettreEnBlanc();
+                        bouton.setStyle("-fx-background-color: darkgrey;");
                     });
+                    this.bouton4 = bouton;
                     break;
             }
         }
+    }
+
+    public void mettreEnBlanc() {
+        this.bouton1.setStyle("-fx-background-color: none;");
+        this.bouton2.setStyle("-fx-background-color: none;");
+        this.bouton3.setStyle("-fx-background-color: none;");
+        this.bouton4.setStyle("-fx-background-color: none;");
     }
 }

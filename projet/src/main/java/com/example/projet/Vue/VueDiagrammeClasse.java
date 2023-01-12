@@ -95,6 +95,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 this.makeDependanceList();
             }
             if (this.listeVueClasse.size() > 0 && this.sujet.getReplacer()) {
+                this.trierListeVueClasse();
                 this.smartPlacementClasse();
                 this.sujet.setReplacer(false);
             }
@@ -453,5 +454,35 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * méthode qui modifie la listeVueClasse pour placer Les classe avec le plus d'implémentation et une superClasse
+     * en premier
+     */
+    public void trierListeVueClasse() {
+        ArrayList<VueClasse> listeVueClasseTemp = new ArrayList<>();
+        for (VueClasse vc : this.listeVueClasse) {
+            if (vc.getClasse().getMoyValue().getValue()> 0 && this.listeAssociationSuperClasse.get(vc) != null) {
+                listeVueClasseTemp.add(vc);
+            }
+        }
+        for (VueClasse vc : this.listeVueClasse) {
+            if (vc.getClasse().getMoyValue().getValue() > 0 && this.listeAssociationSuperClasse.get(vc) == null) {
+                listeVueClasseTemp.add(vc);
+            }
+        }
+        for (VueClasse vc : this.listeVueClasse) {
+            if (vc.getClasse().getMoyValue().getValue() == 0 && this.listeAssociationSuperClasse.get(vc) != null) {
+                listeVueClasseTemp.add(vc);
+            }
+        }
+        for (VueClasse vc : this.listeVueClasse) {
+            if (vc.getClasse().getMoyValue().getValue() == 0 && this.listeAssociationSuperClasse.get(vc) == null) {
+                listeVueClasseTemp.add(vc);
+            }
+        }
+        this.listeVueClasse = listeVueClasseTemp;
+
     }
 }
