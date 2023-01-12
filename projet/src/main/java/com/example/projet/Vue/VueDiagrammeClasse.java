@@ -362,21 +362,42 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * on la place en dessous de la classe mère
      */
     private void smartPlacementClasse() {
-        for (VueClasse vueClasse : listeAssociationSuperClasse.keySet()) {
-            VueClasse superClasse = listeAssociationSuperClasse.get(vueClasse);
-            if (superClasse != null) {
-                vueClasse.setLayoutX(superClasse.getLayoutX() + superClasse.getLargeur() + 50);
-                vueClasse.setLayoutY(superClasse.getLayoutY());
-            }
+        this.startX = 350;
+        this.startY = 350;
+
+        HashMap<VueClasse, Boolean> visited = new HashMap<>();
+        for (VueClasse vueClasse : this.listeVueClasse) {
+            visited.put(vueClasse, false);
         }
-        for (VueClasse vueClasse : listeAssociationInterfaces.keySet()) {
-            ArrayList<VueClasse> interfaces = listeAssociationInterfaces.get(vueClasse);
-            if (interfaces != null) {
-                int size = interfaces.size();
-                for (int i = 0; i < size; i++) {
-                    VueClasse interf = interfaces.get(i);
-                    interf.setLayoutX(vueClasse.getLayoutX() + vueClasse.getLargeur() + 50);
-                    interf.setLayoutY(vueClasse.getLayoutY() + (i * (interf.getHauteur() + 50)));
+
+        int plusGrande = 0;
+
+        for (VueClasse vueClasse : this.listeVueClasse) {
+            if (!visited.get(vueClasse)) {
+                if (plusGrande < vueClasse.getHauteur()) {
+                    plusGrande = vueClasse.getHauteur();
+                }
+
+                System.out.println("classe : " + vueClasse.getClasse().getNom());
+                vueClasse.setLayoutX(this.startX);
+                vueClasse.setLayoutY(this.startY);
+                visited.put(vueClasse, true);
+                if (this.listeAssociationInterfaces.get(vueClasse) != null) {
+                    int poseDessus = this.startX - (350 * this.listeAssociationInterfaces.get(vueClasse).size())/2;
+                    for (VueClasse interf : this.listeAssociationInterfaces.get(vueClasse)) {
+                        System.out.printf("interface : "+interf.getClasse().getNom());
+                        interf.setLayoutX(poseDessus);
+                        interf.setLayoutY(this.startY - interf.getHauteur() - 100);
+                        visited.put(interf, true);
+                        poseDessus += 350;
+                    }
+                    this.startX += this.startX - (350 * this.listeAssociationInterfaces.get(vueClasse).size())/2;
+                }
+                this.startX += 350;
+                if (this.startX > 2000) {
+                    this.startX = 350;
+                    this.startY += 300;
+                    plusGrande = 0;
                 }
             }
         }
