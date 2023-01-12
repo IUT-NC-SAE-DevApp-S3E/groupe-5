@@ -20,7 +20,7 @@ public class VuePaletteCouleur extends VBox {
         String[] color = {"#000000", "#ffffff", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#00ffff", "#ff00ff"};
         HBox choixCouleur = new HBox();
         for (String c : color) {
-            Button button = new Button(c);
+            Button button = new Button("");
             button.setStyle("-fx-background-color: " + c + ";");
             button.setPrefWidth(50);
             button.setPrefHeight(50);
@@ -36,6 +36,8 @@ public class VuePaletteCouleur extends VBox {
             });
             choixCouleur.getChildren().add(button);
         }
+
+        choixCouleur.setSpacing(10);
 
 
 
