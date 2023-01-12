@@ -331,7 +331,7 @@ public class Classe extends Fichier {
             res += "public class " + this.getNom() ;
         }
         // ajout de la super classe et les implémentation
-        if (!this.superClasse.equals("Object") && !this.type.equals("interface")) {
+        if (this.superClasse != null && !this.superClasse.equals("Object") && !this.type.equals("interface")) {
             res += " extends " + this.superClasse;
         }
         if(this.interfaces.size() > 0){
