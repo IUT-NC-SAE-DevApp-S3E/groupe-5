@@ -18,7 +18,7 @@ public class DecorateurFinFleche extends Polygon implements Observateur {
         //Créer une matrice de rotation
         Rotate rotate2 = new Rotate(Math.toDegrees(angle2), 0, 0);
         //Appliquer la rotation à la tête de la flèche
-        this.setRotate(Math.abs(rotate2.getAngle()));
+        this.setRotate(-rotate2.getAngle());
 
         // Déplacer la tête de la flèche pour qu'elle soit située à l'extrémité du segment de droite
         this.setTranslateX(coordXArrivee + 5);

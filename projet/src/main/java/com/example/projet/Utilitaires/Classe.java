@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
@@ -21,6 +22,8 @@ public class Classe extends Fichier {
     private ArrayList<String> interfaces = new ArrayList<>();
     private MoyValue moyValue = new MoyValue();
     private String packageClasse;
+
+    private int erreur;
 
     /**
      * Constructeur de la classe Classe
@@ -46,7 +49,7 @@ public class Classe extends Fichier {
         super(nom);
         this.compositionClasses = new ArrayList<>();
         this.type = "class";
-        this.packageClasse= "";
+        this.packageClasse = "";
         this.superClasse = "";
         this.interfaces = new ArrayList<>();
     }
@@ -58,29 +61,35 @@ public class Classe extends Fichier {
      */
     public void lectureFichier() {
         Class<?> c = LectureFichier.lectureFichier(this.getChemin(), this.getNom());
+
+        this.packageClasse = c.getPackageName();
+
+        if (c.getSuperclass() != null) {
+            String[] tab = c.getSuperclass().getName().split("\\.");
+            this.superClasse = tab[tab.length - 1];
+        }
+
+        for (Class<?> i : c.getInterfaces()) {
+            String[] nomInterface = i.getName().split("\\.");
+            this.interfaces.add(nomInterface[nomInterface.length - 1]);
+        }
+
+
+        if (c.isInterface()) {
+            this.type = "interface";
+        } else if (Modifier.isAbstract(c.getModifiers())) {
+            this.type = "abstract";
+        } else {
+            this.type = "class";
+        }
+
+        System.out.println(c.getName());
+        int i = -1;
         try {
-            this.packageClasse = c.getPackageName();
-
-            if (c.getSuperclass() != null) {
-                String[] tab = c.getSuperclass().getName().split("\\.");
-                this.superClasse = tab[tab.length - 1];
-            }
-
-            for (Class<?> i : c.getInterfaces()) {
-                String[] nomInterface = i.getName().split("\\.");
-                this.interfaces.add(nomInterface[nomInterface.length - 1]);
-            }
-
-
-            if (c.isInterface()) {
-                this.type = "interface";
-            } else if (Modifier.isAbstract(c.getModifiers())) {
-                this.type = "abstract";
-            } else {
-                this.type = "class";
-            }
-
-            for (Field f : c.getDeclaredFields()) {
+            i++;
+            while (i < c.getDeclaredFields().length) {
+                System.out.println("\t" + c.getDeclaredFields()[i].getName());
+                Field f = c.getDeclaredField(c.getFields()[i].getName());
                 String type = f.getType().toString();
                 String[] tabType = type.split("\\.");
                 type = tabType[tabType.length - 1];
@@ -92,49 +101,62 @@ public class Classe extends Fichier {
                     access = "-";
                 } else if (Modifier.isProtected(f.getModifiers())) {
                     access = "=";
-                }
-                else {
+                } else {
                     access = "+";
                 }
-                if(Modifier.isFinal(f.getModifiers())){
+                if (Modifier.isFinal(f.getModifiers())) {
                     definition += "final ";
                 }
-                if(Modifier.isStatic(f.getModifiers())){
+                if (Modifier.isStatic(f.getModifiers())) {
                     definition += "static";
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
+                i++;
             }
+        } catch (Error e) {
+            System.out.println("==========\nTry catch 1");
+            System.out.println(e.getMessage());
+            System.out.println("==========");
+        } catch (NoSuchFieldException e) {
+            System.out.println("Nosuchfield");
+            System.out.println(e.getMessage());
+        }
 
-            // on recupere les constructeurs de la classe
-            for(Constructor constructor : c.getDeclaredConstructors()){
-                String access = "";
-                if (Modifier.isPublic(constructor.getModifiers())) {
-                    access = "+";
-                } else if (Modifier.isPrivate(constructor.getModifiers())) {
-                    access = "-";
-                } else if (Modifier.isProtected(constructor.getModifiers())) {
-                    access = "=";
-                }
-                // lecture et ajout des paramètres des constructeurs
-                ArrayList<String> parametres = new ArrayList<>();
-                for(Parameter parametre : constructor.getParameters()){
-                    String type = parametre.getType().toString();
-                    String[] tabType = type.split("\\.");
-                    type = tabType[tabType.length - 1];
-                    parametres.add(type);
-                }
-                String[] nomMethode = constructor.getName().split("\\.");
-                this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length-1], "", parametres));
+
+        // on recupere les constructeurs de la classe
+        for (Constructor constructor : c.getDeclaredConstructors()) {
+            String access = "";
+            if (Modifier.isPublic(constructor.getModifiers())) {
+                access = "+";
+            } else if (Modifier.isPrivate(constructor.getModifiers())) {
+                access = "-";
+            } else if (Modifier.isProtected(constructor.getModifiers())) {
+                access = "=";
             }
+            // lecture et ajout des paramètres des constructeurs
+            ArrayList<String> parametres = new ArrayList<>();
+            for (Parameter parametre : constructor.getParameters()) {
+                String type = parametre.getType().toString();
+                String[] tabType = type.split("\\.");
+                type = tabType[tabType.length - 1];
+                parametres.add(type);
+            }
+            String[] nomMethode = constructor.getName().split("\\.");
+            this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length - 1], "", parametres));
+        }
 
+
+        try {
             // on récupère les méthodes de la classe
-            for (Method m : c.getDeclaredMethods()) {
+            for (i = 0; i < c.getDeclaredMethods().length; i++)
+            {
+                Method m = c.getDeclaredMethods()[i];
                 // on récupère le type de retour de la méthode
                 String type = m.getReturnType().toString();
-                if(type.contains("[")){
+                if (type.contains("[")) {
                     String[] tabType = m.toString().split(" ");
                     type = tabType[1];
-                }else{
+                } else {
                     String[] tabType = type.split("\\.");
                     type = tabType[tabType.length - 1];
                 }
@@ -152,21 +174,21 @@ public class Classe extends Fichier {
                 if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
                     definition += "abstract ";
                 }
-                if(Modifier.isFinal(m.getModifiers())){
+                if (Modifier.isFinal(m.getModifiers())) {
                     definition += "final ";
                 }
-                if(Modifier.isStatic(m.getModifiers())){
+                if (Modifier.isStatic(m.getModifiers())) {
                     definition += "static";
                 }
                 // lecture et ajout des paramètres des méthodes
                 ArrayList<String> parametres = new ArrayList<>();
-                for(Parameter parametre : m.getParameters()){
+                for (Parameter parametre : m.getParameters()) {
                     String typeParametre = parametre.getType().toString();
                     String[] tabTypeParametre = typeParametre.split("\\.");
                     typeParametre = tabTypeParametre[tabTypeParametre.length - 1];
                     // affiche les paramètres de type tableau
-                    if(parametre.getType().toString().contains("[")){
-                        typeParametre = typeParametre.substring(0, typeParametre.length()-1);
+                    if (parametre.getType().toString().contains("[")) {
+                        typeParametre = typeParametre.substring(0, typeParametre.length() - 1);
                         typeParametre += "[]";
                     }
                     parametres.add(typeParametre);
@@ -174,8 +196,10 @@ public class Classe extends Fichier {
                 this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
             }
         } catch (NoClassDefFoundError e) {
-            System.out.println("Message erreur : " + e.getMessage());
+            System.out.println("Try catch 2");
+            System.out.println(e.getMessage());
         }
+
     }
 
 
@@ -193,8 +217,8 @@ public class Classe extends Fichier {
 
     /**
      * méthode ajouterInterface
-     *
      * @param i
+     * Nom de l'interface à ajouter
      */
     public void ajouterInterface(String i) {
         this.interfaces.add(i);
@@ -223,7 +247,7 @@ public class Classe extends Fichier {
         return this.superClasse;
     }
 
-    public String getPackageClasse(){
+    public String getPackageClasse() {
         return this.packageClasse;
     }
 
@@ -248,6 +272,7 @@ public class Classe extends Fichier {
     /**
      * méthode suppressionCompositionClasse
      * cette méthode permet de supprimer une composition de classe à partir du nom de la composition
+     *
      * @param nom String
      */
     public void suppressionCompositionClasse(String nom) {
@@ -268,22 +293,22 @@ public class Classe extends Fichier {
 
     /**
      * methode toPlantUML permet de générer le code plantUML de la classe
+     *
      * @return la classe en code plantUML
      */
-    public String toPlantUML(){
+    public String toPlantUML() {
         String res = "class " + this.getNom() + " {\n";
         String fleches = "";
-        for(CompositionClasse c : this.compositionClasses){
-            if(!c.getNom().contains("$")) {
-                if(c.getAcces().equals("=")) {
+        for (CompositionClasse c : this.compositionClasses) {
+            if (!c.getNom().contains("$")) {
+                if (c.getAcces().equals("=")) {
                     res += "# " + c.getNom() + " : " + c.getType() + "\n";
-                }
-                else {
+                } else {
                     res += c.getAcces() + " " + c.getNom() + " : " + c.getType() + "\n";
                 }
 
                 if (c instanceof Attributs) {
-                    if(!fleches.contains(this.getNom())) {
+                    if (!fleches.contains(this.getNom())) {
                         fleches += this.getNom() + "->" + c.getType() + "\n";
                     }
                 }
@@ -295,19 +320,20 @@ public class Classe extends Fichier {
 
     /**
      * méthode depToPlantUML permet de générer le code plantUML des dépendances de la classe
+     *
      * @return les dépendances de la classe en code plantUML
      */
-    public String depExtend(){
+    public String depExtend() {
         String res = "";
-        if(!this.type.equals("interface") && !this.superClasse.contains("Object")){
+        if (!this.type.equals("interface") && !this.superClasse.contains("Object")) {
             res = this.superClasse;
         }
         return res;
     }
 
-    public ArrayList<String> depImplement(){
+    public ArrayList<String> depImplement() {
         ArrayList<String> res = new ArrayList<>();
-        for(String inter : this.interfaces){
+        for (String inter : this.interfaces) {
             res.add(inter);
         }
         return res;
@@ -316,33 +342,34 @@ public class Classe extends Fichier {
 
     /**
      * méthode getSqueletteJava
+     *
      * @return le squelette java de la classe
      */
-    public String getSqueletteJava(){
+    public String getSqueletteJava() {
         String res = "";
-        if(this.type.equals("interface")){
-            res += "public interface " + this.getNom() ;
-        }else{
-            res += "public class " + this.getNom() ;
+        if (this.type.equals("interface")) {
+            res += "public interface " + this.getNom();
+        } else {
+            res += "public class " + this.getNom();
         }
         // ajout de la super classe et les implémentation
         if (this.superClasse != null && !this.superClasse.equals("Object") && !this.type.equals("interface")) {
             res += " extends " + this.superClasse;
         }
-        if(this.interfaces.size() > 0){
+        if (this.interfaces.size() > 0) {
             res += " implements ";
-            for(int i = 0; i < this.interfaces.size(); i++){
-                if(i == this.interfaces.size() - 1){
+            for (int i = 0; i < this.interfaces.size(); i++) {
+                if (i == this.interfaces.size() - 1) {
                     res += this.interfaces.get(i);
-                }else{
+                } else {
                     res += this.interfaces.get(i) + ", ";
                 }
             }
         }
         res += " {\n";
 
-        for(CompositionClasse c : this.compositionClasses){
-            if(!c.getNom().contains("$")){
+        for (CompositionClasse c : this.compositionClasses) {
+            if (!c.getNom().contains("$")) {
                 if (c instanceof Attributs) {
                     res += "\t" + ((Attributs) c).getSqueletteJava() + "\n";
                 } else if (c instanceof Methodes) {

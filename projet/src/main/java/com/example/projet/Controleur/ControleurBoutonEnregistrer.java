@@ -60,7 +60,6 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
 
                         SourceStringReader reader = new SourceStringReader(this.sujet.genererPlantUML().toString());
                         String desc = reader.outputImage(fileOut).getDescription();
-                        System.out.println(desc);
                         // Return a null string if no generation
                         break;
 
