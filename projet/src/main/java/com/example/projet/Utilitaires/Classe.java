@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Classe extends Fichier {
     private ArrayList<CompositionClasse> compositionClasses;
@@ -296,17 +297,6 @@ public class Classe extends Fichier {
      * méthode depToPlantUML permet de générer le code plantUML des dépendances de la classe
      * @return les dépendances de la classe en code plantUML
      */
-   /* public ArrayList<String> depToPlantUML(){
-        ArrayList<String> res = new ArrayList<>();
-        if(!this.type.equals("interface") && !this.superClasse.contains("Object")){
-            res.add(this.getNom() + " --|> " + this.superClasse);
-        }
-        for(String inter : this.interfaces){
-            res.add(this.getNom() + " ..|> " + inter);
-        }
-        return res;
-    } */
-
     public String depExtend(){
         String res = "";
         if(!this.type.equals("interface") && !this.superClasse.contains("Object")){
