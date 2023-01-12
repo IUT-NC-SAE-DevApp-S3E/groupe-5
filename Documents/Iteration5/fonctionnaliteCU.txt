@@ -1,0 +1,6 @@
+Les cas d'utilisations sont les mêmes que les fonctionnalités, soit les actions possible par l'utilisateur.
+Exporter en image / plantuml / Source plantuml/ exporter le diagramme en fichier de configuration. : Arthur Mingot / Simonin Enzo
+Afficher les packages de class : Pereaux Simon / Simonin Enzo.
+Pouvoir ajouter un héritage et des interfaces à une classe : Pereaux Simon
+Afficher les paramètres des méthodes / Afficher le type de rendu d'une méthode : Simonin Enzo
+Pouvoir cacher les méthodes / attributs / dépendances / package / Tout masquer : Mingot Arthur / Pereaux Simon
