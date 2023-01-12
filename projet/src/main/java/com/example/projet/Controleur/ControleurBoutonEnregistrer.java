@@ -5,12 +5,11 @@ import com.example.projet.Utilitaires.Classe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
-//import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.SourceStringReader;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-//import java.io.OutputStream;
 
 public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
 
@@ -59,9 +58,9 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                     case "PNG PlantUML":
                         fileOut = new FileOutputStream(file.getAbsolutePath());
 
-                        //SourceStringReader reader = new SourceStringReader(this.sujet.genererPlantUML().toString());
-                        //String desc = reader.outputImage(fileOut).getDescription();
-                        //System.out.println(desc);
+                        SourceStringReader reader = new SourceStringReader(this.sujet.genererPlantUML().toString());
+                        String desc = reader.outputImage(fileOut).getDescription();
+                        System.out.println(desc);
                         // Return a null string if no generation
                         break;
 
@@ -74,10 +73,10 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                         // dans le dossier selectionné, créer un dossier avec le nom du fichier
                         for (Classe c : this.sujet.getListeFichiers()) {
                             // on créer un fichier avec comme nom le nom du fichier
-                            File f = new File(file.getParent() + "/" + c.getNom() + ".java");
-                            f.createNewFile();
+                            //File f = new File(file.getParent() + "/" + c.getNom() + ".java");
+                            //f.createNewFile();
                             // on écrit dans le fichier
-                            fileOut = new FileOutputStream(f.getAbsoluteFile());
+                            fileOut = new FileOutputStream(file.getParent() + "/" + c.getNom() + ".java");
                             fileOut.write(c.getSqueletteJava().toString().getBytes());
 
                         }
