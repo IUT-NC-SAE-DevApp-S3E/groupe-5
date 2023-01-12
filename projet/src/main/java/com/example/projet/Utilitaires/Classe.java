@@ -84,12 +84,8 @@ public class Classe extends Fichier {
         }
 
         System.out.println(c.getName());
-        int i = -1;
         try {
-            i++;
-            while (i < c.getDeclaredFields().length) {
-                System.out.println("\t" + c.getDeclaredFields()[i].getName());
-                Field f = c.getDeclaredField(c.getFields()[i].getName());
+            for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
                 String[] tabType = type.split("\\.");
                 type = tabType[tabType.length - 1];
@@ -111,15 +107,11 @@ public class Classe extends Fichier {
                     definition += "static";
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
-                i++;
             }
         } catch (Error e) {
             System.out.println("==========\nTry catch 1");
             System.out.println(e.getMessage());
             System.out.println("==========");
-        } catch (NoSuchFieldException e) {
-            System.out.println("Nosuchfield");
-            System.out.println(e.getMessage());
         }
 
 
@@ -148,52 +140,52 @@ public class Classe extends Fichier {
 
         try {
             // on récupère les méthodes de la classe
-            for (i = 0; i < c.getDeclaredMethods().length; i++)
-            {
-                Method m = c.getDeclaredMethods()[i];
-                // on récupère le type de retour de la méthode
-                String type = m.getReturnType().toString();
-                if (type.contains("[")) {
-                    String[] tabType = m.toString().split(" ");
-                    type = tabType[1];
-                } else {
-                    String[] tabType = type.split("\\.");
-                    type = tabType[tabType.length - 1];
-                }
-
-                // on créer une méthode
-                String access = "", definition = "";
-                if (Modifier.isPublic(m.getModifiers())) {
-                    access = "+";
-                } else if (Modifier.isPrivate(m.getModifiers())) {
-                    access = "-";
-                } else if (Modifier.isProtected(m.getModifiers())) {
-                    access = "=";
-                }
-                // ajout de la définition de la méthode
-                if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
-                    definition += "abstract ";
-                }
-                if (Modifier.isFinal(m.getModifiers())) {
-                    definition += "final ";
-                }
-                if (Modifier.isStatic(m.getModifiers())) {
-                    definition += "static";
-                }
-                // lecture et ajout des paramètres des méthodes
-                ArrayList<String> parametres = new ArrayList<>();
-                for (Parameter parametre : m.getParameters()) {
-                    String typeParametre = parametre.getType().toString();
-                    String[] tabTypeParametre = typeParametre.split("\\.");
-                    typeParametre = tabTypeParametre[tabTypeParametre.length - 1];
-                    // affiche les paramètres de type tableau
-                    if (parametre.getType().toString().contains("[")) {
-                        typeParametre = typeParametre.substring(0, typeParametre.length() - 1);
-                        typeParametre += "[]";
+            for (Method m : c.getDeclaredMethods()) {
+                {
+                    // on récupère le type de retour de la méthode
+                    String type = m.getReturnType().toString();
+                    if (type.contains("[")) {
+                        String[] tabType = m.toString().split(" ");
+                        type = tabType[1];
+                    } else {
+                        String[] tabType = type.split("\\.");
+                        type = tabType[tabType.length - 1];
                     }
-                    parametres.add(typeParametre);
+
+                    // on créer une méthode
+                    String access = "", definition = "";
+                    if (Modifier.isPublic(m.getModifiers())) {
+                        access = "+";
+                    } else if (Modifier.isPrivate(m.getModifiers())) {
+                        access = "-";
+                    } else if (Modifier.isProtected(m.getModifiers())) {
+                        access = "=";
+                    }
+                    // ajout de la définition de la méthode
+                    if (Modifier.isAbstract(m.getModifiers()) && !this.type.equals("interface")) {
+                        definition += "abstract ";
+                    }
+                    if (Modifier.isFinal(m.getModifiers())) {
+                        definition += "final ";
+                    }
+                    if (Modifier.isStatic(m.getModifiers())) {
+                        definition += "static";
+                    }
+                    // lecture et ajout des paramètres des méthodes
+                    ArrayList<String> parametres = new ArrayList<>();
+                    for (Parameter parametre : m.getParameters()) {
+                        String typeParametre = parametre.getType().toString();
+                        String[] tabTypeParametre = typeParametre.split("\\.");
+                        typeParametre = tabTypeParametre[tabTypeParametre.length - 1];
+                        // affiche les paramètres de type tableau
+                        if (parametre.getType().toString().contains("[")) {
+                            typeParametre = typeParametre.substring(0, typeParametre.length() - 1);
+                            typeParametre += "[]";
+                        }
+                        parametres.add(typeParametre);
+                    }
+                    this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
                 }
-                this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
             }
         } catch (NoClassDefFoundError e) {
             System.out.println("Try catch 2");
