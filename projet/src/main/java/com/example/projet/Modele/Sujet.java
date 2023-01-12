@@ -101,4 +101,12 @@ public interface Sujet extends Serializable {
     public void capturerPane(File f);
 
     public StringBuilder genererPlantUML();
+
+    public boolean getReplacer();
+
+    public void setReplacer(boolean val);
+
+    public void setPanelCouleur(String[] couleur);
+
+    public String[] getPanelCouleur();
 }

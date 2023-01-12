@@ -3,6 +3,7 @@ package com.example.projet.Vue;
 import com.example.projet.CompositionClasse.Attributs;
 import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.Controleur.ControleurCliqueDroitClasse;
+import com.example.projet.Modele.Modele;
 import com.example.projet.Modele.Sujet;
 import com.example.projet.Utilitaires.Classe;
 import com.example.projet.Vue.Fleches.*;
@@ -90,18 +91,19 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
-            //this.placerVue();
-            this.supprimerFleches();
-            this.makeSuperClassListe();
-            this.makeImplementsList();
             if (!this.sujet.getTypeMasque("D")) {
                 this.makeDependanceList();
             }
-            if (this.listeVueClasse.size() > 0) {
+            if (this.listeVueClasse.size() > 0 && this.sujet.getReplacer()) {
                 this.smartPlacementClasse();
+                this.sujet.setReplacer(false);
             }
+            this.supprimerFleches();
+            this.makeSuperClassListe();
+            this.makeImplementsList();
             this.drawSuperClasse();
             this.drawImplementations();
+            this.drawDependance();
             for (VueClasse v : this.listeVueClasse) {
                 v.actualiser(this.sujet);
             }
@@ -149,10 +151,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             }
         });
 
-        if (!this.syncro) {
-            this.syncro = true;
-            this.actualiser(s);
-        }
+        this.pane.setStyle("-fx-background-color: none;");
+        this.setStyle("-fx-background-color: "+this.sujet.getPanelCouleur()[0]+";");
     }
 
     /**

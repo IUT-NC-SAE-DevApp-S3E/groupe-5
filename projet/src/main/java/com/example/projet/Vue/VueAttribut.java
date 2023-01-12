@@ -119,7 +119,7 @@ public class VueAttribut extends HBox implements Observateur
 
     @Override
     public void actualiser(Sujet s) {
-
+        this.nomAttribut.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
     }
 
     /**

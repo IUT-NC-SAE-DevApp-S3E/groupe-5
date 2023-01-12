@@ -88,7 +88,8 @@ public class VueMethode extends HBox implements Observateur {
 
         @Override
         public void actualiser(Sujet s) {
-
+            // on set la couleur du text
+            this.nomAttribut.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
         }
 
 

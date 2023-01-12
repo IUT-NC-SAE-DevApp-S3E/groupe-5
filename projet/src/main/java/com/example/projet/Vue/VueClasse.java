@@ -10,6 +10,7 @@ import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
@@ -119,7 +120,7 @@ public class VueClasse extends VBox implements Observateur {
 
         // stylisation --------------------------------
         Drag.setPrefSize(200, 20);
-        Drag.setStyle("-fx-background-color: rgba(168,163,163,0.66);-fx-background-radius: 10 10 0 0;");
+        Drag.setStyle("-fx-background-color: "+this.sujet.getPanelCouleur()[1]+";-fx-background-radius: 10 10 0 0;");
 
         switch (this.classe.getType().toLowerCase()) {
             case "interface":
@@ -167,7 +168,7 @@ public class VueClasse extends VBox implements Observateur {
         this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
         this.methodes.setStyle("-fx-min-height: 8px;");
         // on met le background en noir
-        this.setStyle("-fx-background-color: #fcea4a;-fx-border-color: grey;-fx-border-radius: 10;");
+        this.setStyle("-fx-background-color: "+this.sujet.getPanelCouleur()[2]+";-fx-border-color: grey;-fx-border-radius: 10;");
         // on met la taille du titre à 20
         this.title.setPrefHeight(10);
         this.title.setAlignment(Pos.CENTER);
@@ -214,6 +215,7 @@ public class VueClasse extends VBox implements Observateur {
         if (!this.visible) {
             this.getChildren().addAll(attributs, methodes);
         }
+
     }
 
     @Override
@@ -237,6 +239,20 @@ public class VueClasse extends VBox implements Observateur {
         if (!s.getTypeMasque("M") && this.visible) {
             this.getChildren().add(this.methodes);
         }
+        this.drag.setStyle("-fx-background-color: "+this.sujet.getPanelCouleur()[1]+";-fx-background-radius: 10 10 0 0;");
+        this.setStyle("-fx-background-color: "+this.sujet.getPanelCouleur()[2]+";-fx-border-color: grey;-fx-border-radius: 10;");
+        this.title.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
+        this.packageClasse.setStyle("-fx-background-color: none;-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
+        this.attributs.setStyle("-fx-border-width: 0 0 1 0; -fx-border-color: grey;-fx-min-height: 8px;");
+        this.methodes.setStyle("-fx-min-height: 8px;");
+        // on met le text a jour
+        for (Node n : this.attributs.getChildren()) {
+            ((VueAttribut) n).actualiser(s);
+        }
+        for (Node n : this.methodes.getChildren()) {
+            ((VueMethode) n).actualiser(s);
+        }
+
     }
 
     /**

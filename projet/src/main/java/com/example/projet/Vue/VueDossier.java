@@ -41,7 +41,8 @@ public class VueDossier extends VBox implements Observateur {
         this.setStyle("-fx-background-color: #f3f3f3");
         // sa hauteur fait toute la fenêtre
         this.setAlignment(Pos.TOP_CENTER);
-        this.setPadding(new javafx.geometry.Insets(5, 5, 5, 5));
+        // on met un padding a this en bas de 10
+        this.setPadding(new javafx.geometry.Insets(5, 5, 30, 5));
 
 
 
@@ -148,6 +149,7 @@ public class VueDossier extends VBox implements Observateur {
         HBox boutonafficherCacher = new HBox();
         boutonafficherCacher.setAlignment(Pos.CENTER);
         boutonafficherCacher.setSpacing(2);
+        boutonafficherCacher.setPadding(new javafx.geometry.Insets(4, 4, 4, 4));
         Button bouton = new Button();
         bouton.setText("\uf06e");
         // on colle le HBox en bas
@@ -170,10 +172,38 @@ public class VueDossier extends VBox implements Observateur {
             boutonTxt.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
             // On ajoute l'action du bouton
             boutonTxt.setOnAction(new ControleurBoutonAffichage(this.sujet, boutonTxt));
-
         }
 
-        this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher);
+
+
+        HBox toolsBar = new HBox();
+        toolsBar.setAlignment(Pos.CENTER);
+        toolsBar.setSpacing(4);
+        for (int i = 0; i < 4; i++) {
+            Button buttonTool = new Button();
+            buttonTool.setPadding(new javafx.geometry.Insets(0, 0, 0, 0));
+            buttonTool.setStyle("-fx-text-fill: black;-fx-background-color: transparent;");
+            switch (i) {
+                case 0:
+                    // on met l'icon de chargement
+                    buttonTool.setText("\uf021");
+                    buttonTool.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 20));
+                    buttonTool.setOnAction(new ControleurBoutonRecharger(this.sujet));
+                    break;
+                case 1:
+                    // on met l'icon de la palette de couleur
+                    buttonTool.setText("\uf1fc");
+                    buttonTool.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 20));
+                    buttonTool.setOnAction(new ControleurBoutonPaletteCouleur(this.sujet));
+                    break;
+            }
+            buttonTool.setOnMouseEntered(e -> buttonTool.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;"));
+            buttonTool.setOnMouseExited(e -> buttonTool.setStyle("-fx-text-fill: black;-fx-background-color: transparent;"));
+            toolsBar.getChildren().add(buttonTool);
+        }
+        toolsBar.setAlignment(Pos.CENTER);
+        this.getChildren().addAll(boutonHaut, this.listeDossierFichier, boutonafficherCacher, toolsBar);
+
     }
 
     /**

@@ -53,6 +53,9 @@ public class Modele implements Sujet, Serializable {
     private int startX = 0;
     private int startY = 0;
 
+    private boolean replacer = false;
+    private String[] paletteCouleur = {"#f3f3f3", "rgba(168,163,163,0.66)", "#fcea4a", "black"};
+
     /**
      * methode enregistrerObservateur qui permet d'enregistrer un observateur
      *
@@ -294,6 +297,23 @@ public class Modele implements Sujet, Serializable {
         res.append("@enduml");
 
         return res;
+    }
+
+
+    public boolean getReplacer() {
+        return this.replacer;
+    }
+
+    public void setReplacer(boolean val) {
+        this.replacer = val;
+    }
+
+    public void setPanelCouleur(String[] couleur) {
+        this.paletteCouleur = couleur;
+    }
+
+    public String[] getPanelCouleur() {
+        return this.paletteCouleur;
     }
 
 }
