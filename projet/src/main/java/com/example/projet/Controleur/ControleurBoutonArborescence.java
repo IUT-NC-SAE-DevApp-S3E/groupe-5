@@ -95,6 +95,13 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             // on met un margin a gauche
                             bouton.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
 
+                            bouton.setOnMouseEntered(event -> {
+                                bouton.setCursor(javafx.scene.Cursor.MOVE);
+                            });
+                            bouton.setOnMouseExited(event -> {
+                                bouton.setCursor(javafx.scene.Cursor.DEFAULT);
+                            });
+
                             // on gère le système de Drag (glisser déposer)
                             bouton.setOnMousePressed(mouseEvent -> {
                                 /**
@@ -189,6 +196,13 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             label.setStyle("-fx-text-fill: black;");
                             // on met un margin a gauche
                             label.setPadding(new javafx.geometry.Insets(0, 0, 0, this.margin * 20));
+
+                            label.setOnMouseEntered(event -> {
+                                label.setCursor(javafx.scene.Cursor.MOVE);
+                            });
+                            label.setOnMouseExited(event -> {
+                                label.setCursor(javafx.scene.Cursor.DEFAULT);
+                            });
 
                             /**
                              * on rends ici le fichier draggable
