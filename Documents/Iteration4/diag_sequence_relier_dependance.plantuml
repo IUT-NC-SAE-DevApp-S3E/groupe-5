@@ -1,0 +1,58 @@
+@startuml
+
+participant "VueDiagramme" as VD
+participant "VueClass" as VC 
+participant "Classe" as M
+participant "VueFleche" as VF
+participant "VueFlechePleine" as VFP
+participant "FinFlechePleine" as FFP
+
+loop this.listeVueClasse
+    loop this.listeVueClasse
+        activate VD
+        loop classe.getClasse().getCompositionClasses
+            VD -> VC : for (this.listeVueClasse)
+            activate VC
+            
+            VC -> M : getClasse().getCompositionClasses()
+            activate M
+            M --> VC : return this.listeCompositionClasses
+            deactivate M
+            VC --> VD : temp.add(CompositionClasse)
+            deactivate VC
+            VD --> VD : this.listeAssociationDependances.put(classe, temp)
+        end
+        
+    end
+end
+
+VD --> VD : drawDependance()
+loop vueClasse : this.listeAssociationDependances.keySet()
+    VD -> VD : this.listeAssociationDependances.keySet()
+    loop vueClasseDependance : this.listeAssociationDependances.get(VueClasse)
+        VD -> VD : getClosedCoord(vueClasse, vueClasseDependance)
+        VD -> VF : new VueFleche(int[] coord)
+        activate VF
+        VF -> VFP : new VueFlechePleine()
+        activate VFP
+        VFP --> VF : return this
+        deactivate VFP
+        VF -> FFP : new FinFlechePleine()
+        activate FFP
+        FFP --> VF : return this
+        deactivate FFP
+        VF -> VD : getChildren().addAll(vueFlechePleine, finFlechePleine)
+        VF --> VD : return this
+        deactivate VF
+        VD -> VD : this.listeFleches.add(vueFleche)
+        VD -> VD : this.pane.getChildren().add(vueFleche)
+        VD -> VD : vueFleche.toBack()
+    end
+    deactivate VC
+
+
+end
+deactivate VD
+
+
+@enduml
