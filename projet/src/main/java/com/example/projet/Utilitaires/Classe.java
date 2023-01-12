@@ -163,6 +163,11 @@ public class Classe extends Fichier {
                     String typeParametre = parametre.getType().toString();
                     String[] tabTypeParametre = typeParametre.split("\\.");
                     typeParametre = tabTypeParametre[tabTypeParametre.length - 1];
+                    // affiche les paramètres de type tableau
+                    if(parametre.getType().toString().contains("[")){
+                        typeParametre = typeParametre.substring(0, typeParametre.length()-1);
+                        typeParametre += "[]";
+                    }
                     parametres.add(typeParametre);
                 }
                 this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
