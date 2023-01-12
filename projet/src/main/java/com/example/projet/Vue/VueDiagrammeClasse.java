@@ -172,7 +172,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         vueClasse.setLayoutX(this.startX);
         vueClasse.setLayoutY(this.startY);
         // on récupère la taille de la vueClasse
-        this.startY += 210;
+        this.startY += vueClasse.getHauteur() + DECALAGEY;
         if (this.startY > 1000) {
             this.startY = DECALAGEY;
             this.startX += 300;
