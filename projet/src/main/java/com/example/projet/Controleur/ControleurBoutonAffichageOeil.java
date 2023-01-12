@@ -37,20 +37,7 @@ public class ControleurBoutonAffichageOeil implements EventHandler<ActionEvent> 
             // on met l'icon de l'oeil
             this.btn.setText("\uf06e");
         }
-        String id = actionEvent.getSource().toString().split("'")[1];
-        switch (id)
-        {
-            case "M":
-            case "P":
-            case "D":
-            case "A":
-                break;
-
-            default:
-                this.sujet.inverserAffichage();
-                break;
-        }
-        this.sujet.changerAffichage(id);
+        this.sujet.inverserAffichage();
         try {
             sujet.notifierObservateur();
         } catch (MalformedURLException e) {
