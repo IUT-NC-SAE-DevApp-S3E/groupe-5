@@ -10,6 +10,7 @@ import com.example.projet.Utilitaires.Classe;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
@@ -61,7 +62,7 @@ public class VueClasse extends VBox implements Observateur {
 
     private int coordX = 0;
     private int coordY = 0;
-    private int width = 200;
+    private int width = 250;
     private int height = 0;
 
     /**
@@ -79,6 +80,41 @@ public class VueClasse extends VBox implements Observateur {
         super();
         this.sujet = sujet;
         this.classe = classe;
+
+        /**
+         * on rend this redimenssionnable
+         */
+        this.setMinSize(250, 0);
+        this.setOnMousePressed(event -> {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            double width = this.getWidth();
+            double height = this.getHeight();
+
+            // Détecter si la souris est sur la bordure en utilisant les coordonnées de la souris et la taille de la VBox
+            if (mouseX < 10 || mouseX > width - 10) {
+                this.setOnMouseDragged(e -> {
+                    double newWidth = e.getSceneX();
+                    this.setPrefWidth(newWidth);
+                });
+            } else {
+                this.setOnMouseDragged(null);
+            }
+        });
+
+        this.setOnMouseEntered(event -> {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            double width = this.getWidth();
+            double height = this.getHeight();
+            if (mouseX < 10 || mouseX > width - 10 || mouseY < 10 || mouseY > height - 10) {
+                this.setCursor(Cursor.SE_RESIZE);
+            }
+        });
+
+        this.setOnMouseExited(event -> {
+            this.setCursor(Cursor.DEFAULT);
+        });
 
 
         // stackPane permet de déplacer la classe
@@ -108,6 +144,12 @@ public class VueClasse extends VBox implements Observateur {
         Drag.setAlignment(button, Pos.TOP_RIGHT);
         Drag.setPadding(new javafx.geometry.Insets(2, 2, 2, 2));
 
+        Drag.setOnMouseEntered(event -> {
+            Drag.setCursor(Cursor.MOVE);
+        });
+        Drag.setOnMouseExited(event -> {
+            Drag.setCursor(Cursor.DEFAULT);
+        });
 
         // on dit qu'on peut éditer le titre de la classe
         this.title.setEditable(true);
