@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Classe qui permet de gerer les boutons de l'arborescence
@@ -67,7 +68,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
             // on passe la variable isClicked a true pour signifier que l'on a cliquer sur le bouton
             isClicked = true;
             // pour chaque fichier dans le dossier
-            for (File f : file.listFiles()) {
+            for (File f : Objects.requireNonNull(file.listFiles())) {
                 // si le fichier ne contient pas de $ et ne commence pas par un point
                 if(!f.getName().contains("$") && f.getName().charAt(0) != '.') {
                     try {
