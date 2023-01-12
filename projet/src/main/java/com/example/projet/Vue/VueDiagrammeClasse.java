@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * classe VueDiagrammeClasse qui permet l'affichage des diagrammes de classe que nous générons avec l'application
@@ -359,77 +362,25 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
      * on la place en dessous de la classe mère
      */
     private void smartPlacementClasse() {
-        this.startX = 200;
-        this.startY = 200;
-        int plusGrand = 0;
-        int nbClasse = this.listeVueClasse.size();
-        HashMap<VueClasse, Boolean> visited = new HashMap<>();
-        for (VueClasse vc : listeVueClasse) {
-            visited.put(vc, false);
-        }
-        for (VueClasse vc : this.listeAssociationInterfaces.keySet()) {
-            if (!visited.get(vc)) {
-                placeClasse(vc, visited,plusGrand);
+        for (VueClasse vueClasse : listeAssociationSuperClasse.keySet()) {
+            VueClasse superClasse = listeAssociationSuperClasse.get(vueClasse);
+            if (superClasse != null) {
+                vueClasse.setLayoutX(superClasse.getLayoutX() + superClasse.getLargeur() + 50);
+                vueClasse.setLayoutY(superClasse.getLayoutY());
             }
         }
-        for (VueClasse vc : this.listeAssociationSuperClasse.keySet()) {
-            if (!visited.get(vc)) {
-                placeClasse(vc, visited,plusGrand);
-            }
-        }
-        for (VueClasse vc : this.listeVueClasse) {
-            if (!visited.get(vc)) {
-                placeClasse(vc, visited,plusGrand);
-            }
-        }
-    }
-
-    private void placeClasse(VueClasse vc, HashMap<VueClasse, Boolean> visited, int plusGrand) {
-        visited.put(vc, true);
-
-        // Place the current class
-        vc.setLayoutX(startX);
-        vc.setLayoutY(startY);
-
-        if (vc.getHauteur() > plusGrand) {
-            plusGrand = vc.getHauteur();
-        }
-
-        // Update the starting coordinates for the next class
-        this.startX += 350;
-        if (this.startX > 2000) {
-            this.startX = 200;
-            this.startY += plusGrand + 100;
-        }
-
-
-
-        int nbMere = 0;
-
-        // Place the superclass of the current class
-        VueClasse superClasse = listeAssociationSuperClasse.get(vc);
-        if (superClasse != null && !visited.get(superClasse)) {
-            superClasse.setLayoutX(vc.getLayoutX());
-            superClasse.setLayoutY(vc.getLayoutY() - superClasse.getHauteur() - 100);
-            visited.put(superClasse, true);
-            nbMere++;
-        }
-
-        // Place the interfaces of the current class
-        ArrayList<VueClasse> interfaces = listeAssociationInterfaces.get(vc);
-        if (interfaces != null) {
-            for (VueClasse inter : interfaces) {
-                if (!visited.get(inter)) {
-                    inter.setLayoutX(vc.getLayoutX() + nbMere*200 + 150);
-                    inter.setLayoutY(vc.getLayoutY() - vc.getHauteur() + 100);
-                    visited.put(inter, true);
-                    nbMere++;
+        for (VueClasse vueClasse : listeAssociationInterfaces.keySet()) {
+            ArrayList<VueClasse> interfaces = listeAssociationInterfaces.get(vueClasse);
+            if (interfaces != null) {
+                int size = interfaces.size();
+                for (int i = 0; i < size; i++) {
+                    VueClasse interf = interfaces.get(i);
+                    interf.setLayoutX(vueClasse.getLayoutX() + vueClasse.getLargeur() + 50);
+                    interf.setLayoutY(vueClasse.getLayoutY() + (i * (interf.getHauteur() + 50)));
                 }
             }
         }
     }
-
-
 
     public void capturerPane(File f) {
         System.out.println("capture");
