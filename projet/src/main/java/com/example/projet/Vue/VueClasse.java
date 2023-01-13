@@ -94,7 +94,7 @@ public class VueClasse extends VBox implements Observateur {
             // Détecter si la souris est sur la bordure en utilisant les coordonnées de la souris et la taille de la VBox
             if (mouseX < 10 || mouseX > width - 10) {
                 this.setOnMouseDragged(e -> {
-                    double newWidth = e.getSceneX();
+                    double newWidth = e.getSceneX() - this.getScene().getX() - this.getLayoutX();
                     this.setPrefWidth(newWidth);
                 });
             } else {

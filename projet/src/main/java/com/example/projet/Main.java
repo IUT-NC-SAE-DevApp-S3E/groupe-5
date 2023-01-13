@@ -7,6 +7,8 @@ import com.example.projet.Vue.VueDiagrammeClasse;
 import com.example.projet.Vue.VueDossier;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -44,6 +46,9 @@ public class Main extends Application {
         stage.setTitle("Diagramme de classe");
         stage.setScene(scene);
         stage.show();
+
+        // on met une icon au stage
+        stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
 
     }
 }

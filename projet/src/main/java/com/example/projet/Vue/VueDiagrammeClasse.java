@@ -94,7 +94,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     }
                 }
             }
-
             if (this.listeVueClasse.size() > 0 && this.sujet.getReplacer()) {
                 this.trierListeVueClasse();
                 this.smartPlacementClasse();
