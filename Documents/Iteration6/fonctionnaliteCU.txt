@@ -1,0 +1,6 @@
+Les cas d'utilisations sont les mêmes que les fonctionnalités, soit les actions possible par l'utilisateur.
+Réfléchir à un système de placement intelligent : Pereaux Simon 
+Ne pas afficher les constructeurs si ils ne sont pas définis dans la classe : 
+Corriage l'affichage de paramètres lorsqu'un des paramètres est un tableau et afficher la définition des paramètres : Pereaux Simon
+Création squelette : Pereaux Simon
+Corriger introspection : 

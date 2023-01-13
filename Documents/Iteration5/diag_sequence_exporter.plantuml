@@ -1,0 +1,75 @@
+@startuml
+
+participant ControleurBoutonEnregistrer as CBE
+participant FileChooser as FC
+participant FileOutputStream as FOS
+participant ObjectOutputStream as OBS  
+participant Modele as M
+participant SourceStringReader as STR
+
+activate CBE
+CBE -> FC : new FileChooser()
+activate FC
+FC --> CBE
+CBE -> FC : showSaveDialog()
+FC --> CBE : File
+deactivate FC
+CBE -> FOS : null
+activate FOS
+FOS --> CBE
+deactivate FOS
+alt Enregistrer Diagramme en .diagramme
+    CBE -> FOS : new FileOutputStream(file.getAbsoluteFile())
+    activate FOS
+    FOS --> CBE : fileOut
+    deactivate FOS
+    CBE -> OBS : new ObjectOutputStream(fileOut)
+    activate OBS
+    OBS --> CBE : out
+    deactivate OBS
+    CBE -> OBS : out.writeObject(M.getDiagramme())
+    activate OBS
+    OBS --> CBE
+    CBE -> OBS : out.close()
+    OBS --> CBE
+    deactivate OBS
+    CBE -> FOS : fileOut.close()
+    activate FOS
+    FOS --> CBE
+    deactivate FOS
+
+    else Enregistrer Diagramme en plantuml
+    CBE -> STR : new SourceStringReader(M.getDiagramme().getDiagramme())
+    activate STR
+    STR --> CBE : reader
+    CBE -> STR : reader.outputImage(file)
+    STR --> CBE
+    deactivate STR
+
+    else Source plantuml
+    CBE -> M : this.sujet.genererPlantUML()
+    activate M
+    M --> CBE : StringBuilder
+    deactivate M
+    CBE -> FOS : new FileOutputStream(file.getAbsoluteFile())
+    activate FOS
+    FOS --> CBE : fileOut
+    CBE -> FOS : fileOut.write(M.getPlantUML().toString().getBytes())
+    FOS --> CBE
+    deactivate FOS
+
+    else Créer squelette
+    loop this.sujet.getListeFichier()
+        CBE -> FOS : new FileOutputStream(file.getParent() + "/" + c.getNom() + ".java")
+        activate FOS
+        FOS --> CBE : fileOut
+        CBE -> FOS : fileOut.write(M.getPlantUML().toString().getBytes())
+        FOS --> CBE
+        deactivate FOS
+
+    end
+
+end
+
+
+@enduml
