@@ -116,7 +116,10 @@ public class VueAttribut extends HBox implements Observateur
         this.classe.suppressionCompositionClasse(this.nomAttribut.getText());
     }
 
-
+    /**
+     * methode actiualiser qui permet de mettre à jour l'affichage
+     * @param s le sujet
+     */
     @Override
     public void actualiser(Sujet s) {
         this.nomAttribut.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");

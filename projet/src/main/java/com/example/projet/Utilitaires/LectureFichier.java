@@ -7,10 +7,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+/**
+ * Classe LectureFichier qui permet de lire un fichier
+ */
 public class LectureFichier {
+
+    /**
+     * Constructeur vide de la classe LectureFichier
+     */
     private LectureFichier() {
     }
 
+    /**
+     * Méthode qui permet de lire un fichier
+     * @param chemin chemin du fichier
+     * @param nomFichier nom du fichier
+     * @return la classe du fichier
+     */
     public static Class<?> lectureFichier(String chemin, String nomFichier) {
         // on récupère le chemin et on remplace les \ par des /
         String chem = chemin.replace("\\", "/");

@@ -5,17 +5,18 @@ import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Constructeur;
 import com.example.projet.CompositionClasse.Methodes;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+/**
+ * Classe qui permet de créer une classe
+ */
 public class Classe extends Fichier {
+
+    /**
+     * Attributs de la classe
+     */
     private ArrayList<CompositionClasse> compositionClasses;
     private String type = "";
     private String superClasse;
@@ -54,8 +55,7 @@ public class Classe extends Fichier {
     }
 
     /**
-     * méthode lectureFichier
-     *
+     * méthode lectureFichier qui permet de lire le fichier de la classe et de l'initialiser
      * @throws MalformedURLException
      */
     public void lectureFichier() {
@@ -106,14 +106,8 @@ public class Classe extends Fichier {
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
             }
-        } catch (Error e) {
-            System.out.println("==========\nTry catch 1");
-            e.printStackTrace();
-            System.out.println("==========");
-        }
 
 
-        try {
             // on recupere les constructeurs de la classe
             for (Constructor constructor : c.getDeclaredConstructors()) {
                 String access = "";
@@ -135,15 +129,8 @@ public class Classe extends Fichier {
                 String[] nomMethode = constructor.getName().split("\\.");
                 this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length - 1], "", parametres));
             }
-        }
-        catch (Error e) {
-            System.out.println("==========\nTry catch 2");
-            System.out.println(e.getMessage());
-            System.out.println("==========");
-        }
 
 
-        try {
             // on récupère les méthodes de la classe
             for (Method m : c.getDeclaredMethods()) {
                 {
@@ -192,14 +179,16 @@ public class Classe extends Fichier {
                     this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
                 }
             }
-        } catch (NoClassDefFoundError e) {
-            System.out.println("Try catch 3");
+        } catch (NoClassDefFoundError e) {;
+            System.out.println("Try catch");
             System.out.println(e.getMessage());
         }
 
     }
 
-
+    /**
+     * SETTER ET GETTER
+     */
     public void setSuperClasse(String sC) {
         this.superClasse = sC;
     }
@@ -214,23 +203,20 @@ public class Classe extends Fichier {
 
     /**
      * méthode ajouterInterface
-     * @param i
-     * Nom de l'interface à ajouter
+     *
+     * @param i Nom de l'interface à ajouter
      */
     public void ajouterInterface(String i) {
         this.interfaces.add(i);
     }
 
-
+    /**
+     * methode toString pour afficher les informations de la classe
+     * @return String
+     */
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         return res;
-    }
-
-    public void afficher() {
-        for (CompositionClasse c : this.compositionClasses) {
-            System.out.println(c);
-        }
     }
 
     /**

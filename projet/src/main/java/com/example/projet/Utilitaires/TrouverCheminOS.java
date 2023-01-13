@@ -1,5 +1,8 @@
 package com.example.projet.Utilitaires;
 
+/**
+ * Classe TrouverCheminOS qui permet de trouver initial
+ */
 public class TrouverCheminOS {
 
     /**

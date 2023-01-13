@@ -44,8 +44,6 @@ public class VueDossier extends VBox implements Observateur {
         // on met un padding a this en bas de 10
         this.setPadding(new javafx.geometry.Insets(5, 5, 30, 5));
 
-
-
         HBox boutonHaut = new HBox();
         boutonHaut.setSpacing(10);
         // on met un marginTop de 10px
@@ -173,8 +171,6 @@ public class VueDossier extends VBox implements Observateur {
             // On ajoute l'action du bouton
             boutonTxt.setOnAction(new ControleurBoutonAffichage(this.sujet, boutonTxt));
         }
-
-
 
         HBox toolsBar = new HBox();
         toolsBar.setAlignment(Pos.CENTER);

@@ -1,21 +1,14 @@
 package com.example.projet.CompositionClasse;
 
-import com.example.projet.Utilitaires.Classe;
-
 /**
  * Classe Attributs qui permet de gerer les attributs d'une classe
  */
 public class Attributs extends CompositionClasse {
 
     /**
-     * definition de l'attribut
+     * definition de l'attribut définition (final, static, etc...)
      */
     private String definition;
-
-    /**
-     * type de l'attribut
-     */
-    // private Classe typeAttribut;
 
     /**
      * Constructeur de la classe Attributs qui initialise les attributs
@@ -37,12 +30,6 @@ public class Attributs extends CompositionClasse {
         return definition;
     }
 
-    /*
-    public String getTypeAttribut() {
-        return typeAttribut;
-    }
-     */
-
     /**
      * SETTER DES ATTRIBUTS
      */
@@ -58,7 +45,6 @@ public class Attributs extends CompositionClasse {
 
     /**
      * methode toString qui permet d'afficher l'attribut sous forme de chaine de caractere
-     *
      * @return la chaine de caractere
      */
     @Override
@@ -81,7 +67,6 @@ public class Attributs extends CompositionClasse {
         String res = acces + " " + this.getType() + " " + this.getNom() + ";";
         return res;
     }
-
 
 }
 

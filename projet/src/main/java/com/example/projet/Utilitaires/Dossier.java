@@ -5,10 +5,21 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Classe Dossier qui permet de gérer les dossiers
+ */
 public class Dossier extends Fichier {
 
+    /**
+     * liste de fichier du dossier
+     */
     private ArrayList<Fichier> listeFichiers;
 
+    /**
+     * Constructeur de la classe Dossier
+     * @param chemin chemin du dossier
+     * @param nom nom du dossier
+     */
     public Dossier(String chemin, String nom) {
         super(chemin, nom);
         this.listeFichiers = new ArrayList<>();
@@ -51,7 +62,6 @@ public class Dossier extends Fichier {
      * @param debut
      * @return
      */
-
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         for (Fichier f : this.listeFichiers) {
@@ -61,7 +71,9 @@ public class Dossier extends Fichier {
     }
 
 
-    // Getters and Setters
+    /**
+     * GETTER
+     */
     public ArrayList<Fichier> getListeFichiers() {
         return listeFichiers;
     }

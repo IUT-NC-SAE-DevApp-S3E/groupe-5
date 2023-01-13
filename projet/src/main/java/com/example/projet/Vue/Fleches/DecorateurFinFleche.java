@@ -1,14 +1,20 @@
 package com.example.projet.Vue.Fleches;
 
-import com.example.projet.Modele.Sujet;
-import com.example.projet.Vue.Observateur;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
+/**
+ * Classe DecorateurFinFleche qui permet de décorer la fin de la flèche
+ */
 public class DecorateurFinFleche extends ImageView {
+
+    /**
+     * Constructeur de la classe DecorateurFinFleche
+     * @param image l'image
+     * @param coordXDepart les coordonnées en X du départ
+     * @param coordYDepart les coordonnées en Y du départ
+     * @param coordXArrivee les coordonnées en X de l'arrivée
+     * @param coordYArrivee les coordonnées en Y de l'arrivée
+     */
     public DecorateurFinFleche(String image, int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
         super(image);
 
@@ -31,6 +37,5 @@ public class DecorateurFinFleche extends ImageView {
         this.setTranslateY(y);
 
     }
-
 
 }

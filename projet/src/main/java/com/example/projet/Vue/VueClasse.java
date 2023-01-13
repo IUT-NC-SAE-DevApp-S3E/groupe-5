@@ -81,7 +81,7 @@ public class VueClasse extends VBox implements Observateur {
         this.sujet = sujet;
         this.classe = classe;
 
-        /**
+        /*
          * on rend this redimenssionnable
          */
         this.setMinSize(250, 0);
@@ -179,7 +179,6 @@ public class VueClasse extends VBox implements Observateur {
             startY = (int) event.getSceneY();
             // on passe l'element en premier plan
             this.toFront();
-            this.classe.afficher();
         });
 
         // on déplace la classe
@@ -260,9 +259,13 @@ public class VueClasse extends VBox implements Observateur {
 
     }
 
+    /**
+     * methode actualiser qui permet de mettre a jour la vue
+     * @param s le sujet
+     */
     @Override
     public void actualiser(Sujet s) {
-        /**
+        /*
          * on enlève tout pour pas qu'il n'y ai pas de problème de position
          * si on supprime et remet juste les VBox
          * il se peut que les Attributs soient en dessous des méthodes
@@ -299,7 +302,6 @@ public class VueClasse extends VBox implements Observateur {
 
     /**
      * getter de visuel, getVisuel
-     *
      * @return this
      */
     public VueClasse getVisuel() {
