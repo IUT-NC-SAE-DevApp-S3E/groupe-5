@@ -18,9 +18,10 @@ public class DecorateurFinFleche extends ImageView {
         double angle = Math.atan2(coordYDepart - coordYArrivee, coordXDepart - coordXArrivee);
         double rotate = Math.toDegrees(angle);
         this.setRotate(rotate);
-        double halfWidth = 10 / 2;
-        this.setLayoutX(coordXArrivee - halfWidth * Math.cos(angle));
-        this.setLayoutY(coordYArrivee - halfWidth * Math.sin(angle));
+        double halfWidth = 10;
+        System.out.println(halfWidth);
+        this.setLayoutX(coordXArrivee - halfWidth * Math.cos(angle) - halfWidth * Math.sin(angle));
+        this.setLayoutY(coordYArrivee - halfWidth * Math.sin(angle) + halfWidth * Math.cos(angle));
     }
 
 
