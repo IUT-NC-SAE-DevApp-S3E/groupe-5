@@ -379,14 +379,12 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     plusGrande = vueClasse.getHauteur();
                 }
 
-                System.out.println("classe : " + vueClasse.getClasse().getNom());
                 vueClasse.setLayoutX(this.startX);
                 vueClasse.setLayoutY(this.startY);
                 visited.put(vueClasse, true);
                 if (this.listeAssociationInterfaces.get(vueClasse) != null) {
                     int poseDessus = this.startX - (350 * this.listeAssociationInterfaces.get(vueClasse).size())/2;
                     for (VueClasse interf : this.listeAssociationInterfaces.get(vueClasse)) {
-                        System.out.printf("interface : "+interf.getClasse().getNom());
                         interf.setLayoutX(poseDessus);
                         interf.setLayoutY(this.startY - interf.getHauteur() - 100);
                         visited.put(interf, true);
@@ -405,7 +403,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
     }
 
     public void capturerPane(File f) {
-        System.out.println("capture");
         // Fais une capture d'écran de l'objet drag
         WritableImage image = this.pane.snapshot(new SnapshotParameters(), null);
         // Sauvegarde l'image dans le fichier f

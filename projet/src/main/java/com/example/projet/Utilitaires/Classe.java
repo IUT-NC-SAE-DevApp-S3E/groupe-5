@@ -107,9 +107,7 @@ public class Classe extends Fichier {
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
             }
         } catch (Error e) {
-            System.out.println("==========\nTry catch 1");
-            e.printStackTrace();
-            System.out.println("==========");
+            // TODO exception
         }
 
 
@@ -137,9 +135,7 @@ public class Classe extends Fichier {
             }
         }
         catch (Error e) {
-            System.out.println("==========\nTry catch 2");
-            System.out.println(e.getMessage());
-            System.out.println("==========");
+            // TODO exception
         }
 
 
@@ -193,8 +189,7 @@ public class Classe extends Fichier {
                 }
             }
         } catch (NoClassDefFoundError e) {
-            System.out.println("Try catch 3");
-            System.out.println(e.getMessage());
+            // TODO exception
         }
 
     }

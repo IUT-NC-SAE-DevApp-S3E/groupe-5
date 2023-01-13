@@ -18,7 +18,7 @@ public class ControleurBoutonOuvrirDossier implements EventHandler<ActionEvent> 
 
     private Sujet sujet;
 
-    /***
+    /**
      * Constructeur du controleur du bouton ouvrir dossier
      * @param s
      */

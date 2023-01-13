@@ -55,7 +55,6 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                         out.writeObject(this.sujet.getListeFichiers());
                         out.close();
                         fileOut.close();
-                        System.out.printf("Serialized data is saved");
                         break;
 
                     case "Capture d'écran PNG":
