@@ -4,6 +4,9 @@ import com.example.projet.Modele.Sujet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+/**
+ * Classe ControleurBoutonRecharger qui permet de gerer le bouton recharger
+ */
 public class ControleurBoutonRecharger implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
@@ -16,6 +19,10 @@ public class ControleurBoutonRecharger implements EventHandler<ActionEvent> {
         this.sujet = s;
     }
 
+    /**
+     * Méthode qui permet de recharger la page
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         try {

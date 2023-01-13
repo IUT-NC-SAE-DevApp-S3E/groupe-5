@@ -116,11 +116,14 @@ public class VueMethode extends HBox implements Observateur {
         this.classe.suppressionCompositionClasse(this.nomMethode.getText());
     }
 
-        @Override
-        public void actualiser(Sujet s) {
-            // on set la couleur du text
-            this.nomMethode.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
-        }
-
+    /**
+     * methode actualiser qui permet de mettre a jour la vue
+     * @param s le sujet
+     */
+    @Override
+    public void actualiser(Sujet s) {
+        // on set la couleur du text
+        this.nomAttribut.setStyle("-fx-background-color: none;-fx-text-fill: " + s.getPanelCouleur()[3]+ ";");
+    }
 
 }

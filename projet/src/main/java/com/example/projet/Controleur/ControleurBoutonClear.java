@@ -7,6 +7,9 @@ import javafx.event.EventHandler;
 
 import java.util.ArrayList;
 
+/**
+ * Classe qui permet de gerer le bouton clear
+ */
 public class ControleurBoutonClear implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
@@ -34,7 +37,7 @@ public class ControleurBoutonClear implements EventHandler<ActionEvent> {
         try {
             this.sujet.notifierObservateur();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            // Auto-generated catch block
         }
     }
 

@@ -8,12 +8,24 @@ import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
 
+/**
+ * Classe ControleurBoutonAffichageOeil qui permet de gerer les boutons d'affichages
+ */
 public class ControleurBoutonAffichageOeil implements EventHandler<ActionEvent> {
 
+    /**
+     * Attribut de la classe ControleurBoutonAffichageOeil
+     */
     private Sujet sujet;
     private Button btn;
     private boolean pressed = false;
 
+    /**
+     * Constructeur de la classe ControleurBoutonAffichageOeil
+     * initialise les attributs
+     * @param s le sujet
+     * @param btn le bouton
+     */
     public ControleurBoutonAffichageOeil(Sujet s, Button btn)
     {
         this.sujet = s;
@@ -29,12 +41,10 @@ public class ControleurBoutonAffichageOeil implements EventHandler<ActionEvent> 
         this.pressed = !this.pressed;
         this.btn.setFont(Font.loadFont("file:src/main/resources/Font/fontawesome-webfont.ttf", 30));
         if (this.pressed) {
-            // this.btn.setStyle("-fx-text-fill: darkgrey;-fx-background-color: transparent;-fx-font-size: 25px;");
-            // on met l'icon de l'oeil barré
+            // on met l'icone de l'oeil barré
             this.btn.setText("\uf070");
         } else {
-            // this.btn.setStyle("-fx-text-fill: black;-fx-background-color: transparent;-fx-font-size: 25px;");
-            // on met l'icon de l'oeil
+            // on met l'icone de l'oeil
             this.btn.setText("\uf06e");
         }
         this.sujet.inverserAffichage();

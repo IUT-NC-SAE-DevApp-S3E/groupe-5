@@ -11,11 +11,14 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.MalformedURLException;
 
+/**
+ * Classe ControleurBoutonOuvrirDossier qui permet de gerer le bouton ouvrir dossier
+ */
 public class ControleurBoutonOuvrirDossier implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
 
-    /***
+    /**
      * Constructeur du controleur du bouton ouvrir dossier
      * @param s
      */
