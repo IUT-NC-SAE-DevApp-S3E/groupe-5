@@ -234,8 +234,6 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                     trouver = true;
                     this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
                     this.listeVueClasse.get(i).getClasse().getMoyValue().setValue(this.listeVueClasse.get(i).getClasse().getMoyValue().getValue() + 1);
-                } else {
-                    //System.out.println(this.listeVueClasse.get(j).getClasse().getNom() + " =/= " + nomSuperClasse);
                 }
             }
         }

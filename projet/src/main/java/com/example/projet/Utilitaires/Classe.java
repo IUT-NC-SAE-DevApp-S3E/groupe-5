@@ -82,7 +82,6 @@ public class Classe extends Fichier {
             this.type = "class";
         }
 
-        System.out.println(c.getName());
         try {
             for (Field f : c.getDeclaredFields()) {
                 String type = f.getType().toString();
@@ -114,26 +113,33 @@ public class Classe extends Fichier {
         }
 
 
-        // on recupere les constructeurs de la classe
-        for (Constructor constructor : c.getDeclaredConstructors()) {
-            String access = "";
-            if (Modifier.isPublic(constructor.getModifiers())) {
-                access = "+";
-            } else if (Modifier.isPrivate(constructor.getModifiers())) {
-                access = "-";
-            } else if (Modifier.isProtected(constructor.getModifiers())) {
-                access = "=";
+        try {
+            // on recupere les constructeurs de la classe
+            for (Constructor constructor : c.getDeclaredConstructors()) {
+                String access = "";
+                if (Modifier.isPublic(constructor.getModifiers())) {
+                    access = "+";
+                } else if (Modifier.isPrivate(constructor.getModifiers())) {
+                    access = "-";
+                } else if (Modifier.isProtected(constructor.getModifiers())) {
+                    access = "=";
+                }
+                // lecture et ajout des paramètres des constructeurs
+                ArrayList<String> parametres = new ArrayList<>();
+                for (Parameter parametre : constructor.getParameters()) {
+                    String type = parametre.getType().toString();
+                    String[] tabType = type.split("\\.");
+                    type = tabType[tabType.length - 1];
+                    parametres.add(type);
+                }
+                String[] nomMethode = constructor.getName().split("\\.");
+                this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length - 1], "", parametres));
             }
-            // lecture et ajout des paramètres des constructeurs
-            ArrayList<String> parametres = new ArrayList<>();
-            for (Parameter parametre : constructor.getParameters()) {
-                String type = parametre.getType().toString();
-                String[] tabType = type.split("\\.");
-                type = tabType[tabType.length - 1];
-                parametres.add(type);
-            }
-            String[] nomMethode = constructor.getName().split("\\.");
-            this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length - 1], "", parametres));
+        }
+        catch (Error e) {
+            System.out.println("==========\nTry catch 2");
+            System.out.println(e.getMessage());
+            System.out.println("==========");
         }
 
 
@@ -187,7 +193,7 @@ public class Classe extends Fichier {
                 }
             }
         } catch (NoClassDefFoundError e) {
-            System.out.println("Try catch 2");
+            System.out.println("Try catch 3");
             System.out.println(e.getMessage());
         }
 
