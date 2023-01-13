@@ -4,8 +4,7 @@ import javafx.scene.paint.Color;
 
 public class FinFlecheRempli extends DecorateurFinFleche
 {
-    public FinFlecheRempli(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
-        super(coordXDepart, coordYDepart, coordXArrivee, coordYArrivee);
-        this.setFill(Color.BLACK);
+    public FinFlecheRempli(String image, int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
+        super(image, coordXDepart, coordYDepart, coordXArrivee, coordYArrivee);
     }
 }

@@ -109,7 +109,7 @@ public class Classe extends Fichier {
             }
         } catch (Error e) {
             System.out.println("==========\nTry catch 1");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.println("==========");
         }
 

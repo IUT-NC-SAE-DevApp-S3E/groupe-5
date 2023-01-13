@@ -4,9 +4,7 @@ import javafx.scene.paint.Color;
 
 public class FinFlecheVide extends DecorateurFinFleche
 {
-    public FinFlecheVide(int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
-        super(coordXDepart, coordYDepart, coordXArrivee, coordYArrivee);
-        this.setFill(Color.TRANSPARENT);
-        this.setStroke(Color.BLACK);
+    public FinFlecheVide(String image, int coordXDepart, int coordYDepart, int coordXArrivee, int coordYArrivee) {
+        super(image, coordXDepart, coordYDepart, coordXArrivee, coordYArrivee);
     }
 }
