@@ -7,10 +7,12 @@ import javafx.scene.Group;
 
 public class VueFleche extends Group implements Observateur
 {
+
+    private DecorateurFleche fleche = null;
+    private DecorateurFinFleche finFleche = null;
+
     public VueFleche(int xd, int yd, int xa, int ya, int type)
     {
-        DecorateurFleche fleche = null;
-        DecorateurFinFleche finFleche = null;
         if(type == 1)
         {
             fleche = new VueFlechePleine(xd, yd, xa, ya);
@@ -34,4 +36,5 @@ public class VueFleche extends Group implements Observateur
     {
         // Oui
     }
+
 }

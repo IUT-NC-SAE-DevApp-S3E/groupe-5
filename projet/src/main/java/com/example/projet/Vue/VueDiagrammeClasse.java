@@ -232,7 +232,7 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
                 String nomClasseCourante = this.listeVueClasse.get(j).getClasse().getNom();
                 if (nomClasseCourante.equals(nomSuperClasse)) {
                     trouver = true;
-                    this.listeAssociationSuperClasse.put(this.listeVueClasse.get(i), this.listeVueClasse.get(j));
+                    this.listeAssociationSuperClasse.put(this.listeVueClasse.get(j), this.listeVueClasse.get(i));
                     this.listeVueClasse.get(i).getClasse().getMoyValue().setValue(this.listeVueClasse.get(i).getClasse().getMoyValue().getValue() + 1);
                 }
             }
@@ -252,8 +252,8 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
             int coord[] = getClosestCoord(vueClasse, this.listeAssociationSuperClasse.get(vueClasse));
             VueFleche fleche = new VueFleche(coord[0], coord[1], coord[2], coord[3], 1);
             this.pane.getChildren().add(fleche);
-            fleche.toBack();
             this.listeFleches.add(fleche);
+            fleche.toBack();
         }
     }
 

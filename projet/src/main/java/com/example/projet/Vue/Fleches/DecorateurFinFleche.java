@@ -15,13 +15,21 @@ public class DecorateurFinFleche extends ImageView {
         this.setPreserveRatio(true);
         this.setFitHeight(20);
 
-        double angle = Math.atan2(coordYDepart - coordYArrivee, coordXDepart - coordXArrivee);
-        double rotate = Math.toDegrees(angle);
-        this.setRotate(rotate);
-        double halfWidth = 10;
-        System.out.println(halfWidth);
-        this.setLayoutX(coordXArrivee - halfWidth * Math.cos(angle) - halfWidth * Math.sin(angle));
-        this.setLayoutY(coordYArrivee - halfWidth * Math.sin(angle) + halfWidth * Math.cos(angle));
+        double imageMiddleX = this.getBoundsInLocal().getWidth() / 2;
+        double imageMiddleY = this.getBoundsInLocal().getHeight() / 2;
+
+        // Calculer l'angle de rotation de l'image pour qu'elle soit dirigée vers le point d'arrivée
+        double angle = Math.atan2(coordYArrivee - coordYDepart, coordXArrivee - coordXDepart);
+
+        // Translater le point de départ pour que le milieu gauche de l'image soit sur les coordonnées données
+        double x = coordXDepart - imageMiddleX;
+        double y = coordYDepart - imageMiddleY;
+
+        // Appliquer la rotation et la translation à l'ImageView
+        this.setRotate(Math.toDegrees(angle));
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+
     }
 
 
