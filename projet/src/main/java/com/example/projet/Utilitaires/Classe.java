@@ -106,14 +106,8 @@ public class Classe extends Fichier {
                 }
                 this.compositionClasses.add(new Attributs(access, f.getName(), type, definition));
             }
-        } catch (Error e) {
-            System.out.println("==========\nTry catch 1");
-            e.printStackTrace();
-            System.out.println("==========");
-        }
 
 
-        try {
             // on recupere les constructeurs de la classe
             for (Constructor constructor : c.getDeclaredConstructors()) {
                 String access = "";
@@ -135,15 +129,8 @@ public class Classe extends Fichier {
                 String[] nomMethode = constructor.getName().split("\\.");
                 this.compositionClasses.add(new Constructeur(access, nomMethode[nomMethode.length - 1], "", parametres));
             }
-        }
-        catch (Error e) {
-            System.out.println("==========\nTry catch 2");
-            System.out.println(e.getMessage());
-            System.out.println("==========");
-        }
 
 
-        try {
             // on récupère les méthodes de la classe
             for (Method m : c.getDeclaredMethods()) {
                 {
@@ -192,8 +179,8 @@ public class Classe extends Fichier {
                     this.compositionClasses.add(new Methodes(access, m.getName(), type, definition, parametres));
                 }
             }
-        } catch (NoClassDefFoundError e) {
-            System.out.println("Try catch 3");
+        } catch (NoClassDefFoundError e) {;
+            System.out.println("Try catch");
             System.out.println(e.getMessage());
         }
 
@@ -214,8 +201,8 @@ public class Classe extends Fichier {
 
     /**
      * méthode ajouterInterface
-     * @param i
-     * Nom de l'interface à ajouter
+     *
+     * @param i Nom de l'interface à ajouter
      */
     public void ajouterInterface(String i) {
         this.interfaces.add(i);
