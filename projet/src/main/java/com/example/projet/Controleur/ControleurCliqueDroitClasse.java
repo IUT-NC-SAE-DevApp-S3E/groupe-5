@@ -12,9 +12,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Classe ControleurCliqueDroitClasse qui permet de gerer le clic droit sur une classe
+ */
 public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
 
-
+    /**
+     * Attribut de la classe ControleurCliqueDroitClasse
+     */
     private final Sujet sujet;
     private final Pane pane;
     private VBox menu;
@@ -23,6 +28,13 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
     private final VueClasse actualVBox;
     private boolean clicked = false;
 
+    /**
+     * Constructeur de la classe ControleurCliqueDroitClasse
+     * initialise les attributs
+     * @param sujet le sujet
+     * @param pane le pane
+     * @param actualVBox la vue de la classe
+     */
     public ControleurCliqueDroitClasse(Sujet sujet, Pane pane, VueClasse actualVBox) {
         this.sujet = sujet;
         this.pane = pane;
@@ -36,6 +48,10 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
         });
     }
 
+    /**
+     * methode handle qui permet de gerer le clic droit sur une classe
+     * @param event l'evenement
+     */
     @Override
     public void handle(MouseEvent event) {
         if(event.getButton().toString().equals("SECONDARY") && !this.clicked) {
@@ -162,7 +178,7 @@ public class ControleurCliqueDroitClasse implements EventHandler<MouseEvent> {
             menu.setStyle("-fx-background-color: rgba(169,165,165,0.28);");
             // si la souris n'est pas au dessus du menu on le supprrime
 
-            /**
+            /*
              * si on a déjà fait un clique droit
              */
         } else {

@@ -33,6 +33,9 @@ import java.util.stream.Collectors;
  */
 public class VueDiagrammeClasse extends ScrollPane implements Observateur {
 
+    /**
+     * Attributs de la classe VueDiagrammeClasse
+     */
     private Pane pane = new Pane();
 
     private final int DECALAGEX = 25;
@@ -443,4 +446,5 @@ public class VueDiagrammeClasse extends ScrollPane implements Observateur {
         this.listeVueClasse = listeVueClasseTemp;
 
     }
+
 }

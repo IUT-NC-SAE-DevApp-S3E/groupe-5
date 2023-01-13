@@ -152,7 +152,11 @@ public class Modele implements Sujet, Serializable {
         this.startY = y;
     }
 
-
+    /**
+     * methode chercherParentsEtInterface
+     * qui permet de chercher les parents et les interfaces
+     * des classes
+     */
     public void chercherParentsEtInterface() {
         for (Classe c : this.listeFichiers) {
             if (c.getSuperClasse() != null) {
@@ -176,7 +180,6 @@ public class Modele implements Sujet, Serializable {
 
     /**
      * méthode supprimerFichier qui permet de supprimer un fichier de la liste des fichiers
-     *
      * @param f le fichier a supprimer
      */
     public void supprimerFichier(Fichier f) {
@@ -299,7 +302,9 @@ public class Modele implements Sujet, Serializable {
         return res;
     }
 
-
+    /**
+     * SETTER ET GETTER
+     */
     public boolean getReplacer() {
         return this.replacer;
     }

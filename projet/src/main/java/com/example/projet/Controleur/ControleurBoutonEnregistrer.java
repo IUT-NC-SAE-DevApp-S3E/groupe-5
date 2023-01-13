@@ -11,17 +11,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Classe ControleurBoutonEnregistrer qui permet de gerer le bouton enregistrer et les exports
+ */
 public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
 
+    /**
+     * Constructeur de la classe ControleurBoutonEnregistrer
+     * initialise l'attribut
+     * @param s le sujet
+     */
     public ControleurBoutonEnregistrer(Sujet s) {
         this.sujet = s;
     }
 
     /**
      * methode handle qui permet de gerer le bouton enregistrer
-     *
      * @param actionEvent l'evenement
      */
     @Override
@@ -71,9 +78,6 @@ public class ControleurBoutonEnregistrer implements EventHandler<ActionEvent> {
                     case "Créer Squelette":
                         // dans le dossier selectionné, créer un dossier avec le nom du fichier
                         for (Classe c : this.sujet.getListeFichiers()) {
-                            // on créer un fichier avec comme nom le nom du fichier
-                            //File f = new File(file.getParent() + "/" + c.getNom() + ".java");
-                            //f.createNewFile();
                             // on écrit dans le fichier
                             fileOut = new FileOutputStream(file.getParent() + "/" + c.getNom() + ".java");
                             fileOut.write(c.getSqueletteJava().toString().getBytes());

@@ -20,6 +20,9 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+/**
+ * Classe ControleurBoutonOpenFile qui permet de gerer le bouton open file
+ */
 public class ControleurBoutonOpenFile implements EventHandler<ActionEvent> {
 
     private Sujet sujet;

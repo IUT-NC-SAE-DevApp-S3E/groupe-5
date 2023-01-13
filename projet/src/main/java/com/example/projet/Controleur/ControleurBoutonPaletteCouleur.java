@@ -7,14 +7,25 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Classe ControleurBoutonPaletteCouleur qui permet de gerer le bouton palette couleur
+ */
 public class ControleurBoutonPaletteCouleur implements EventHandler<ActionEvent> {
 
     private Sujet sujet;
 
+    /**
+     * Constructeur de la classe ControleurBoutonPaletteCouleur
+     * @param s le sujet
+     */
     public ControleurBoutonPaletteCouleur(Sujet s) {
         this.sujet = s;
     }
 
+    /**
+     * methode handle qui permet de gerer le bouton palette couleur
+     * @param actionEvent l'evenement
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         // on créer une nouvelle VuePalette

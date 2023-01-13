@@ -5,17 +5,18 @@ import com.example.projet.CompositionClasse.CompositionClasse;
 import com.example.projet.CompositionClasse.Constructeur;
 import com.example.projet.CompositionClasse.Methodes;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+/**
+ * Classe qui permet de créer une classe
+ */
 public class Classe extends Fichier {
+
+    /**
+     * Attributs de la classe
+     */
     private ArrayList<CompositionClasse> compositionClasses;
     private String type = "";
     private String superClasse;
@@ -54,8 +55,7 @@ public class Classe extends Fichier {
     }
 
     /**
-     * méthode lectureFichier
-     *
+     * méthode lectureFichier qui permet de lire le fichier de la classe et de l'initialiser
      * @throws MalformedURLException
      */
     public void lectureFichier() {
@@ -199,7 +199,9 @@ public class Classe extends Fichier {
 
     }
 
-
+    /**
+     * SETTER ET GETTER
+     */
     public void setSuperClasse(String sC) {
         this.superClasse = sC;
     }
@@ -221,16 +223,13 @@ public class Classe extends Fichier {
         this.interfaces.add(i);
     }
 
-
+    /**
+     * methode toString pour afficher les informations de la classe
+     * @return String
+     */
     public String toString(String debut) {
         String res = debut + this.getNom() + "\n";
         return res;
-    }
-
-    public void afficher() {
-        for (CompositionClasse c : this.compositionClasses) {
-            System.out.println(c);
-        }
     }
 
     /**

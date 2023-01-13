@@ -12,10 +12,19 @@ import java.net.MalformedURLException;
  */
 public class ControleurBoutonAffichage implements EventHandler<ActionEvent> {
 
+    /**
+     * Attribut de la classe ControleurBoutonAffichage
+     */
     private Sujet sujet;
     private Button btn;
     private boolean pressed = false;
 
+    /**
+     * Constructeur de la classe ControleurBoutonAffichage
+     * initialise les attributs
+     * @param s le sujet
+     * @param btn le bouton
+     */
     public ControleurBoutonAffichage(Sujet s, Button btn)
     {
         this.sujet = s;
@@ -54,4 +63,5 @@ public class ControleurBoutonAffichage implements EventHandler<ActionEvent> {
             throw new RuntimeException(e);
         }
     }
+
 }

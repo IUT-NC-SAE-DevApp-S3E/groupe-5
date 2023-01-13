@@ -7,8 +7,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Classe VuePaletteCouleur qui permet d'afficher la palette de couleur
+ */
 public class VuePaletteCouleur extends VBox {
 
+    /**
+     * attribut de la classe VuePaletteCouleur
+     */
     private Sujet sujet;
     private Pane choixCouleur = new Pane();
     private Button bouton1 = new Button();
@@ -18,6 +24,10 @@ public class VuePaletteCouleur extends VBox {
 
     private int valueAChanger = 0;
 
+    /**
+     * constructeur de la classe VuePaletteCouleur
+     * @param s le sujet
+     */
     public VuePaletteCouleur(Sujet s) {
         this.sujet = s;
 
@@ -44,10 +54,6 @@ public class VuePaletteCouleur extends VBox {
         }
 
         choixCouleur.setSpacing(10);
-
-
-
-
 
         HBox menu = new HBox();
         menu.setAlignment(javafx.geometry.Pos.CENTER);
@@ -99,6 +105,9 @@ public class VuePaletteCouleur extends VBox {
         }
     }
 
+    /**
+     * méthode qui permet de mettre en blanc les boutons
+     */
     public void mettreEnBlanc() {
         this.bouton1.setStyle("-fx-background-color: none;");
         this.bouton2.setStyle("-fx-background-color: none;");

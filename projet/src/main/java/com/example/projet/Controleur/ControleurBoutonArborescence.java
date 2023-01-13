@@ -28,6 +28,9 @@ import java.util.Objects;
  */
 public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
+    /**
+     * Attribut de la classe ControleurBoutonArborescence
+     */
     private Sujet sujet;
     private String path;
     private VBox vBox;
@@ -60,7 +63,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         // on créer un Objet File avec le path recupere lors de la création du controleur
         File file = new File(this.path);
-        /**
+        /*
          * Si le file est un dossier et que on n'a pas déjà cliquer sur le bouton qui contient le dossier
          * alors on affiche dans le dossier le contenu du dossier
          */
@@ -104,7 +107,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
                             // on gère le système de Drag (glisser déposer)
                             bouton.setOnMousePressed(mouseEvent -> {
-                                /**
+                                /*
                                  * les startX et startY sont les coordonnées du bouton lorsqu'on clique dessus
                                  * AU DEBUT
                                  * pour par la suite pouvoir calculer la bonne translation
@@ -113,9 +116,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 this.startY = (int) mouseEvent.getSceneY();
                             });
 
-                            /**
-                             * on translate le bouton lorsqu'on le glisse
-                             */
+                            // on translate le bouton lorsqu'on le glisse
                             bouton.setOnMouseDragged(event -> {
                                 bouton.setTranslateX(event.getSceneX() - this.startX);
                                 bouton.setTranslateY(event.getSceneY() - this.startY);
@@ -124,14 +125,14 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
 
                             // Lorsque l'on relache le drag
                             bouton.setOnMouseReleased((event) -> {
-                                /**
+                                /*
                                  * si le bouton n'est pas dans la zone de drop
                                  * on le remet a sa position initiale
                                  */
                                 if (event.getSceneX() < 250) {
                                     bouton.setTranslateX(0);
                                     bouton.setTranslateY(0);
-                                    /**
+                                    /*
                                      * sinon on charge le dossier correspondant au bouton
                                      * pour pouvoir l'afficher dans la vueDiagrammeClasse
                                      */
@@ -139,25 +140,25 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                     // on créer un objet Dossier avec le path du bouton glisser dans la zone de drop
                                     Dossier dossier = new Dossier(f.getPath(), "dossier");
                                     try {
-                                        /**
+                                        /*
                                          * on lit le dossier glisser
                                          * ce qui a l'aide du patron de conception composite
                                          * ajouter les classes correspondantes dans le dossier
                                          * au Modele
                                          */
                                         dossier.lectureDossier();
-                                        /**
+                                        /*
                                          * pour chaque Fichier dans l'objet dossier creer
                                          */
                                         for (int i = 0; i < dossier.getListeFichiers().size(); i++) {
-                                            /**
+                                            /*
                                              * si le fichier est une classe
                                              * on ajoute la classe au modele
                                              */
                                             if(dossier.getListeFichiers().get(i) instanceof Classe) {
                                                 this.sujet.ajouterFichier((Classe) dossier.getListeFichiers().get(i));
                                             }
-                                            /**
+                                            /*
                                              * si le fichier est un dossier
                                              * on ajoute le dossier au modele
                                              */
@@ -184,7 +185,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                             bottomFile.setSpacing(3);
                             this.vBox.getChildren().add(bottomFile);
                             bouton.setOnAction(new ControleurBoutonArborescence(f.getPath(), bottomFile, this.margin + 1, this.sujet) );
-                            /**
+                            /*
                              * Si l'element créer est un fichier
                              */
                         } else {
@@ -204,7 +205,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 label.setCursor(javafx.scene.Cursor.DEFAULT);
                             });
 
-                            /**
+                            /*
                              * on rends ici le fichier draggable
                              * on commence par set l'endroit ou on clique au depart
                              * pour par la suite pouvoir calculer la bonne translation
@@ -213,32 +214,32 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                 this.startX = (int) mouseEvent.getSceneX();
                                 this.startY = (int) mouseEvent.getSceneY();
                             });
-                            /**
+                            /*
                              * on translate le bouton lorsqu'on le drag
                              */
                             label.setOnMouseDragged(event -> {
                                 label.setTranslateX(event.getSceneX() - this.startX);
                                 label.setTranslateY(event.getSceneY() - this.startY);
                             });
-                            /**
+                            /*
                              * Lorsque l'on relache le drag
                              */
                             label.setOnMouseReleased((event) -> {
-                                /**
+                                /*
                                  * si le bouton n'est pas dans la zone de drop
                                  * on le remet a sa position initiale
                                  */
                                 if (event.getSceneX() < 250) {
                                     label.setTranslateX(0);
                                     label.setTranslateY(0);
-                                    /**
+                                    /*
                                      * Si lefichier est laché dans la zone de drop
                                      */
                                 } else {
                                     // on créer un objet class avec le path du fichier glisser dans la zone de drop
                                     Classe c = new Classe(f.getPath(), f.getName());
                                     try {
-                                        /**
+                                        /*
                                          * on lit le fichier glisser
                                          * ce qui ajoute a l'objet class les attributs et methodes
                                          */
@@ -249,7 +250,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                                     try {
                                         // on ajoute la class au modele
                                         this.sujet.ajouterFichier(c);
-                                        /**
+                                        /*
                                          * on notifie les observateurs
                                          * ce qui va recharger la VueDiagramme de classe
                                          */
@@ -274,7 +275,7 @@ public class ControleurBoutonArborescence implements EventHandler<ActionEvent> {
                 }
 
             }
-            /**
+            /*
              * Sinon si le fichier est un dossier et qu'on à déjà cliquer sur le bouton
              * on supprime le contenu du VBox du dessous pour fermer le dossier
              */
